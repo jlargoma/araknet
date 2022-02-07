@@ -77,47 +77,19 @@ $oBonoLst = $oBonoLst[1];
             
             <div class="col-xs-9">
               <select class="likeBtn" name="type_payment" id="type_payment" multiple>
-                <option value="card" selected="">Tarjeta</option>
                 <option value="cash">Efectivo</option>
                 <option value="banco">Banco</option>
-                @if($tBonos>0)
-                <option value="bono" >Bonos ({{$tBonos}})</option>
-                @else
-                <option value="bono" disabled="">Bonos</option>
-                @endif
               </select>
             </div>
             <div class="col-xs-3">
               <button class="btn btn-lg btn-success" type="submit" id="submitFormPayment">
-                Cobrar
+                PAGAR
               </button>
-            </div>
-            <div class="col-xs-12">
-              @include('admin.blocks.stripeBox')
-              <div id="bonosBox" style="display: none;">
-          <?php 
-          if (count($oBonoLst)>0){
-            foreach ($oBonoLst as $b){
-              ?>
-                <div class="checkBono" >
-                <input type="radio" name="id_bono" value="{{$b[0]}}" class="form-control"/>
-                <label>{{$b[1]}} ({{$b[2]}})</label>
-                </div>
-              <?php
-            }
-          } else {
-            ?>
-            <p class="alert alert-warning">No tiene bonos asignados</p>
-            <?php
-          }
-          ?>
-        </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-xs-12 col-md-6">
-        @include('admin.blocks.stripe-actions')
       </div>
     </div>
   </form>

@@ -230,7 +230,7 @@ class DatesController extends Controller {
       if ($type == 'pt')
         return redirect('/admin/citas-pt/edit/' . $oObj->id);
       if ($type == 'nutri')
-        return redirect('/admin/citas-nutricion/edit/' . $oObj->id);
+        return redirect('/admin/citas/edit/' . $oObj->id);
       if ($type == 'fisio')
         return redirect('/admin/citas-fisioterapia/edit/' . $oObj->id);
     }
@@ -322,7 +322,7 @@ class DatesController extends Controller {
         /* -------------------------------------------------------------------- */
         
       if ($type == 'nutri')
-        return redirect('/admin/citas-nutricion/edit/' . $oObj->id);
+        return redirect('/admin/citas/edit/' . $oObj->id);
       if ($type == 'fisio')
         return redirect('/admin/citas-fisioterapia/edit/' . $oObj->id);
     }
@@ -408,7 +408,7 @@ class DatesController extends Controller {
       $date_type = $obj->date_type;
       switch ($date_type) {
         case 'nutri':
-          header('Location: /admin/citas-nutricion/edit/' . $id);
+          header('Location: /admin/citas/edit/' . $id);
           exit();
           break;
         case 'fisio':
@@ -554,7 +554,7 @@ class DatesController extends Controller {
 
 //      switch ($oDate->date_type){
 //          case 'nutri':
-//            header('Location: /admin/citas-nutricion/edit/'.$idDate);
+//            header('Location: /admin/citas/edit/'.$idDate);
 //            exit();
 //            break;
 //          case 'fisio':

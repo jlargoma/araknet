@@ -11,11 +11,11 @@
         dateForm = $(this).data('date');
         timeForm = $(this).data('time');
         if (isM){
-            var urlForm = '/admin/citas-nutricion/create/'+dateForm+'/'+timeForm;
+            var urlForm = '/admin/citas/create/'+dateForm+'/'+timeForm;
             if (typeCalend == 'week') urlForm += '?weekly';
             window.location.href = urlForm;
         } else {
-            $('#ifrModal').attr('src', '/admin/citas-nutricion/create/' + dateForm + '/' + timeForm);
+            $('#ifrModal').attr('src', '/admin/citas/create/' + dateForm + '/' + timeForm);
             $('#modalIfrm').modal();
         }
       });
@@ -23,11 +23,11 @@
         event.preventDefault();
         var id = $(this).data('id');
          if (isM){
-             var urlForm = '/admin/citas-nutricion/edit/' + id;
+             var urlForm = '/admin/citas/edit/' + id;
             if (typeCalend == 'week') urlForm += '?weekly';
             window.location.href = urlForm;
         } else {
-            $('#ifrModal').attr('src', '/admin/citas-nutricion/edit/' + id);
+            $('#ifrModal').attr('src', '/admin/citas/edit/' + id);
             $('#modalIfrm').modal();
         }
       });
@@ -36,7 +36,7 @@
         var val = $(this).data('val');
         var type = $('#servSelect').val();
         var coach = $('#coachsFilter').val();
-        location.assign("/admin/citas-nutricion/" + val + "/" + coach + "/" + type);
+        location.assign("/admin/citas/" + val + "/" + coach + "/" + type);
       });
       $('.coachsFilter').on('click', 'li', function (event) {
         event.preventDefault();
@@ -45,9 +45,9 @@
         var type = $('#servSelect').val();
         var week = $('#selectWeek').val();
         if (typeCalend == 'week'){
-            location.assign("/admin/citas-nutricion-week/" + week + "/" + coach + "/" + type);
+            location.assign("/admin/citas-week/" + week + "/" + coach + "/" + type);
         } else {
-            location.assign("/admin/citas-nutricion/" + month + "/" + coach + "/" + type);
+            location.assign("/admin/citas/" + month + "/" + coach + "/" + type);
         }
       });
       $('#servSelect').on('change', function (event) {
@@ -57,9 +57,9 @@
         var coach = $('#coachsFilter').val();
         var week = $('#selectWeek').val();
         if (typeCalend == 'week'){
-            location.assign("/admin/citas-nutricion-week/" + week + "/" + coach + "/" + type);
+            location.assign("/admin/citas-week/" + week + "/" + coach + "/" + type);
         } else {
-            location.assign("/admin/citas-nutricion/" + month + "/" + coach + "/" + type);
+            location.assign("/admin/citas/" + month + "/" + coach + "/" + type);
         }
       });
 
@@ -71,7 +71,7 @@
         // Send the data using post
         var posting = $.post(url, $form.serialize()).done(function (data) {
           if (data == 'OK') {
-            $('#content-add-date').load('/admin/citas-nutricion/create/' + dateForm + '/' + timeForm);
+            $('#content-add-date').load('/admin/citas/create/' + dateForm + '/' + timeForm);
             $('#modal_newUser').modal('hide');
             $('#modal-add-date').modal();
           } else {
@@ -150,7 +150,7 @@
         var type = $('#servSelect').val();
         var month = $('#selectMonth').val();
         var coach = $('#coachsFilter').val();
-        location.assign("/admin/citas-nutricion-week/" + week + "/" + coach + "/" + type);
+        location.assign("/admin/citas-week/" + week + "/" + coach + "/" + type);
     }
     
         

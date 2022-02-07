@@ -64,13 +64,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
   Route::post('/toggleEcogr', 'FisioController@toggleEcogr');
   Route::post('/toggleIndiba', 'FisioController@toggleIndiba');
   /* Citas Nutrición */
-  Route::get('/citas-nutricion/listado/{coach?}/{type?}', 'NutriController@listado');
-  Route::get('/citas-nutricion/create/{date?}/{time?}', 'NutriController@create');
-  Route::get('/citas-nutricion/informe-nutricion/{id}', 'NutriController@informe');
+  Route::get('/citas/listado/{coach?}/{type?}', 'NutriController@listado');
+  Route::get('/citas/create/{date?}/{time?}', 'NutriController@create');
+  Route::get('/citas/informe-nutricion/{id}', 'NutriController@informe');
   Route::post('/nutricion/nutri/upload', 'NutriController@uploadFile');
-  Route::get('/citas-nutricion/edit/{id}', 'NutriController@edit');
-  Route::get('/citas-nutricion/{month?}/{coach?}/{type?}', 'NutriController@index');
-  Route::get('/citas-nutricion-week/{week?}/{coach?}/{type?}', 'NutriController@indexWeek');
+  Route::get('/citas/edit/{id}', 'NutriController@edit');
+  Route::get('/citas/{month?}/{coach?}/{type?}', 'NutriController@index');
+  Route::get('/citas-week/{week?}/{coach?}/{type?}', 'NutriController@indexWeek');
   Route::get('/ver-encuesta/{token}/{control}', 'CustomerController@seeEncuestaNutri');
   Route::post('/clearEncuesta', 'CustomerController@clearEncuestaNutri');
   Route::post('/sendEncuesta', 'CustomerController@sendEncuestaNutri');

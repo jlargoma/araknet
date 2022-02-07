@@ -152,7 +152,7 @@ class BonosController extends Controller {
     if ($id_back>0){
         switch ($type){
             case 'nutri':
-               return redirect('/admin/citas-nutricion/edit/'.$id_back)->with('success', $resp[1]);
+               return redirect('/admin/citas/edit/'.$id_back)->with('success', $resp[1]);
             case 'fisio':
                return redirect('/admin/citas-fisioterapia/edit/'.$id_back)->with('success', $resp[1]);
 //            case 'ficha':

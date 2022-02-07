@@ -1,5 +1,5 @@
 <div class="box-payment-btn tex-center">
-  <h4>Generar Link Pago Único Stripe</h4>                        
+  <h4>Generar Link Notificación</h4>                        
   <div class="my-1">
       <button type="button" class="btn btn-default btnStripe my-1" data-t="mail">
           <i class="fa fa-envelope"></i> Enviar Mail
@@ -12,7 +12,7 @@
   </div>
   <div class="my-1">
       <button type="button" class="btn btn-default btnStripe my-1" data-t="copy">
-          <i class="fa fa-copy"></i> Copiar link Stripe
+          <i class="fa fa-copy"></i> Copiar link
       </button>
   </div>
   <textarea id="cpy_link" style="height: 0px; width: 0px; border: none; display: none;"></textarea>

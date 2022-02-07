@@ -374,7 +374,7 @@ class CitasService {
     if (isset($_GET['weekly'])){
       switch ($type) {
         case 'nutri':
-          $urlBack = '/admin/citas-nutricion-week/';
+          $urlBack = '/admin/citas-week/';
           break;
         case 'fisio':
           $urlBack = '/admin/citas-fisioterapia-week/';
@@ -396,7 +396,7 @@ class CitasService {
     
     switch ($type) {
       case 'nutri':
-        $urlBack = '/admin/citas-nutricion/';
+        $urlBack = '/admin/citas/';
         break;
       case 'fisio':
         $urlBack = '/admin/citas-fisioterapia/';

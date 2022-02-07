@@ -5,8 +5,8 @@
 @section('headerButtoms')
 <button type="button" class="btn btn-success addDate" data-date="{{time()}}" data-time="8">
     <i class="fa fa-plus-circle"></i></button>
-    <a href="/admin/citas-nutricion/" class="btn btn-success" style="float: right; margin-left: 3px;">Calendario</a>
-    <a href="/admin/citas-nutricion-week/" class="btn btn-success" style="float: right; margin-left: 3px;">Semana</a>
+    <a href="/admin/citas/" class="btn btn-success" style="float: right; margin-left: 3px;">Calendario</a>
+    <a href="/admin/citas-week/" class="btn btn-success" style="float: right; margin-left: 3px;">Semana</a>
 
 @endsection
 @section('externalScripts')
@@ -101,7 +101,7 @@ $('.addDate').click(function(event){
     event.preventDefault();
     dateForm = $(this).data('date');
     timeForm = $(this).data('time');
-    $('#ifrModal').attr('src','/admin/citas-nutricion/create/'+dateForm+'/'+timeForm);
+    $('#ifrModal').attr('src','/admin/citas/create/'+dateForm+'/'+timeForm);
     $('#modalIfrm').modal();
 });
 
@@ -109,13 +109,13 @@ $('.coachsFilter').on('click','li',function(event){
     event.preventDefault();
     var coach = $(this).data('val');
     var type = $('#servSelect').val();
-    location.assign("/admin/citas-nutricion/listado/"+coach+"/"+type);
+    location.assign("/admin/citas/listado/"+coach+"/"+type);
 });
 $('#servSelect').on('change',function(event){
     event.preventDefault();
     var type = $('#servSelect').val();
     var coach = $('#coachsFilter').val();
-    location.assign("/admin/citas-nutricion/listado/"+coach+"/"+type);
+    location.assign("/admin/citas/listado/"+coach+"/"+type);
 });
 
 $('#modal_newUser').on('submit','#form-new',function(event){
@@ -126,7 +126,7 @@ $('#modal_newUser').on('submit','#form-new',function(event){
     // Send the data using post
     var posting = $.post( url, $form.serialize() ).done(function( data ) {
         if (data == 'OK'){
-            $('#content-add-date').load('/admin/citas-nutricion/create/'+dateForm+'/'+timeForm);
+            $('#content-add-date').load('/admin/citas/create/'+dateForm+'/'+timeForm);
             $('#modal_newUser').modal('hide');
             $('#modal-add-date').modal();
         } else {

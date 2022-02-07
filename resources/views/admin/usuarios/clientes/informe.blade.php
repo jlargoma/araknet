@@ -9,7 +9,6 @@
   <li <?php if ($tab == 'notes') echo 'class="active"'; ?>><a data-toggle="tab" href="#notes">Anotaciones</a></li>
   <li <?php if ($tab == 'consent') echo 'class="active"'; ?>><a data-toggle="tab" href="#consent">Consentimiento</a></li>
   <li <?php if ($tab == 'invoice') echo 'class="active"'; ?>><a data-toggle="tab" href="#invoice">Factura</a></li>
-  <li <?php if ($tab == 'bono') echo 'class="active"'; ?>><a data-toggle="tab" href="#bono">Bonos</a></li>
   <li <?php if ($tab == 'valoracion') echo 'class="active"'; ?>><a data-toggle="tab" href="#valoracion">Valoración</a></li>
 </ul>
 </div>
@@ -31,9 +30,6 @@
   </div>
   <div id="invoice" class="tab-pane fade <?php if ($tab == 'invoice') echo 'in active'; ?>">
         @include('admin.usuarios.clientes.forms.invoice')
-  </div>
-  <div id="bono" class="tab-pane fade <?php if ($tab == 'bono') echo 'in active'; ?>">
-        @include('admin.usuarios.clientes.forms.bonos')
   </div>
   <div id="valoracion" class="tab-pane fade <?php if ($tab == 'valoracion') echo 'in active'; ?>">
         @include('admin.usuarios.clientes.forms.valoracion')

@@ -2,10 +2,6 @@
   <button class="btn btn-default add_rate" data-idUser="<?php echo $user->id; ?>">
     <i class="fa fa-usd" aria-hidden="true"></i> Asignar Servicio
   </button>
-  <button class="btn btn-default add_bono" data-idUser="<?php echo $user->id; ?>">
-    <i class="fa fa-plus-circle" aria-hidden="true"></i> Asignar Bono
-  </button>
-  
   @if(isset($encNutr))
   <a href="/admin/ver-encuesta/{{$btnEncuesta}}" class="btn btn-default" target="_black">
     <i class="fa fa-eye" aria-hidden="true"></i> Ver encuesta Nutrición

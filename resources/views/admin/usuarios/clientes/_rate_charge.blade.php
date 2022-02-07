@@ -131,17 +131,13 @@
               </div>
               <div class="col-xs-3">
                 <button class="btn btn-lg btn-success" type="submit" id="submitFormPayment" style="margin-left: -1em;">
-                  Cobrar
+                  PAGAR
                 </button>
-              </div>
-              <div class="col-xs-12">
-              @include('admin.blocks.stripeBox')
               </div>
             </div>
             </div>
           </div>
           <div class="col-xs-12 col-md-6 push-20">
-            @include('admin.blocks.stripe-actions')
           </div>
         <input type="hidden" id="importeCobrar">
       </div>

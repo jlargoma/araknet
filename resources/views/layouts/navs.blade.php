@@ -8,19 +8,14 @@ $uRole = Auth::user()->role;
       <i class="fa fa-users"></i><span class="sidebar-mini-hide font-w600">Clientes</span>
     </a>
   </li>
-  <li class="{{ (str_contains($path,'citas-pt')) ? 'active' : '' }}">
-    <a href="{{ url('/admin/citas-pt') }}" >
-      <i class="fa fa-calendar-o"></i><span class="sidebar-mini-hide font-w600">P.T.</span>
-    </a>
-  </li>
-  <li class="{{ (str_contains($path,'citas-nutricion')) ? 'active' : '' }}">
-    <a href="{{ url('/admin/citas-nutricion') }}" >
-      <i class="fa fa-plus-circle"></i><span class="sidebar-mini-hide font-w600">NUTRICIÓN</span>
+  <li class="{{ (str_contains($path,'citas')) ? 'active' : '' }}">
+    <a href="{{ url('/admin/citas') }}" >
+      <i class="fa fa-plus-circle"></i><span class="sidebar-mini-hide font-w600">Citas COMERCIAL</span>
     </a>
   </li>
   <li class="{{ (str_contains($path,'citas-fisioterapia')) ? 'active' : '' }}">
     <a href="{{ url('/admin/citas-fisioterapia') }}" >
-      <i class="fa fa-calendar-o"></i><span class="sidebar-mini-hide font-w600">FISIOTERAPIA</span>
+      <i class="fa fa-calendar-o"></i><span class="sidebar-mini-hide font-w600">Citas INSTALADOR</span>
     </a>
   </li>
   <li class="{{ $path == 'admin/tarifas' ? 'active' : '' }}">

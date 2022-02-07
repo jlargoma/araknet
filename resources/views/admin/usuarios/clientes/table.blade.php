@@ -46,18 +46,9 @@
                     <?php echo in_array($user->id,$uPlanPenal) ? '<i class="fa fa-heart text-danger fidelity" title="CLEINTE CON PENALIZACION DE 60€ POR BAJA ANTICIPADA"></i>' : '' ?>
                 </td>
                 <td class="text-center tc2">
-                    <button class="btn btn-default openAdd" data-idUser="<?php echo $user->id; ?>">
+                    <button class="btn btn-default add_rate" data-toggle="modal" data-target="#modalCliente" data-iduser="<?php echo $user->id; ?>">
                         <i class="fa fa-usd" aria-hidden="true"></i>
                     </button>
-                  
-                  <div class="boxAddServBono" style="display:none">
-                    <button class="btn btn-default add_rate" data-toggle="modal" data-target="#modalCliente" data-iduser="<?php echo $user->id; ?>">
-                        <i class="fa fa-usd" aria-hidden="true"></i> Asignar Servicios
-                    </button>
-                    <button class="btn btn-default add_bono" data-iduser="<?php echo $user->id; ?>">
-                      <i class="fa fa-plus-circle" aria-hidden="true"></i> Asignar Bonos
-                    </button>
-                  </div>
                 </td>
                 <td class="text-center tc3">
                     <span class="hidden-xs hidden-sm"><?php echo $user->telefono; ?></span>

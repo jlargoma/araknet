@@ -5,8 +5,8 @@
 @section('headerButtoms')
 <button type="button" class="btn btn-success addDate" data-date="{{time()}}" data-time="8">
   <i class="fa fa-plus-circle"></i></button>
-<a href="/admin/citas-nutricion/listado/" class="btn btn-success" style="float: right; margin-left: 3px;">Listado</a>
-<a href="/admin/citas-nutricion-week/" class="btn btn-success" style="float: right; margin-left: 3px;">Semana</a>
+<a href="/admin/citas/listado/" class="btn btn-success" style="float: right; margin-left: 3px;">Listado</a>
+<a href="/admin/citas-week/" class="btn btn-success" style="float: right; margin-left: 3px;">Semana</a>
 @endsection
 @section('content')
 <div class="content content-full bg-white">
