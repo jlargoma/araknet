@@ -1,0 +1,197 @@
+.table-calendar{
+      min-width: 875px;
+}
+.table-calendar thead{
+  background-color: #5c90d2;
+  color: #FFF;
+}
+.table-calendar thead th {
+  padding: 3px !important;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+.table-calendar tbody td {
+  padding: 1px !important;
+  text-align: center;
+}
+.table-calendar tbody td.time {
+  border: 1px solid #ddd;
+  width: 30px;
+  color: #000;
+}
+.table-calendar tbody td.editDate{
+  max-width: 0px !important;
+}
+.table-calendar tbody td.editDate.not{
+  max-width: auto !important;
+  background-color: #dadada;
+  /*width:10%;*/
+}
+
+.table-calendar tbody td.editDate .lst_events div {
+/*  max-width: 100px;
+  display: inline-block;
+  border-radius: 4px;*/
+  font-size: 12px;
+/*  color: #FFF;
+  padding: 3px;
+  font-weight: 800;
+  margin-right: 4px;
+  white-space: nowrap;*/
+  cursor: pointer;
+      text-align: left;
+    margin: 0 3px 2px;
+}
+.table-calendar tbody td.editDate .lst_events div cust{
+    margin-left: 5px;
+    min-width: 100px !important;
+    display: inline-block;
+    color: #FFF;
+    padding: 2px 7px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+.table-calendar tbody td.editDate div nopay{
+  color: red;
+}
+.table-calendar tbody td.editDate div span.no-pay{
+  color: red;
+  /*font-weight: bold;*/
+      margin-right: 5px;
+/*  height: 8px;
+  width: 8px;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 3px;*/
+}
+.table-calendar tbody td.editDate div span.detail{
+  position: fixed;
+  display: none;
+  width: 150px;
+  min-height: 25px;
+  background-color: #000000ab;
+  padding: 7px;
+  white-space: normal;
+}
+.table-calendar tbody td.editDate div:hover span.detail{
+  display: block;
+}
+.table-calendar .addDate {cursor: pointer;}
+.table-calendar .addDate:hover {background-color: #5c90d2; color: #FFF;}
+
+ul.selectType,
+ul.coachsFilter {
+  padding: 0;
+  width: 100%;
+  margin: 1em auto;
+  text-align: center;
+}
+ul.selectType li,
+ul.coachsFilter li {
+  list-style: none;
+  display: inline-block;
+  padding: 11px;
+  border-radius: 7px;
+  margin: 0 1px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+ul.selectType li.select_0,
+ul.coachsFilter li.select_0 {
+  background-color: grey;
+  color: #FFF;
+}
+ul.selectType li:hover,
+ul.coachsFilter li:hover,
+ul.coachsFilter li.active,
+ul.selectType li.active {
+  /*box-shadow: inset 2px 1px 3px 1px #353535;*/
+  border-bottom: 5px solid #45c37b;
+  /*font-weight: bold;*/
+}
+
+.js-dataTable-citas tr .showInform{
+  cursor: pointer;
+}
+.js-dataTable-citas tr .showInform:hover{
+  font-weight: bold;
+}
+.events.blocked {
+/*  min-width: 30px;
+  height: 1em;
+  opacity: 0.7;*/
+}
+.events.group {
+  background-color: #ededed;
+  font-weight: 600;
+}
+.events.blocked:hover{
+  opacity: 1.0;
+}
+.events.blocked span{
+    width: 30px;
+    height: 2px;
+    background-color: #9f9f9f;
+    display: inline-block;
+    /* transform: rotate(
+13deg); */
+    margin: 1px 8px 4px 15px;
+}
+button.btn.btn-success.btnAvails {
+    float: left;
+    border-radius: 12px;
+    background-color: #5c90d2;
+    font-weight: bold;
+}
+span.dateAvail{
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 5px;
+    margin-left: 6px;
+}
+  .availDate{
+    padding-left: 15px;
+  }
+  
+.table-calendar img.ecogrf {
+    width: 14px;
+}
+
+.coachsFilter li{
+  position: relative;
+}
+.coachsFilter li .counter{
+    position: absolute;
+    top: -11px;
+    right: -6px;
+    background-color: red;
+    border-radius: 9px;
+    padding: 3px;
+    font-size: 12px;
+}
+@media only screen and (max-width:769px){
+  .table-calendar tbody td.editDate .lst_events div cust{
+    min-width: 80px !important;
+    padding: 1px 4px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+}
+@media only screen and (max-width: 426px){
+
+
+  ul.selectType, ul.coachsFilter,ul.selectDate {
+    width: 1400px;
+    text-align: left;
+  }
+  ul.selectType li, ul.coachsFilter li {
+    margin: 0;
+    padding: 6px 9px;
+  }
+  .table-calendar tbody td.editDate {
+    max-width: none !important;
+  }
+ 
+}

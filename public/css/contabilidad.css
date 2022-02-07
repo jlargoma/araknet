@@ -1,0 +1,57 @@
+table tr th,
+table tr td{
+  text-align: center;
+}
+table tr th{
+  background-color: #5c90d2;
+  color: #FFF;
+}
+table tr td{
+  background-color: #FFF;
+}
+tr.d1 td {
+  background-color: #a0a0a0;
+  color: #FFF;
+}
+tr.d2,
+tr.d3,
+tr.d4{
+  display: none;
+}
+tr.d2 td {
+  background-color: #dedede;
+}
+tr.d3.bonos td {
+    cursor: pointer;
+}
+tr.d4.bonos td{
+  background-color: #dfeeff !important;
+}
+
+.btnImportExcel{background-color: #10cfbd;float: left;padding: 7px;color: #FFF;}
+#importExcel{
+  width: 80%;
+  float: left;
+  padding: 6px;
+  margin: 0px 14px 0px 0px;
+  height: 6em;
+}
+.btnSendImportExcel{clear: both; display: none;}
+select.colExcel {
+  width: 100%;
+  background-color: #FFF;
+  color: #000;
+  padding: 7px;
+}
+#excel_table{
+  margin-top: 1em;
+}
+#excel_table th {
+  padding: 0px !important;
+}
+#excel_table td input {
+  border: none;
+  width: 100%;
+  padding: 7px;
+}
+

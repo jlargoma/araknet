@@ -1,0 +1,97 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22 jun. 2021, 10:48:57
+    Author     : gerardo_cremo
+*/
+
+div#DataTables_Table_0_length {
+  display: none;
+}
+div#DataTables_Table_0_filter {
+  max-width: 80px;
+  float: left;
+}
+.dataTables_wrapper .dataTables_filter input {
+  margin-left: 0;
+  border: 1px solid #c3c3c3;
+  padding: 4px;
+}
+table tr th.static{ text-align: left;}
+table tr td.static{ text-align: left; cursor: pointer;}
+table tr.d3 .static{ cursor: initial;}
+
+
+table.table-resumen tr .static{
+  width: 130px;
+  overflow-x: scroll;
+  margin-top: 1px;
+  position: absolute;
+  border-right: 1px solid #efefef;
+  z-index: 9;
+  overflow: hidden;
+}
+table.table-resumen tr .static-2{
+  width: 80px;
+  text-align: center;
+  overflow-x: scroll;
+  margin-top: 1px;
+  position: absolute;
+  border-right: 1px solid #efefef;
+  z-index: 9;
+  left: 130px;
+  overflow: hidden;
+}
+table.table-resumen tr .first-col {
+  padding-right: 13px !important;
+  padding-left: 135px!important;
+}
+table.table-resumen tr .first-col-2 {
+  padding-right: 13px !important;
+  padding-left: 215px!important;
+}
+table.table-resumen tr th,
+table.table-resumen tr td{
+  white-space: nowrap;
+}
+td.yb {
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+.tbl_totales td{
+  color: #fff; 
+  background-color: #5c90d2 !important; 
+  border-bottom-color: #5c90d2; 
+  font-size: 18px;
+  height: 3em;
+  text-align: center;
+}
+
+textarea.itemname{
+  min-width: 227px;
+  min-height: 4em;
+}
+
+div#tableInvoices_length {
+  display: none;
+}
+.form-simple {
+  padding: 7px 1px;
+}
+th.first-col,
+td.first-col{
+  width: 0px;
+  padding: 0px !important;
+}
+div[class*="col-xs-"]{
+  margin-bottom:1em;
+}
+th{white-space: nowrap;}
+.form-material small {
+    st: uppercase;
+    font-style: italic;
+    font-size: 10px;
+}

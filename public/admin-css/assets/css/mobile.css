@@ -1,0 +1,158 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22 jun. 2021, 10:37:47
+    Author     : gerardo_cremo
+*/
+
+@media(max-width:991px) {
+  body {
+    padding-top: 10px;
+  }
+  .header-navbar-fixed #header-navbar{
+    position: relative;
+  }
+  .nav-header {
+    padding: 6px 0 0;
+  }
+
+  table tr .static{
+    width: 130px;
+    overflow-x: scroll;
+    margin-top: 1px;
+    position: absolute;
+    border-right: 1px solid #efefef;
+    background-color: #FFF;
+    z-index: 9;
+  }
+
+  table tr .static-2{
+    width: 80px;
+    text-align: center;
+    overflow-x: scroll;
+    margin-top: 1px;
+    position: absolute;
+    border-right: 1px solid #efefef;
+    z-index: 9;
+    left: 130px;
+  }
+  table tr .first-col {
+    padding-right: 13px !important;
+    padding-left: 115px!important;
+  }
+  table tr .first-col-2 {
+    padding-right: 13px !important;
+    padding-left: 215px!important;
+  }
+  .static.thBlue {
+    background-color: #5c90d2;
+    height: 73px;
+    margin-top: 0px;
+  }
+
+}
+@media only screen and (max-width: 426px){
+  .nav-header.pull-right > li{
+    margin-left: 3px;
+  }
+  #page-container main#main-container {
+    padding-top: 25px !important;
+  }
+
+  .form-material {
+    margin: 0px 0 30px;
+  }
+  .form-material > label {
+    position: relative;
+    height: 1em;
+    top: -30px;
+  }
+
+  .modal-dialog.lg.modal-md {
+    margin: auto;
+    max-width: 100%;
+  }
+  .popup-body .content{
+    padding: 16px 5px 1px;
+  }
+  .tab-pane {
+    padding: 12px 4px;
+  }
+  .nav-box{
+    position: relative;
+    width: 100%;
+    min-height: 40px;
+    overflow: scroll;
+
+  }
+  .nav.nav-tabs{
+    position: absolute;
+    width: 700px;
+    height: 30px;
+    border: none;
+  }
+  .nav-tabs>li {
+    border: 1px solid #e8e8e8;
+  }
+  .nav-tabs>li>a{
+    margin: 0px;
+  }
+  select.likeBtn{
+    max-width: 100%;
+  }
+  select.likeBtn option {
+    padding: 6px 4px;
+    margin: 2px;
+    font-size: 12px;
+  }
+  .mbl-br{
+    display: block;
+  }
+  .mbl-tc{
+    text-align: center;
+  }
+  select.form-control {
+    padding: 0;
+    text-align: center;
+  }
+  h1 {
+    font-size: 22px;
+  }
+  a.btn-secondary {
+    padding: 2px;
+    font-size: 16px;
+  }
+  .ticomes th.static{
+    background-color: #5c90d2;
+    height: 70px;
+  }
+
+  .mbl-tabs {
+    width: 100%;
+    overflow: scroll;
+  }
+
+  .mbl-tabs .selectDate{
+    width: 1400px;
+    text-align: left;
+  }
+
+
+}
+
+@media only screen and (max-width: 376px){
+  header#header-navbar {
+    padding: 6px 3px;
+  }
+  a.btn.btn-success.btn-home {
+    font-size: 14px;
+    padding: 0 4px;
+  }
+  button.btn {
+    padding: 5px;
+    font-size: 12px;
+  }
+}
