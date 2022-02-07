@@ -51,8 +51,7 @@
                                 <i class="fa fa-times"></i>
                             </button>
                             <a class="h5 text-white text-left" href="{{ url('/admin') }}">
-                                <img  src="{{ asset ('/admin-css/assets/img/logo-mini.png')}}" style="width: 50px;    margin-left: -10px;">
-                                <span class="sidebar-mini-hide font-w600">EVOLUTIO</span>
+                                <span class="sidebar-mini-hide font-w600">ARAKNET</span>
                             </a>
                         </div>                        
                         
