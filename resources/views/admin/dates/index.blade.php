@@ -3,7 +3,7 @@
 <?php use \Carbon\Carbon; ?>
 @extends('layouts.admin-master')
 
-@section('title') LISTADO DE CITAS - EVOLUTIO @endsection
+@section('title') LISTADO DE CITAS - Araknet @endsection
 
 
 @section('content')

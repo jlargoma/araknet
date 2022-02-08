@@ -1,12 +1,12 @@
 <?php
-$tit = $type.' en Evolutio';
+$tit = $type.' en Araknet';
 ?>
 @include('emails.head')
 
 Hola! <?php echo $user->name ?><br><br><br>
 
 <p style="color: black">
-    Te adjuntamos el enlace para el pago de <?php echo $rate->name ?> en <strong> Evolutio</strong>
+    Te adjuntamos el enlace para el pago de <?php echo $rate->name ?> en <strong> Araknet</strong>
 </p>
 
 <p style="color: black;font-size: 18px;">

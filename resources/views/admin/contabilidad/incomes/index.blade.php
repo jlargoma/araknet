@@ -1,5 +1,5 @@
 @extends('layouts.admin-master')
-@section('title') RESUMEN  INGRESOS POR  LINEA DE  NEGOCIO - EVOLUTIO  @endsection
+@section('title') RESUMEN  INGRESOS POR  LINEA DE  NEGOCIO - Araknet  @endsection
 
 <?php 
 function sumMonthValue($m){

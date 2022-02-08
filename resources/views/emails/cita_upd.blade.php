@@ -1,12 +1,12 @@
 <?php
-$tit = 'Su cita en Evolutio';
+$tit = 'Su cita en Araknet';
 ?>
 @include('emails.head')
 
 Hola! <?php echo $user->name ?><br><br>
 
 <p style="color: black">
-    Tienes una cita en nuestro centro de <b><?php echo $rate->name ?></b> en <strong> Evolutio</strong>
+    Tienes una cita en nuestro centro de <b><?php echo $rate->name ?></b> en <strong> Araknet</strong>
 </p>
 
 <p style="color: black;font-size: 18px;">
@@ -21,14 +21,7 @@ Hola! <?php echo $user->name ?><br><br>
     - Servicio: <?php echo $rate->name ?><br>
     - Fecha: <?php echo $day; ?><br>
     - Hora: <?php echo $hour; ?><br>
-    - Importe: <?php echo moneda($importe,true,2) ?><br>
 </p>
-@if($pStripe)
-<p>
-    Para realizar el pago, haga click en el enlace o copie y pegue el mismo en su navegador de preferencia<br/>
-    <a href="{{$pStripe}}" title="link pago Stripe">{{$pStripe}}</a>
-</p>
-@endif
 @if($urlEntr)
 <p style="text-align: center;background-color: #e0f5e9;padding: 9px;color: #000;font-size: 16px;font-weight: bold;margin: 32px 0;">
     Por favor, complete la siguente encuesta antes de su cita<br/>

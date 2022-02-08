@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') No autorizado - Evolutio HTS @endsection
+@section('title') No autorizado - Araknet HTS @endsection
 
 @section('content')
 <section id="content">

@@ -99,7 +99,7 @@
                             <div class="col-md-12 col-xs-12 text-left push-20">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control stripe-price" name="email"
-                                       placeholder="example@example.com" value="cobrostpv@evolutio.fit"/>
+                                       placeholder="example@example.com" value="cobrostpv@Araknet.tech"/>
                             </div>
                             <div class="form-row col-xs-12 push-20">
                                 <label for="card-element">

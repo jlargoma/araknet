@@ -27,7 +27,7 @@ class MailController extends Controller
               'importe'     => $importe,
               'typePayment' => $typePayment
           ], function ($message) use ($email) {
-              $message->subject('Comprobante de pago evolutio');
+              $message->subject('Comprobante de pago Araknet');
               $message->from(config('mail.from.address'), config('mail.from.name'));
               $message->to($email);
           });
@@ -63,7 +63,7 @@ class MailController extends Controller
               'importe'     => $importe,
               'pStripe'     => $pStripe
           ], function ($message) use ($email) {
-              $message->subject('Solicitud de pago evolutio');
+              $message->subject('Solicitud de pago Araknet');
               $message->from(config('mail.from.address'), config('mail.from.name'));
               $message->to($email);
           });
@@ -90,7 +90,7 @@ class MailController extends Controller
               'importe'     => $importe,
               'pStripe'     => $pStripe
           ], function ($message) use ($email) {
-              $message->subject('Solicitud de compra de Bonos Evolutio');
+              $message->subject('Solicitud de compra de Bonos Araknet');
               $message->from(config('mail.from.address'), config('mail.from.name'));
               $message->to($email);
           });
@@ -111,8 +111,8 @@ class MailController extends Controller
             
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return $email.' no es un mail válido';
             try{
-              if (!$subj) $subj = 'Solicitud de pago evolutio';
-              $sended = Mail::send('emails._payment_citaStripe', [
+              if (!$subj) $subj = 'Solicitud de pago Araknet';
+              $sended = Mail::send('emails.cita_upd', [
                       'user'    => $oUser,
                       'obj'     => $oDate,
                       'rate'    => $oRate,
@@ -125,14 +125,12 @@ class MailController extends Controller
                       $message->subject($subj);
                       $message->from(config('mail.from.address'), config('mail.from.name'));
                       $message->to($email);
-                      $message->attach(public_path('/img/protocolo.jpeg'), array(
-                            'as' => 'Protocolo Covid', 
-                            'mime' => 'image/jpeg'));
                       if ($calFile){
                         $message->attach($calFile, array(
                             'as' => 'Evento Calendario '.time()));
                       }
               });
+              
             } catch (\Exception $ex) {
               return ($ex->getMessage());
             }
@@ -148,7 +146,7 @@ class MailController extends Controller
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return $email.' no es un mail válido';
             try{
               
-              if (!$subj)  $subj = 'Recordatorio de su Cita de Evolutio';
+              if (!$subj)  $subj = 'Recordatorio de su Cita de Araknet';
               
               $sended = Mail::send('emails._remember_citaStripe', [
                       'user'    => $oUser,
@@ -162,9 +160,6 @@ class MailController extends Controller
                       $message->subject($subj);
                       $message->from(config('mail.from.address'), config('mail.from.name'));
                       $message->to($email);
-                      $message->attach(public_path('/img/protocolo.jpeg'), array(
-                            'as' => 'Protocolo Covid', 
-                            'mime' => 'image/jpeg'));
                       if ($calFile){
                         $message->attach($calFile, array(
                             'as' => 'Evento Calendario '.time()));

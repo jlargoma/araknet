@@ -17,9 +17,9 @@
 
 <h2>Bienvenido</h2><br>
 
-Evolutio Human Training System<br>
+Araknet Human Training System<br>
 <a href="tel:911 723 217">911 723 217</a><br>
-<a href="mailto:info@evolutio.fit">info@evolutio.fit</a>
-<!-- <p style="background-color: grey"><img src="http://evolutio.fit/assets/logo.png" alt="Evolutio Logo"></p> -->
+<a href="mailto:info@Araknet.tech">info@Araknet.tech</a>
+<!-- <p style="background-color: grey"><img src="http://Araknet.tech/assets/logo.png" alt="Araknet Logo"></p> -->
 
 </div>

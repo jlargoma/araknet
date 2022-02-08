@@ -1,6 +1,6 @@
 @extends('layouts.admin-master')
 
-@section('title') Citas Fisioterapia Evolutio HTS @endsection
+@section('title') Citas Fisioterapia Araknet HTS @endsection
 @section('headerTitle') Citas Fisioterapia @endsection
 @section('headerButtoms')
 <button type="button" class="btn btn-success addDate" data-date="{{time()}}" data-time="8">

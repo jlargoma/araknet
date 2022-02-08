@@ -5,7 +5,7 @@ use \Carbon\Carbon; ?>
 <?php setlocale(LC_TIME, "es_ES"); ?>
 @extends('layouts.admin-master')
 
-@section('title') INFORME DE COBROS - Evolutio HTS @endsection
+@section('title') INFORME DE COBROS - Araknet HTS @endsection
 
 @section('externalScripts')
 <style>

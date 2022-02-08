@@ -3,7 +3,7 @@
   <div class="panel-heading">
     <div class="clearfix">
       <div class="col-logo">
-        <img src="{{url('/assets/evolutiofit_logo_invoice.png')}}" class="img-responsive">
+        <img src="{{url('/assets/logo/logo.svg')}}" class="img-responsive">
         <div class="inv_numb"><?php echo $oInvoice->num ?></div>
         <div><b><?php echo convertDateToShow($oInvoice->date,true) ?></b></div>
       </div>
@@ -81,7 +81,7 @@
   </div>
   <div class="panel-footer">
     <p class="text-center">
-      <a href="www.evolutio.fit" title="www.evolutio.fit">www.evolutio.fit</a>
+      <a href="www.Araknet.tech" title="www.Araknet.tech">www.Araknet.tech</a>
       <br/>
       Salud - Actividad Física - Rendimiento
     </p>

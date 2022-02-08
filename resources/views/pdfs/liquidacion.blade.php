@@ -112,7 +112,7 @@
                 </tfoot>
             </table>
             <div class="text-center">
-                <small >Evolutio <?php echo date('Y');?></small>
+                <small >Araknet <?php echo date('Y');?></small>
             </div>
     </body>
 </html>

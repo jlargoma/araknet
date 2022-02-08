@@ -44,7 +44,7 @@
         <table class="t-content">
             <tr class="t-head">
                 <td>
-                    <img src="{{url('/assets/logo-retina.png')}}" class="img-logo">
+                    <img src="{{url('/assets/logo/logo.svg')}}" class="img-logo">
                     <h1><?php echo $tit; ?></h1>
                 </td>
             </tr>

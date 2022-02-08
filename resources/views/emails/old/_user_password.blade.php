@@ -12,17 +12,17 @@
 			<div class="col-xs-12">
 				<h3 class="text-center">Hola, <?php echo $solicitud->nombre ?></h3>
 				<p class="text-center">
-					Aquí tienes los accesos a tu cuenta de usuario de EVOLUTIO HTS:<br><br>
+					Aquí tienes los accesos a tu cuenta de usuario de Araknet HTS:<br><br>
 					Usuario: <?php echo $solicitud->email ?><br>
 					Password: <?php echo $solicitud->email ?><br><br>
 
-					Puedes acceder mediante la siguiente URL: <a href="http://evolutio.fit/login">Evolutio zona clientes</a>
+					Puedes acceder mediante la siguiente URL: <a href="http://Araknet.tech/login">Araknet zona clientes</a>
 				</p>
 				<p class="text-center" style="margin-bottom: 5px;">
 					Por favor no olvides cambiar tu contraseña despues de acceder.
 				</p>
 				<p class="text-center" style="margin-bottom: 5px;">
-					Muchas gracias por elegir EVOLUTIO HTS.
+					Muchas gracias por elegir Araknet HTS.
 				</p>
 			</div>
 		</div>

@@ -10,21 +10,21 @@ use Log;
 use App\Services\LogsService;
 include_once app_path().'/Functions.php';
 
-class SubscEvolutioTv extends Command {
+class SubscAraknetTv extends Command {
 
   /**
    * The name and signature of the console command.
    *
    * @var string
    */
-  protected $signature = 'SubscEvolutioTv:send';
+  protected $signature = 'SubscAraknetTv:send';
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'Send suscription to EvolutioTv';
+  protected $description = 'Send suscription to AraknetTv';
 
   /**
    * Create a new command instance.
@@ -47,7 +47,7 @@ class SubscEvolutioTv extends Command {
    */
   public function handle() {
     try {
-      $this->sLog = new LogsService('schedule','Create EvolutioTv');
+      $this->sLog = new LogsService('schedule','Create AraknetTv');
       
       $token = md5((date('Y')*date('j')/date('d'))*17954);
       $year = date('Y');

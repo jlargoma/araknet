@@ -33,7 +33,7 @@ $v = ["3084"
 ,"5704"
 ,"5710"];
 foreach ($v as $i){
-    echo 'https://evolutio.tv/wp-admin/post.php?post='.$i.'&action=edit<br>';
+    echo 'https://Araknet.tv/wp-admin/post.php?post='.$i.'&action=edit<br>';
 }
 die;
 
@@ -44,7 +44,7 @@ $linea = 0;
 //Abrimos nuestro archivo
 //SELECT * FROM `users` WHERE `password` LIKE 'aaaaaaaaaaaaaa'
 
-//$archivo = fopen("BBDD_CLIENTES_EVOLUTIO.csv", "r");
+//$archivo = fopen("BBDD_CLIENTES_Araknet.csv", "r");
 $archivo = fopen("BBDD.csv", "r");
 $data = [];
 $start = true;
@@ -65,7 +65,7 @@ while (($datos = fgetcsv($archivo, ",")) == true)
   $date = '2021-'.$month.'-'.$aDate[0];
   $name = trim($datos[0]);
   $price = intval($datos[3]);
-  $email = str_replace(' ','_', $name).'@evolutio.fit';
+  $email = str_replace(' ','_', $name).'@Araknet.tech';
   $data[] = '("'.$name.'","'.$email.'", "'.$date.'", "'.$datos[2].'", "'.$price.'", "'.$datos[4].'", "'.$datos[5].'", "'.$datos[6].'")';
   if ($linea>100){
     echo "INSERT INTO `0_temp_users2` (`name`,email, `date`, `tpay`, `price`, `rate`,rate_t, `coach`) VALUES ";

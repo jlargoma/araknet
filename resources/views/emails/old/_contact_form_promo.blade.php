@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no">
-		<title>Formulario de contacto Evolutio HTS</title>
+		<title>Formulario de contacto Araknet HTS</title>
 		<!-- Latest compiled and minified CSS & JS -->
 		<link rel="stylesheet" href="{{ asset('/admin-css/assets/css/bootstrap.min.css') }}">
 		<script src="{{ asset('/admin-css/assets/js/core/jquery.min.js') }}"></script>

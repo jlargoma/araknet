@@ -1,12 +1,12 @@
 <?php
-$tit = 'Nueva Compra en Evolutio';
+$tit = 'Nueva Compra en Araknet';
 ?>
 @include('emails.head')
 
 Hola! <?php echo $user->name ?><br><br><br>
 
 <p style="color: black">
-    Te adjuntamos el comprobante de la compra que acabas de realizar en <strong> Evolutio</strong>
+    Te adjuntamos el comprobante de la compra que acabas de realizar en <strong> Araknet</strong>
 </p>
 
 <p style="color: black;font-size: 18px;">

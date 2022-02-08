@@ -7,11 +7,11 @@
 <p>El abajo firmante, queda informado y presta su consentimiento expreso para el tratamiento de
   los datos por la empresa <b>GET FIT, S.L.</b></p>
 <p>Igualmente, el interesado autoriza la cesión de los datos que se recaban para el envío
-  promocional y divulgativo de los servicios que ofrece el centro <b>EVOLUTIO</b>, y otros que
+  promocional y divulgativo de los servicios que ofrece el centro <b>Araknet</b>, y otros que
   consideremos de interés.</p>
 <p>Para ejercitar los derechos de acceso, rectificación, cancelación y oposición diríjase al centro
-  EVOLUTIO situado en Av. Quitapesares local 20 Villaviciosa de Odón, 28670, o envíe un
-  correo <a href="mailto:info@evolutio.fit">info@evolutio.fit</a> adjuntando copia de documento que acredite su identidad.</p>
+  Araknet situado en Av. Quitapesares local 20 Villaviciosa de Odón, 28670, o envíe un
+  correo <a href="mailto:info@Araknet.tech">info@Araknet.tech</a> adjuntando copia de documento que acredite su identidad.</p>
 <h3>CONSENTIMIENTO FISIOTERAPIA</h3>
 <p>El paciente adjuntado en dicho apartado autoriza al fisioterapeuta a aplicar el tratamiento que
   más se adecue a su patología con el fin de buscar la mejoría del paciente.</p>

@@ -1,5 +1,5 @@
 @extends('layouts.admin-master')
-@section('title') P&G- EVOLUTIO  @endsection
+@section('title') P&G- Araknet  @endsection
 <?php 
 function sumMonthValue($m){
   $t=0;

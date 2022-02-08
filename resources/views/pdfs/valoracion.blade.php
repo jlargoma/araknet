@@ -153,7 +153,7 @@
   </head>
   <body>
     <header>
-      <img src="/assets/logo-retina.png" alt="Evolutio" class="logo"/>
+      <img src="/assets/logo/logo.svg" alt="Araknet" class="logo"/>
     </header>
     <div class="paging">
 

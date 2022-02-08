@@ -21,7 +21,7 @@
 					Llamanos al <a href="tel:911723217">911723217</a> y activa este código.
 				</p>
 				<h3 style="color: black ;margin-bottom: 5px;text-align: center;">
-					Muchas gracias por elegirnos EVOLUTIO Centro de entrenamiento y salud.
+					Muchas gracias por elegirnos Araknet Centro de entrenamiento y salud.
 				</h3>
 				<p style="color: black;text-align: center;">
 					Estamos esperandote

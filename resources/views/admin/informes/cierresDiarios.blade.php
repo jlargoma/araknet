@@ -1,6 +1,6 @@
 @extends('layouts.admin-master')
 
-@section('title') INFORME DE CIERRES DIARIOS - Evolutio HTS @endsection
+@section('title') INFORME DE CIERRES DIARIOS - Araknet HTS @endsection
 
 @section('externalScripts')
 <style>

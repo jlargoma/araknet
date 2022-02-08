@@ -1,12 +1,12 @@
 <?php
-$tit = 'Su cita en Evolutio';
+$tit = 'Su cita en Araknet';
 ?>
 @include('emails.head')
 
 Hola! <?php echo $user->name ?><br><br>
 
 <p style="color: black">
-  Necesitamos que nos completes una breve encuesta para tu cita de Nutrición en <strong> Evolutio</strong>
+  Necesitamos que nos completes una breve encuesta para tu cita de Nutrición en <strong> Araknet</strong>
 </p>
 <p>
 Para ello puede hacer click en el siguiente enlace ó cópielo y péguelo en su navegador de confianza

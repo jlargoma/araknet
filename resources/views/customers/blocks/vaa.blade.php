@@ -138,7 +138,7 @@ $count = 1;
   <br/><br/>
 </div>
 <div class="block-logo">
-  <img src="/assets/logo-retina.png" alt="Evolutio" class="logo"/>
+  <img src="/assets/logo/logo.svg" alt="Araknet" class="logo"/>
 </div>
 <div class="col-md-12 mt-1">
   <h4 class="mt-1">FUERZA DE TREN SUPERIOR</h4>
@@ -162,7 +162,7 @@ $count = 1;
   <br/><br/>
 </div>
 <div class="block-logo">
-  <img src="/assets/logo-retina.png" alt="Evolutio" class="logo"/>
+  <img src="/assets/logo/logo.svg" alt="Araknet" class="logo"/>
 </div>
 <div class="col-md-12  mt-1">
   <h4 class="mt-1">FUERZA DE TREN INFERIOR</h4>
@@ -192,7 +192,7 @@ $count = 1;
   <br/><br/>
 </div>
 <div class="block-logo">
-  <img src="/assets/logo-retina.png" alt="Evolutio" class="logo"/>
+  <img src="/assets/logo/logo.svg" alt="Araknet" class="logo"/>
 </div>
 <div class="col-md-12  mt-1">
   <h4 class="mt-1">RESISTENCIA CARDIOVASCULAR</h4>
@@ -224,7 +224,7 @@ $count = 1;
   <br/><br/>
 </div>
 <div class="block-logo">
-  <img src="/assets/logo-retina.png" alt="Evolutio" class="logo"/>
+  <img src="/assets/logo/logo.svg" alt="Araknet" class="logo"/>
 </div>
 <div class="col-md-12  mt-1">
   <h4 class="mt-1">CONCLUSIONES Y RECOMENDACIONES GENERALES</h4>

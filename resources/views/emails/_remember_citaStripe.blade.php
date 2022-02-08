@@ -1,12 +1,12 @@
 <?php
-$tit = 'Su cita en Evolutio';
+$tit = 'Su cita en Araknet';
 ?>
 @include('emails.head')
 
 Hola! <?php echo $user->name ?><br><br>
 
 <p style="color: black">
-  Le recordamos su cita en nuestro centro de <b><?php echo $rate->name ?></b> en <strong> Evolutio</strong>
+  Le recordamos su cita en nuestro centro de <b><?php echo $rate->name ?></b> en <strong> Araknet</strong>
 </p>
 
 <p style="color: black;font-size: 18px;">

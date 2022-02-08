@@ -1,6 +1,6 @@
 @extends('layouts.admin-master')
 
-@section('title') Citas Instalador Evolutio HTS @endsection
+@section('title') Citas Instalador Araknet HTS @endsection
 @section('headerTitle') Citas Instalador @endsection
 @section('headerButtoms')
 <button type="button" class="btn btn-success addDate" data-date="{{time()}}" data-time="8">

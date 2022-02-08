@@ -55,7 +55,7 @@
             <div class="panel panel-default divcenter noradius" style=" ">
               <div class="panel-body" style="padding: 40px;">
                 <div class="col-xs-12 center">
-                  <img src="{{ asset('assets/logo-retina.png') }}" class="img-responsive">
+                  <img src="{{ asset('assets/logo/logo.svg') }}" class="img-responsive">
                   <h1>ARAKNET</h1>
                 </div>
 

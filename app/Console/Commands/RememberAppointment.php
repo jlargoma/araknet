@@ -80,7 +80,7 @@ class RememberAppointment extends Command {
             
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return $email.' no es un mail válido';
             try{
-              $subj = 'Recordatorio de su Cita de Evolutio';
+              $subj = 'Recordatorio de su Cita de Araknet';
               $sended = Mail::send('emails._remember_citaStripe', [
                       'user'    => $oUser,
                       'obj'     => $oDate,
@@ -93,9 +93,6 @@ class RememberAppointment extends Command {
                       $message->subject($subj);
                       $message->from(config('mail.from.address'), config('mail.from.name'));
                       $message->to($email);
-                      $message->attach(public_path('/img/protocolo.jpeg'), array(
-                            'as' => 'Protocolo Covid', 
-                            'mime' => 'image/jpeg'));
               });
             } catch (\Exception $ex) {
               return ($ex->getMessage());

@@ -1,6 +1,6 @@
 @extends('layouts.admin-master')
 
-@section('title') Clientes - Evolutio HTS @endsection
+@section('title') Clientes - Araknet HTS @endsection
 
 @section('externalScripts')
 <!--<link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.css') }}">-->

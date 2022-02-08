@@ -96,7 +96,7 @@ div.saltopagina{
 @section('content')
 
 <div class="contratoBox">
-  <img src="https://desarrollo.evolutio.fit/img/logocontrato.png" class="img-logo">
+  <img src="https://desarrollo.Araknet.tech/img/logocontrato.png" class="img-logo">
   <div class="body">
     <table>
     <tr>
@@ -124,10 +124,10 @@ div.saltopagina{
     <h1>CONTRATO CON EL CENTRO - {{$tit}}</h1>
     <h3>*Este contrato y sus condiciones son personales e intransferibles</h3>
     <div class="textContent">
-    <p>Las presentes condiciones regulan la relación entre la mercantil GET FIT VILLAVICIOSA S.L (en adelante EVOLUTIO.FIT) y sus socios, siempre y cuando no existan supuestos especiales que incluyan condiciones acordadas individualmente.</p>
+    <p>Las presentes condiciones regulan la relación entre la mercantil GET FIT VILLAVICIOSA S.L (en adelante Araknet.tech) y sus socios, siempre y cuando no existan supuestos especiales que incluyan condiciones acordadas individualmente.</p>
     <p>El socio conoce y acepta la utilización de cámaras de vigilancia en el gimnasio, con excepción de los vestuarios y los sanitarios.<br/>Solo podrán ser socios los mayores de edad (18 años en adelante), o los menores de edad siempre con autorización del tutor o tutora legal.</p>
 
-    <p>EVOLUTIO.FIT no se hace responsable por las pérdidas o daños de pertenencias u objetos de valor que se puedan sufrir por descuido o mal manejo de las mismas. A fin de garantizar la seguridad de estos objetos, se deben guardar en las taquillas habilitadas en los vestuarios.</p>
+    <p>Araknet.tech no se hace responsable por las pérdidas o daños de pertenencias u objetos de valor que se puedan sufrir por descuido o mal manejo de las mismas. A fin de garantizar la seguridad de estos objetos, se deben guardar en las taquillas habilitadas en los vestuarios.</p>
     <p></p>
     <p></p>
     <h2>NORMAS DE USO DE LAS INSTALACIONES Y PROTOCOLO COVID-19</h2>

@@ -18,7 +18,7 @@ class MailsService {
                   'bono' => $oBono,
                   'typePayment' => $tPay
                       ], function ($message) use ($email) {
-                        $message->subject('Comprobante de pago evolutio');
+                        $message->subject('Comprobante de pago Araknet');
                         $message->from(config('mail.from.address'), config('mail.from.name'));
                         $message->to($email);
                       });
@@ -47,7 +47,7 @@ class MailsService {
                   'importe' => $importe,
                   'typePayment' => $typePayment
                       ], function ($message) use ($email) {
-                        $message->subject('Comprobante de pago evolutio');
+                        $message->subject('Comprobante de pago Araknet');
                         $message->from(config('mail.from.address'), config('mail.from.name'));
                         $message->to($email);
                       });

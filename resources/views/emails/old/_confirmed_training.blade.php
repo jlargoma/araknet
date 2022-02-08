@@ -16,7 +16,7 @@
 					Te confirmamos que has solicitado plaza para la clase de  <strong><?php echo $apuntado->schedule->classes->name; ?></strong> el día <?php echo date('d-m-Y', strtotime($apuntado->date_assistance)) ?>
 				</p>
 				<h3 style="color: black ;margin-bottom: 5px;">
-					Muchas gracias por elegir EVOLUTIO HTS.
+					Muchas gracias por elegir Araknet HTS.
 				</h3>
 				<p style="color: black">
 					Estaremos esperandote

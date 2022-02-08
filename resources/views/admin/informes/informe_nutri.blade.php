@@ -1,7 +1,7 @@
 
 @extends('layouts.admin-master')
 
-@section('title') LISTADO DE CITAS - EVOLUTIO @endsection
+@section('title') LISTADO DE CITAS - Araknet @endsection
 
 @section('externalScripts')
 	<link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.css') }}">

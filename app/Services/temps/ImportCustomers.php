@@ -42,7 +42,7 @@ class ImportCustomers {
 //    foreach ($cutomers as $c){
 //      
 //      
-//      $email = str_replace(' ','_', $c->name).'@evolutio.fit';
+//      $email = str_replace(' ','_', $c->name).'@Araknet.tech';
 //      $email = str_replace('__','_',$email);
 //      
 //      DB::table('0_temp_users2')->where('id',$c->id)->update(['email'=>$email]);

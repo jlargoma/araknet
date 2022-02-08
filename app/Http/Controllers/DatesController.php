@@ -261,7 +261,7 @@ class DatesController extends Controller {
       $calFile = $invite->save();
       /** END:  prepare iCAL * */
       /* -------------------------------------------------------------------- */
-      $subjet = 'Nueva cita en Evolutio';
+      $subjet = 'Nueva cita en Araknet';
       if ($ID)
         $subjet = 'Actualización de su cita';
 
@@ -277,8 +277,8 @@ class DatesController extends Controller {
       }
       //END: entrevista nutrición
 
-
-      MailController::sendEmailPayDateByStripe($oObj, $oUser, $oRate, $coach, $pStripe, $importe, $subjet, $calFile, $urlEntrevista);
+      $pStripe = null;
+      $return = MailController::sendEmailPayDateByStripe($oObj, $oUser, $oRate, $coach,$importe, $subjet, $calFile, $urlEntrevista);
       /* -------------------------------------------------------------------- */
 
       if ($type == 'nutri')

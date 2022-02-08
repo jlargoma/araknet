@@ -1,5 +1,5 @@
 @extends('layouts.admin-master')
-@section('title') Gastos- EVOLUTIO  @endsection
+@section('title') Gastos- Araknet  @endsection
 
 @section('content')
 @include('admin.contabilidad._button-contabiliad')

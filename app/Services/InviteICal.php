@@ -5,7 +5,7 @@ namespace App\Services;
 /**
  * 
  * Author: Ahmad Amin
- * Email : hello@evolutio.fit
+ * Email : hello@Araknet.tech
  * Website: http://ahmadmain.com
  * 
  * Copyright (c) 2012 Ahmad Amin. All Rights Reserved.
@@ -98,16 +98,16 @@ class InviteICal
     public function __construct($uid = null)
     {
 	if (null === $uid) {
-	    $this->_uid = uniqid(rand(0, getmypid())) . "@evolutio.fit";
+	    $this->_uid = uniqid(rand(0, getmypid())) . "@Araknet.tech";
 	} else {
-	    $this->_uid = $uid . "@evolutio.fit";
+	    $this->_uid = $uid . "@Araknet.tech";
 	}
     
     
     
-    $this->_location = 'Avenida quitapesares Nº 20 Nave 42A, 28670 Villa Viciosa de Odón (Madrid)​';
-    $this->_fromName = 'evolutio.fit';
-    $this->_fromEmail = 'info@evolutio.fit';
+    $this->_location = '​';
+    $this->_fromName = 'Araknet.tech';
+    $this->_fromEmail = 'info@Araknet.tech';
 
 	if (!isset($_SESSION['calander_invite_downloaded'])) {
 	    $_SESSION['calander_invite_downloaded'] = self::NOT_DOWNLOADED;

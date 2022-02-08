@@ -175,7 +175,7 @@ class CustomerController extends Controller {
   function downlContract($code,$control) {
     $data = $this->getContracts($code,$control);
     if ($data['sign']){
-      return response()->download($data['path'], 'contrato-EVOLUTIO.pdf', [], 'inline');
+      return response()->download($data['path'], 'contrato-Araknet.pdf', [], 'inline');
     } 
     
     return back()->withErrors(['contrato no encontrado']);
@@ -259,7 +259,7 @@ class CustomerController extends Controller {
     // Send Mail
     $subject = "Contrato $tit";
     $mailContent = 'Hola '.$oUser->name.', <br/><br/>';
-    $mailContent .= '<p>Gracias por firmar su contrato del <b>'.$tit.'</b> con nuestro centro de entranamientos <b>EVOLUTIO.FIT</b>';
+    $mailContent .= '<p>Gracias por firmar su contrato del <b>'.$tit.'</b> con nuestro centro de entranamientos <b>Araknet.tech</b>';
     $mailContent .= '<p>Le adjuntamos el documento firmado</p>';
     $mailContent .= '<br/><br/><br/><p>Muchas Gracias.!</p>';
     $email = $oUser->email;

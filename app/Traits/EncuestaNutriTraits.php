@@ -247,7 +247,7 @@ trait EncuestaNutriTraits {
     $email    = $oUser->email;
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return $email.' no es un mail válido';
     try{
-      $subj = 'Encuesta de Nutrición - evolutio';
+      $subj = 'Encuesta de Nutrición - Araknet';
       $sended = \Illuminate\Support\Facades\Mail::send('emails._encuestaNutri', [
               'user'    => $oUser,
               'urlEntr' => $urlEncuesta,
@@ -255,9 +255,6 @@ trait EncuestaNutriTraits {
               $message->subject($subj);
               $message->from(config('mail.from.address'), config('mail.from.name'));
               $message->to($email);
-              $message->attach(public_path('/img/protocolo.jpeg'), array(
-                    'as' => 'Protocolo Covid', 
-                    'mime' => 'image/jpeg'));
       });
     } catch (\Exception $ex) {
       return ($ex->getMessage());

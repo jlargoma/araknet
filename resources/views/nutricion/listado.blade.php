@@ -1,6 +1,6 @@
 @extends('layouts.admin-master')
 
-@section('title') Citas Nutrición Evolutio HTS @endsection
+@section('title') Citas Nutrición Araknet HTS @endsection
 @section('headerTitle') Citas Nutrición @endsection
 @section('headerButtoms')
 <button type="button" class="btn btn-success addDate" data-date="{{time()}}" data-time="8">

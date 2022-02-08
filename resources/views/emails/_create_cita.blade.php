@@ -1,5 +1,5 @@
 <?php
-$tit = 'Su cita en Evolutio';
+$tit = 'Su cita en Araknet';
 ?>
 @include('emails.head')
 

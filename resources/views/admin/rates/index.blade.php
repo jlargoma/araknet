@@ -1,6 +1,6 @@
 @extends('layouts.admin-master')
 
-@section('title') Servicios - Evolutio HTS @endsection
+@section('title') Servicios - Araknet HTS @endsection
 
 @section('headerButtoms')
 <li class="text-center">

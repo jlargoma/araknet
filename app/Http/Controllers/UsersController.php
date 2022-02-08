@@ -54,8 +54,8 @@ class UsersController extends Controller {
       if ($newUser->save()) {
         $email = $newUser->email;
         $sended = Mail::send('emails._create_user_email', ['user' => $newUser], function ($message) use ($email) {
-                  $message->subject('Inscripción en Evolutio');
-                  $message->from('info@evolutio.fit', 'Inscripción Evolutio');
+                  $message->subject('Inscripción en Araknet');
+                  $message->from('info@Araknet.tech', 'Inscripción Araknet');
                   $message->to($email);
                 });
         return redirect('/admin/usuarios/informe/' . $newUser->id);
@@ -145,8 +145,8 @@ class UsersController extends Controller {
           default :
             $sended = Mail::send('emails._create_user_email', ['user' => $newUser], function ($message) use ($email) {
                       $message->subject('Registro de Usuario');
-                      $message->subject('Inscripción en Evolutio');
-                      $message->from('info@evolutio.fit', 'Inscripción Evolutio');
+                      $message->subject('Inscripción en Araknet');
+                      $message->from('info@Araknet.tech', 'Inscripción Araknet');
                       $message->to($email);
                     });
             if ($request->ajax())

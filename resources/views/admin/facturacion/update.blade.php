@@ -1,6 +1,6 @@
 @extends('layouts.admin-master')
 
-@section('title') Nuevo horario - Evolutio HTS @endsection
+@section('title') Nuevo horario - Araknet HTS @endsection
 
 @section('externalScripts')
 <link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/select2/select2.min.css') }}">

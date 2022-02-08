@@ -3,7 +3,7 @@
 <?php setlocale(LC_TIME, "es_ES"); ?>
 @extends('layouts.admin-master')
 
-@section('title') INFORME DE CAJA - Evolutio HTS @endsection
+@section('title') INFORME DE CAJA - Araknet HTS @endsection
 
 @section('externalScripts')
     <style>

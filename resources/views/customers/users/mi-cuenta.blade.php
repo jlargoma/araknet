@@ -2,7 +2,7 @@
 <?php setlocale(LC_TIME, "ES"); ?>
 <?php setlocale(LC_TIME, "es_ES"); ?>
 @extends('layouts.users-master')
-@section('title') Mi Datos- Evolutio @endsection
+@section('title') Mi Datos- Araknet @endsection
 
 @section('externalScripts')
 
