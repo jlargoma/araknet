@@ -49,7 +49,6 @@ class ChargesController extends Controller {
     }
     if ($request->input('deleted')) {
       $uRate = UserRates::where('id_charges', $id)->first();
-      $sBonos = new \App\Services\BonoService();
       if ($uRate) {
         $uRate->id_charges = null;
         $uRate->save();

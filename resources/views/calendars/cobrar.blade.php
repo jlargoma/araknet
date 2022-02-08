@@ -1,8 +1,3 @@
-<?php 
-$oBonoLst = $oUser->bonosServ($id_serv);
-$tBonos = $oBonoLst[0];
-$oBonoLst = $oBonoLst[1];
-?>
 <form action="{{ url('/admin/citas/chargeAdvanced') }}" method="post" id="chargeDate">
   <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
   <input type="hidden" name="idDate" id="idDate" value="<?php echo $id ?>">

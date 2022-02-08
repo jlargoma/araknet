@@ -1,8 +1,4 @@
 <?php 
-$oBonoLst = $user->bonosServ($rate->id);
-$tBonos = $oBonoLst[0];
-$oBonoLst = $oBonoLst[1];
-
   $price = $rate->price;
 ?>
 @extends('layouts.popup')
@@ -45,7 +41,7 @@ $oBonoLst = $oBonoLst[1];
       </div>
       <div class="col-md-2 col-xs-6 mb-1em">
         <label for="discount">DTO %:</label>
-        <input type="number" id="discount" name="discount" class="form-control" value="{{$disc}}"/>
+        <input type="number" id="discount" name="discount" class="form-control" value=""/>
       </div>
       <div class="col-md-3 col-xs-6">
         <label for="importeFinal">Total:</label>

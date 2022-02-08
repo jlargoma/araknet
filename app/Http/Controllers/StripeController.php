@@ -52,12 +52,6 @@ class StripeController extends Controller {
       $acc = $obj->action;
       $oData = json_decode($obj->jdata);
       switch ($acc) {
-        case 'asignBono':
-          $oServ = new \App\Services\BonoService();
-          $resp = $oServ->asignBono3DS($obj->user_id, $this->pID, $this->cID, $oData);
-          $obj->events = $this->eventID;
-          $obj->save();
-          break;
         case 'generatePayment':
           $ChargesService = new \App\Services\ChargesService();
           $resp = $ChargesService->generatePayment3DS($obj->user_id, $this->pID, $this->cID, $oData);

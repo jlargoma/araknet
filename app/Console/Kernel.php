@@ -20,7 +20,6 @@ class Kernel extends ConsoleKernel
       Commands\SubscPaymentNextMonth::class,
       Commands\RememberPayment::class,
       Commands\RememberPaymentAgain::class,
-      Commands\SubscAraknetTv::class,
       Commands\Tasks::class,
     ];
 
@@ -36,7 +35,6 @@ class Kernel extends ConsoleKernel
 //      $schedule->command('Subscriptions:createRates')->dailyAt('3:00');
 //      $schedule->command('InfoMonth:weekStatus')->weeklyOn(7, '9:00');
 //      $schedule->command('Remember:appointment')->dailyAt('7:00');
-//      $schedule->command('SubscAraknetTv:send')->dailyAt('7:00');
 //      $schedule->command('Salary:createMonthly')->dailyAt('5:00'); // que lo genere el 25
 //
 //      $schedule->command('SubscPayment:chargeNextMonth')->monthlyOn(23, '5:00');
