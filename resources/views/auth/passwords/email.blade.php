@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<div class="block">
 <div class="col-md-12 text-center">
 <h2>Enviar correo de recuperación</h2>
 </div>
@@ -29,5 +30,5 @@
     </button>
   </div>
 </form>
-
+</div>
 @endsection

@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<div class="block">
 <div class="col-md-12 text-center">
-  <h2>Restablecer contraseña</h2>
+<h2>Enviar correo de recuperación</h2>
 </div>
 <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
   {{ csrf_field() }}
@@ -55,5 +56,5 @@
     </button>
   </div>
 </form>
-
+</div>
 @endsection

@@ -51,7 +51,7 @@
                                 <i class="fa fa-times"></i>
                             </button>
                             <a class="h5 text-white text-left" href="{{ url('/admin') }}">
-                                <span class="sidebar-mini-hide font-w600">ARAKNET</span>
+                              <img src="{{ asset('assets/logo/logo.svg') }}" class="img-logo">
                             </a>
                         </div>                        
                         

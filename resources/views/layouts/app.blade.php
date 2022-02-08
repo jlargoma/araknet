@@ -42,8 +42,9 @@
 
     <div class="container">
       <div class="content-box">
-        <!--<img src="{{ asset('assets/logo-retina.png') }}" class="img-logo">-->
-        <h1 class="siteName">{{ config('app.name', 'Laravel') }}</h1>
+        <a href="/" title="{{ config('app.name', 'Laravel') }}"> 
+        <img src="{{ asset('assets/logo/logo.svg') }}" class="img-logo">
+        </a>
         @yield('content')
       </div>
     </div>
@@ -95,6 +96,20 @@
         font-family: ui-monospace;
         background-color: #e3e3e3;
         margin-bottom: 1em;
+      }
+      .block{
+        width: 400px;
+    max-width: 96%;
+        margin: 4px auto;
+        box-shadow: 1px 1px 5px 1px #5e5e5e;
+        border-radius: 6px;
+        padding: 23px 7px;
+        margin-top: -44px;
+      }
+      
+      .help-block{
+        color: red;
+        font-size: 12px;
       }
     </style>
     @yield('scripts')

@@ -55,7 +55,7 @@
             <div class="panel panel-default divcenter noradius" style=" ">
               <div class="panel-body" style="padding: 40px;">
                 <div class="col-xs-12 center">
-          <!--                        <img src="{{ asset('assets/logo-retina.png') }}" class="img-responsive">-->
+                  <img src="{{ asset('assets/logo-retina.png') }}" class="img-responsive">
                   <h1>ARAKNET</h1>
                 </div>
 
@@ -109,6 +109,14 @@
       .invalid-feedback{
         color: red;
         font-size: 12px;
+      }
+      .block{
+        width: 310px;
+        margin: 4px auto;
+        box-shadow: 1px 1px 5px 1px #5e5e5e;
+        border-radius: 6px;
+        padding: 23px 7px;
+        margin-top: -44px;
       }
     </style>
   </body>

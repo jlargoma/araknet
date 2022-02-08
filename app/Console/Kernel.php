@@ -33,15 +33,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 //      $schedule->command('inspire')->hourly();   
-      $schedule->command('Subscriptions:createRates')->dailyAt('3:00');
-      $schedule->command('InfoMonth:weekStatus')->weeklyOn(7, '9:00');
-      $schedule->command('Remember:appointment')->dailyAt('7:00');
-      $schedule->command('SubscEvolutioTv:send')->dailyAt('7:00');
-      $schedule->command('Salary:createMonthly')->dailyAt('5:00'); // que lo genere el 25
-
-      $schedule->command('SubscPayment:chargeNextMonth')->monthlyOn(23, '5:00');
-      $schedule->command('Remember:payment')->monthlyOn(1, '0:10');
-      $schedule->command('Remember:paymentAgain')->monthlyOn(5, '0:10');
+//      $schedule->command('Subscriptions:createRates')->dailyAt('3:00');
+//      $schedule->command('InfoMonth:weekStatus')->weeklyOn(7, '9:00');
+//      $schedule->command('Remember:appointment')->dailyAt('7:00');
+//      $schedule->command('SubscEvolutioTv:send')->dailyAt('7:00');
+//      $schedule->command('Salary:createMonthly')->dailyAt('5:00'); // que lo genere el 25
+//
+//      $schedule->command('SubscPayment:chargeNextMonth')->monthlyOn(23, '5:00');
+//      $schedule->command('Remember:payment')->monthlyOn(1, '0:10');
+//      $schedule->command('Remember:paymentAgain')->monthlyOn(5, '0:10');
   }
 
     /**
