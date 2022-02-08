@@ -14,11 +14,11 @@ $count = 1;
     </div>
     <div class="form-material mt-3">
       <input class="form-control autosaveValora" type="number" id="valora_years" name="valora_years"  maxlength="9" value="{{$valora['valora_years']}}">
-      <label for="telefono">EDAD</label>
+      <label for="phone">EDAD</label>
     </div>
     <div class="form-material mt-3">
       <input class="form-control autosaveValora" type="date" id="valora_date" name="valora_date" value="{{$valora['valora_date']}}">
-      <label for="telefono">FECHA DE VALORACIÓN</label>
+      <label for="phone">FECHA DE VALORACIÓN</label>
     </div>
   </div>
   <div class="col-md-6 ">

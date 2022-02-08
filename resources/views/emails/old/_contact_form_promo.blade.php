@@ -16,7 +16,7 @@
 				<p style="font-size: 18px;">
 					Hemos recibido una solicitud de <b><?php echo ucfirst($promo); ?></b> a de: <span style="font-weight: 800;"><?php echo ucfirst($data['name']) ?></span> nos ha dejado un mensaje el dia <?php echo date('d-m-Y H:i:s') ?>  puedes contactar con el de las siguientes maneras <br><br>
 					Su email es: <b><?php echo $data['email'] ?></b><br>
-					Y teléfono de contacto es: <b><?php echo $data['telefono'] ?></b>
+					Y teléfono de contacto es: <b><?php echo $data['phone'] ?></b>
 				</p>
 			</div>
 		</div>

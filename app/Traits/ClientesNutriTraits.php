@@ -230,7 +230,7 @@ trait ClientesNutriTraits {
         $array_excel[] = [
             'Nombre',
             'Email',
-            'Telefono',
+            'phone',
             'Estado'
         ];
 
@@ -244,7 +244,7 @@ trait ClientesNutriTraits {
                     $array_excel[] = [
                         $user->name,
                         $user->email,
-                        $user->telefono,
+                        $user->phone,
                         $user->status ? 'ACTIVO' : 'NO ACTIVO'
                     ];
                 }

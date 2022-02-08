@@ -23,8 +23,8 @@
 
         <div class="col-md-6  push-20">
             <div class="form-material">
-                <label for="telefono">Teléfono</label>
-                <input class="form-control" type="number" id="telefono" name="telefono" required maxlength="9" value="<?php echo $user->telefono ?>">
+                <label for="phone">Teléfono</label>
+                <input class="form-control" type="number" id="phone" name="phone" required maxlength="9" value="<?php echo $user->phone ?>">
                 
             </div>
         </div>

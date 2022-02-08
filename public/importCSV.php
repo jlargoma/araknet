@@ -39,8 +39,8 @@ die;
 
 $linea = 0;
 //DELETE FROM `users` where id != 797
-//INSERT INTO users (name,email,telefono,role,created_at) VALUES (SELECT name,email,tel,'user' as role, '2021-04-22' as created_at FROM 0_Temp_users)
-////INSERT INTO users (name,email,telefono,role,created_at,`password`) SELECT name,email,tel,'user' as role, '2021-04-22' as created_at, 'aaaaaaaaaaaaaa' as `password` FROM 0_Temp_users
+//INSERT INTO users (name,email,phone,role,created_at) VALUES (SELECT name,email,tel,'user' as role, '2021-04-22' as created_at FROM 0_Temp_users)
+////INSERT INTO users (name,email,phone,role,created_at,`password`) SELECT name,email,tel,'user' as role, '2021-04-22' as created_at, 'aaaaaaaaaaaaaa' as `password` FROM 0_Temp_users
 //Abrimos nuestro archivo
 //SELECT * FROM `users` WHERE `password` LIKE 'aaaaaaaaaaaaaa'
 

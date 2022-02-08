@@ -49,8 +49,8 @@
 			                    </div>
 			                    <div class="col-md-6  push-20">
 			                        <div class="form-material">
-			                            <h4><?php echo $user->telefono ?></h4>
-			                            <label for="telefono">Teléfono</label>
+			                            <h4><?php echo $user->phone ?></h4>
+			                            <label for="phone">Teléfono</label>
 			                        </div>
 			                    </div>
 			                    <div class="col-md-6  push-20">

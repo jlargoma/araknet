@@ -17,8 +17,8 @@
         <label for="email">E-mail</label>
       </div>
       <div class="form-material my-2">
-        <input class="form-control" type="number" id="telefono" name="telefono" maxlength="9" required>
-        <label for="telefono">Teléfono</label>
+        <input class="form-control" type="number" id="phone" name="phone" maxlength="9" required>
+        <label for="phone">Teléfono</label>
       </div>
       <div class="text-center">
       <button class="btn btn-success" type="submit">

@@ -29,8 +29,8 @@
                 </div>
                 <div class="col-lg-3 col-sm-4  push-20">
                     <div class="form-material">
-                        <input class="form-control" type="number" id="telefono" name="telefono" required maxlength="9" value="<?php echo $user->telefono ?>">
-                        <label for="telefono">Teléfono</label>
+                        <input class="form-control" type="number" id="phone" name="phone" required maxlength="9" value="<?php echo $user->phone ?>">
+                        <label for="phone">Teléfono</label>
                     </div>
                 </div>
                 <div class="col-lg-2 col-sm-4  push-20">

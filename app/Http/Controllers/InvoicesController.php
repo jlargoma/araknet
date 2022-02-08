@@ -76,7 +76,7 @@ class InvoicesController extends Controller {
     $oInvoice->email = $oUser->email;
     $oInvoice->nif  = $oUser->dni;
     $oInvoice->address = $oUser->address;
-    $oInvoice->phone   = $oUser->telefono;
+    $oInvoice->phone   = $oUser->phone;
     $data['oInvoice'] = $oInvoice;
     return view('invoices.forms/_form-modal',$data); 
   }
@@ -133,7 +133,7 @@ class InvoicesController extends Controller {
       $oInvoice->email = $oUser->email;
       $oInvoice->nif  = $oUser->dni;
       $oInvoice->address = $oUser->address;
-      $oInvoice->phone   = $oUser->telefono;
+      $oInvoice->phone   = $oUser->phone;
       $data['oInvoice'] = $oInvoice;
 //      dd($data['oInvoice'],$customer);
     } else {

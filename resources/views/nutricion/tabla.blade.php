@@ -13,7 +13,7 @@
             @foreach($oUsers as $u)
             <tr>
                 <td class="text-left showInform" data-id="{{$u->id}}">{{$u->name}}</td>
-                <td>{{$u->telefono}}</td>
+                <td>{{$u->phone}}</td>
                 <?php 
                 foreach($aMonths as $k=>$v){
                     echo '<td>';

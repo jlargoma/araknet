@@ -13,7 +13,7 @@
     <div class="col-xs-12"><br/></div>
     <div class="col-imput">
       <label >Tel. Mobil:</label>
-      <input id="u_phone" type="text" class="form-control" value="<?php echo $user->telefono ?>"/>
+      <input id="u_phone" type="text" class="form-control" value="<?php echo $user->phone ?>"/>
     </div>
     <div class="stripeAction">
       <button type="button" class="btn btn-default btnStripe" data-t="wsp">

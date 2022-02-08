@@ -70,8 +70,8 @@
 	                       				<b><?php echo $user->tarifa->nombre; ?></b>
 		                       		</td>
 		                       		<td class="text-center"> 
-		                       			<a href="tel:<?php echo $user->telefono ?>">
-		                       				<?php echo substr($user->telefono, 0, 4); ?>...
+		                       			<a href="tel:<?php echo $user->phone ?>">
+		                       				<?php echo substr($user->phone, 0, 4); ?>...
 		                       			</a>
 		                       		</td>
 		                       		<td class="text-center"> 

@@ -49,9 +49,9 @@
                     </button>
                 </td>
                 <td class="text-center tc3">
-                    <span class="hidden-xs hidden-sm"><?php echo $user->telefono; ?></span>
+                    <span class="hidden-xs hidden-sm"><?php echo $user->phone; ?></span>
                     <span class="hidden-lg hidden-md">
-                        <a href="tel:<?php echo $user->telefono; ?>">
+                        <a href="tel:<?php echo $user->phone; ?>">
                             <i class="fa fa-phone"></i>
                         </a>
                     </span>

@@ -128,7 +128,7 @@ class DatesController extends Controller {
           $oUser->password = str_random(60); //bcrypt($request->input('password'));
           $oUser->remember_token = str_random(60);
           $oUser->role = 'user';
-          $oUser->telefono = $uPhone;
+          $oUser->phone = $uPhone;
           $oUser->save();
           $id_user = $oUser->id;
         }
@@ -139,8 +139,8 @@ class DatesController extends Controller {
           $oUser->email = $uEmail;
           $oUser->save();
         }
-        if ($uPhone && $oUser->telefono != $uPhone) {
-          $oUser->telefono = $uPhone;
+        if ($uPhone && $oUser->phone != $uPhone) {
+          $oUser->phone = $uPhone;
           $oUser->save();
         }
       }

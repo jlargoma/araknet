@@ -127,8 +127,8 @@ class ChargesController extends Controller {
         $oUser->save();
       }
       $u_phone = $req->input('u_phone', null);
-      if ($u_phone && $oUser->telefono != $u_phone) {
-        $oUser->telefono = $u_phone;
+      if ($u_phone && $oUser->phone != $u_phone) {
+        $oUser->phone = $u_phone;
         $oUser->save();
       }
       return $this->generateStripeLink($time, $uID, $rID, $tpay, $value, $disc, $operation, $id_coach);

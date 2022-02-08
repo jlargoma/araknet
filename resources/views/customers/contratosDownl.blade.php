@@ -106,7 +106,7 @@ div.saltopagina{
       <td><b>DIRECCIÓN: </b><?php echo $user->address; ?></td>
     </tr>
     <tr>
-      <td><b>TELÉFONO: </b><?php echo $user->telefono; ?></td>
+      <td><b>TELÉFONO: </b><?php echo $user->phone; ?></td>
     </tr>
     <tr>
       <td><b>E-MAIL: </b><?php echo $user->email; ?></td>

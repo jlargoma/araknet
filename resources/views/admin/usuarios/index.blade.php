@@ -58,7 +58,7 @@
 		                       			<b><?php echo $user->email; ?></b>
 		                       		</td>
 		                       		<td class="text-center"> 
-		                       			<?php echo $user->telefono; ?>
+		                       			<?php echo $user->phone; ?>
 		                       		</td>
 		                       		
 		                       		

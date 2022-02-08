@@ -28,7 +28,7 @@ class CitasService {
         if ($oUser){
           $id_user = $oUser->id;
           $email = $oUser->email;
-          $phone = $oUser->telefono;
+          $phone = $oUser->phone;
           $charge = $uRates->charges;
           
           $paymentMethod = $oUser->getPayCard();

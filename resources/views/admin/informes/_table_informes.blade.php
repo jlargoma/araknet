@@ -62,7 +62,7 @@
               <?php 
               if(isset($aURates[$charge->id])){
                 $monthAux = $aURates[$charge->id];
-                show_isset($monthAux,$months);
+                showIsset($monthAux,$months);
               }
               ?>
             </td>

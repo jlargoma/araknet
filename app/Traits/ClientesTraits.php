@@ -36,20 +36,9 @@ trait ClientesTraits {
     if ($status == 'all') {
       $sqlUsers = User::where('role', 'user');
     } else {
-      if ($status == 2){
-        $uPlan = DB::table('user_meta')
-                ->where('meta_key','plan')
-                ->where('meta_value','fidelity')
-                ->pluck('user_id');
-        
-        $sqlUsers = User::select('users.*')->where('role', 'user')
-              ->where('status', 1)
-              ->whereIn('id',$uPlan);
-                
-      } else {
+    
         $sqlUsers = User::where('role', 'user')
               ->where('status', $status);
-      }
     }
     $sqlUsers->with('userCoach');
     $users = $sqlUsers->orderBy('name', 'asc')->get();
@@ -107,16 +96,6 @@ trait ClientesTraits {
     }
     $aCoachs = $oUser->whereCoachs('teach')->orderBy('name')->pluck('name', 'id')->toArray();
 
-    /**/
-    $uPlan = $oUser->getMetaUserID_byKey('plan','fidelity');
-    $sql = DB::table('user_meta')
-            ->where('meta_key','plan')
-            ->where('meta_value','basic')
-            ->where('created_at','>=',date('Y-m-d', strtotime('-12 months')));
-     
-    $uPlanPenal =  $sql->pluck('user_id')->toArray();
-//    dd($uPlanPenal);
-    /**/
     return view('/admin/usuarios/clientes/index', [
         'users' => $users,
         'month' => $month,
@@ -128,8 +107,6 @@ trait ClientesTraits {
         'detail' => $detail,
         'months' => $months,
         'aCoachs' => $aCoachs,
-        'uPlan' => $uPlan,
-        'uPlanPenal' => $uPlanPenal,
         'total_pending' => array_sum($arrayPaymentMonthByUser),
     ]);
   }
@@ -256,6 +233,8 @@ trait ClientesTraits {
     unset($months[0]);
     $user = User::find($id);
     $userID = $user->id;
+    
+    $lstMetas = $user->getMetaContentGroups(['costComercial','costAlquiler','costTotal']);
 
     $typeRates = TypesRate::pluck('name','id');
     $aRates = $rPrices = $rNames =[];
@@ -311,18 +290,6 @@ trait ClientesTraits {
     }
     
     //*************************************************//
-    //******  AGREGO LA COMPRA DE BONOS ***************//
-    $usedRates['bonos'] = "BONOS";
-    $lstBonos = \App\Models\Bonos::all()->pluck('name','id')->toArray();
-    $bonoCharges = Charges::where('id_user',$userID)
-            ->where('bono_id','>',0)
-            ->whereYear('date_payment','=',$year)
-            ->get();
-    foreach ($bonoCharges as $item){
-      $mounth = intVal(substr($item->date_payment, 5,2));
-      $uLstRates[$mounth]['bonos'][] =  ['price'=>$item->import,'paid'=>1,'cid'=>$item->id,'id'=>'bono'];
-    }
-    //*************************************************//
     //----------------------//
     $oRatesSubsc = Rates::select('rates.*', 'types_rate.type')
                     ->join('types_rate', 'rates.type', '=', 'types_rate.id')
@@ -348,20 +315,6 @@ trait ClientesTraits {
       $path = storage_path('/app/' . $fileName);
       $sueloPelvico = File::exists($path);
     }
-    
-    //----------------------//
-    // TARIFAS FIDELITY
-    $uPlan = $user->getPlan();
-    // Already Signed  -------------------------------------------
-     $sing_contrato = false;
-    if ($uPlan !== null){
-      $fileName = $user->getMetaContent('contrato_FIDELITY_'.$uPlan);
-      $path = storage_path('app/'.$fileName);
-      if ($fileName && File::exists($path)){
-        $sing_contrato = true;
-      }
-    }
-    //END: Already Signed  -------------------------------------------
     //----------------------//
     //Invoices
     $invoices = \App\Models\Invoices::whereYear('date', '=', $year)
@@ -423,11 +376,10 @@ trait ClientesTraits {
         'totalInvoice' => $totalInvoice,
         'invoiceModal' => $invoiceModal,
         'valora' => $valoracion,
-        'uPlan' => $uPlan,
-        'sing_contrato' => $sing_contrato,
         'u_current'=>Auth::user()->id,
         'encNutr'=>$encNutr,
         'btnEncuesta'=>$btnEncuesta,
+        'lstMetas'=>$lstMetas,
     ]);
   }
 

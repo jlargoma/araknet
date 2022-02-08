@@ -80,7 +80,7 @@
                 <?php endif ?>
               </td>
               <td class="text-center"> 
-                <?php echo $user->telefono; ?>
+                <?php echo $user->phone; ?>
               </td>
               <td class="text-center"> 
 

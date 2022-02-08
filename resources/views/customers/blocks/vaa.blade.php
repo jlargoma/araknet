@@ -9,13 +9,13 @@ $count = 1;
       <div class="field">{{$valora['valora_lastname']}}</div></td>
   </tr>
   <tr>
-    <td colspan="2">  <label for="telefono">EDAD</label>
+    <td colspan="2">  <label for="phone">EDAD</label>
       <div class="field">{{$valora['valora_years']}}</div></td>
     <td colspan="2"><label for="name">*FIRMA DEL TUTOR (en menores de edad)</label>
       <div class="field">{{$user->dni}}</div></td>
   </tr>
   <tr>
-    <td colspan="2"> <label for="telefono">FECHA DE VALORACIÓN</label>
+    <td colspan="2"> <label for="phone">FECHA DE VALORACIÓN</label>
       <div class="field">{{convertDateToShow($valora['valora_date'],true)}}</div></td>
     <td colspan="2"></td>
   </tr>

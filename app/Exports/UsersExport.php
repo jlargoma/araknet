@@ -34,7 +34,7 @@ class UsersExport implements FromCollection {
         $array_excel[] = [
             $user->name,
             $user->email,
-            $user->telefono,
+            $user->phone,
             $user->status ? 'ACTIVO' : 'NO ACTIVO',
             isset($aUserRates[$user->id]) ? $aUserRates[$user->id] : '-'
         ];

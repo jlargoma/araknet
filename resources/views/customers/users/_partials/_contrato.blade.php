@@ -42,8 +42,8 @@
 <div class="col-xs-12 push-20">
 	<div class="col-md-6 col-xs-6">Teléfono</div>
 	<div class="col-md-6 col-xs-6">
-		@if( $user->telefono != '')
-			{{ $user->telefono }}
+		@if( $user->phone != '')
+			{{ $user->phone }}
 		@else
 			-------------
 		@endif

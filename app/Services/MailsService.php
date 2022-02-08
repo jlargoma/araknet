@@ -100,7 +100,7 @@ class MailsService {
         $dataContent = array(
             'customer_name'      => $data->user->name,
             'customer_email'     => $data->user->email,
-            'customer_phone'     => $data->user->telefono,
+            'customer_phone'     => $data->user->phone,
             'service_name'       => $data->rate->name,
         );
 

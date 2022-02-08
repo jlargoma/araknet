@@ -48,7 +48,7 @@ class UsersController extends Controller {
       $newUser->password = str_random(60); //bcrypt($request->input('password'));
       $newUser->remember_token = str_random(60);
       $newUser->role = 'user';
-      $newUser->telefono = $request->input('telefono');
+      $newUser->phone = $request->input('phone');
       $newUser->dni = $request->input('dni');
       $newUser->address = $request->input('address');
       if ($newUser->save()) {
@@ -102,7 +102,7 @@ class UsersController extends Controller {
       $newUser->password = bcrypt($request->input('password'));
       $newUser->remember_token = str_random(60);
       $newUser->role = $request->input('role', 'user');
-      $newUser->telefono = $request->input('telefono');
+      $newUser->phone = $request->input('phone');
       $newUser->password = bcrypt($request->input('password'));
 
       if ($newUser->save()) {
@@ -170,7 +170,7 @@ class UsersController extends Controller {
   public function getMail($id) {
     $oUser = User::find($id);
     if ($oUser) {
-      return [$oUser->email, $oUser->telefono];
+      return [$oUser->email, $oUser->phone];
     }
     return ['', ''];
 //        return ($oUser) ? $oUser->email : '';
@@ -206,27 +206,27 @@ class UsersController extends Controller {
     $userToUpdate->email = $request->input('email');
     $userToUpdate->role = $request->input('role', 'user');
     $userToUpdate->dni = $request->input('dni');
-    $userToUpdate->address = $request->input('address');
     $userToUpdate->status = $request->input('status');
-      
+    
+    $userToUpdate->iban = $request->input('iban');
+    $userToUpdate->address = $request->input('address');
+    $userToUpdate->population = $request->input('population');
+    $userToUpdate->province = $request->input('province');
+    $userToUpdate->hotspot_imac = $request->input('hotspot_imac');
+    $userToUpdate->hotspot_date = $request->input('hotspot_date');
+    $userToUpdate->coach_id = $request->input('coach_id');
     if ($request->input('password'))
       $userToUpdate->password = bcrypt($request->input('password'));
 
-    $userToUpdate->telefono = $request->input('telefono');
+    $userToUpdate->phone = $request->input('phone');
     $userToUpdate->save();
-    if ($request->has('fidelity')){
-      $oldFidelity = $userToUpdate->getPlan();
-      $userToUpdate->setMetaContent('plan',$request->input('fidelity'));
-      
-      // agrega un bono de Fisio y otro de Nutry
-      if (!$oldFidelity && $request->input('fidelity') == 'fidelity'){
-        $sBono = new \App\Services\BonoService();
-        $rateBonos = \App\Models\TypesRate::whereIn('type',['fisio','nutri'])->pluck('id');
-        foreach ($rateBonos as $rTypeID){
-          $sBono->fidelityADD($userToUpdate->id, $rTypeID);
-        }
-      }
-    }
+    
+    
+    
+    $userToUpdate->setMetaContent('costComercial',$request->input('costComercial'));
+    $userToUpdate->setMetaContent('costAlquiler',$request->input('costAlquiler'));
+    $userToUpdate->setMetaContent('costTotal',$request->input('costTotal'));
+    
     return redirect()->back()->with('success', 'Cliente actualizado');
   }
   public function update(Request $request) {
@@ -243,7 +243,7 @@ class UsersController extends Controller {
     if ($request->input('password'))
       $userToUpdate->password = bcrypt($request->input('password'));
 
-    $userToUpdate->telefono = $request->input('telefono');
+    $userToUpdate->phone = $request->input('phone');
 
     if ($userToUpdate->role == 'user') {
       if (!empty($rates)) {

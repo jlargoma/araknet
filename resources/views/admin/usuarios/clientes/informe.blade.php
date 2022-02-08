@@ -4,20 +4,15 @@
 <div class="nav-box">
 <ul class="nav nav-tabs">
   <li <?php if ($tab == 'datos') echo 'class="active"'; ?>><a data-toggle="tab" href="#datos">Datos</a></li>
-  <li <?php if ($tab == 'servic') echo 'class="active"'; ?>><a data-toggle="tab" href="#servic">Suscripciones</a></li>
   <li <?php if ($tab == 'history') echo 'class="active"'; ?>><a data-toggle="tab" href="#history">Historial</a></li>
   <li <?php if ($tab == 'notes') echo 'class="active"'; ?>><a data-toggle="tab" href="#notes">Anotaciones</a></li>
-  <li <?php if ($tab == 'consent') echo 'class="active"'; ?>><a data-toggle="tab" href="#consent">Consentimiento</a></li>
+  <li <?php if ($tab == 'consent') echo 'class="active"'; ?>><a data-toggle="tab" href="#consent">Contratos</a></li>
   <li <?php if ($tab == 'invoice') echo 'class="active"'; ?>><a data-toggle="tab" href="#invoice">Factura</a></li>
-  <li <?php if ($tab == 'valoracion') echo 'class="active"'; ?>><a data-toggle="tab" href="#valoracion">Valoración</a></li>
 </ul>
 </div>
 <div class="tab-content box">
   <div id="datos" class="tab-pane fade <?php if ($tab == 'datos') echo 'in active'; ?>">
       @include('admin.usuarios.clientes.forms.data')
-  </div>
-  <div id="servic" class="tab-pane fade <?php if ($tab == 'servic') echo 'in active'; ?>">
-        @include('admin.usuarios.clientes.forms.servic')
   </div>
   <div id="history" class="tab-pane fade <?php if ($tab == 'history') echo 'in active'; ?>">
         @include('admin.usuarios.clientes.forms.history')
@@ -30,9 +25,6 @@
   </div>
   <div id="invoice" class="tab-pane fade <?php if ($tab == 'invoice') echo 'in active'; ?>">
         @include('admin.usuarios.clientes.forms.invoice')
-  </div>
-  <div id="valoracion" class="tab-pane fade <?php if ($tab == 'valoracion') echo 'in active'; ?>">
-        @include('admin.usuarios.clientes.forms.valoracion')
   </div>
 </div>
 <div class="row">
@@ -135,6 +127,16 @@
         $('#delNote').on('click',function (e) {
            if (confirm('Eliminar la nota?'))
             $(this).closest('form').attr('action','/admin/usuarios/del-note').submit();
+        });
+        
+        $('.formLine2').on('keyup','#costComercial,#costAlquiler',function (e) {
+          var costComercial = parseInt($('#costComercial').val());
+          var costAlquiler = parseInt($('#costAlquiler').val());
+          
+          if ( Number.isNaN(costComercial)) costComercial = 0;
+          if ( Number.isNaN(costAlquiler)) costAlquiler = 0;
+          
+          $('#costTotal').val(costComercial+costAlquiler);
         });
         
         $('#id_rateSubscr').on('change',function (e) {

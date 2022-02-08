@@ -27,7 +27,7 @@ $uRole = Auth::user()->role;
   @if($uRole == "admin")
   <li class="{{ str_contains($path,'admin/entrenadores') ? 'active' : '' }}">
     <a href="{{ url('/admin/entrenadores/activos') }}" >
-      <i class="fa fa-hand-rock-o"></i><span class="sidebar-mini-hide font-w600">SUELDOS Y SALARIOS</span>
+      <i class="fa fa-hand-rock-o"></i><span class="sidebar-mini-hide font-w600">COMISIONES E INSTALACIONES</span>
     </a>
   </li>
   <li class="{{ $path == 'admin/usuarios' ? 'active' : '' }}">
@@ -40,18 +40,6 @@ $uRole = Auth::user()->role;
   </li>
   <li class="{{ $path == 'admin/facturas' ? 'active' : '' }}">
     <a href="{{url('/admin/facturas/')}}" class="font-w600"><i class="fa fa-files-o"></i> <span class="sidebar-mini-hide font-w600">Facturas</span></a>
-  </li>
-
-  <li class="subMenu <?php echo ($path == 'admin/manual/bonos' || $path == 'admin/manual/citas') ? 'opened' : 'open' ?>">
-    <i class="fa fa-files-o" style="margin-right: 15px;"></i> <span class="sidebar-mini-hide font-w600 ">  Manuales</span>
-    <ul style="display:none">
-      <li class="{{ $path == 'admin/manual/bonos' ? 'active' : '' }}">
-        <a href="{{url('/admin/manual/bonos')}}" class="font-w600"><i class="fa fa-files-o"></i> <span class="sidebar-mini-hide font-w600">Manual Bonos</span></a>
-      </li>
-      <li class="{{ $path == 'admin/manual/citas' ? 'active' : '' }}">
-        <a href="{{url('/admin/manual/citas')}}" class="font-w600"><i class="fa fa-files-o"></i> <span class="sidebar-mini-hide font-w600">Manual citas</span></a>
-      </li>
-    </ul>
   </li>
   <li class="{{ $path == 'control-contabilidad' ? 'active' : '' }}">
     <a href="{{url('/control-contabilidad')}}" class="font-w600"><i class="fa fa-line-chart"></i> <span class="sidebar-mini-hide font-w600">Control Contabilidad</span></a>

@@ -62,36 +62,6 @@ class User extends Authenticatable
   public function suscriptions() {
     return $this->hasMany('\App\Models\UsersSuscriptions', 'id_user', 'id');
   }
-  public function bonos() {
-    return $this->hasMany('\App\Models\UserBonos');
-  }
-  public function bonosServ($serv) {
-    $lst = [];
-    $total = 0;
-    
-    $oRate = Rates::find($serv);
-    if(!$oRate) return [$total,$lst];
-    
-    $rate_subf = TypesRate::subfamily();
-    $oType = $oRate->typeRate;
-    $ubRsubfamily = ($oRate->subfamily) ? $oRate->subfamily : -1;
-    $ubRateType   = ($oRate->type) ? $oRate->type : -1; 
-    $oBonos = UserBonos::where('user_id',$this->id)
-            ->where(function ($query) use ($ubRateType,$ubRsubfamily) {
-                $query->where("rate_subf",$ubRsubfamily)
-                ->orWhere('rate_type',$ubRateType);
-            })->get();
-    if ($oBonos){
-      foreach ($oBonos as $b){
-        $name = '--';
-        if ($b->rate_type) $name = $oType->name;
-        if ($b->rate_subf) $name = $rate_subf[$b->rate_subf];
-        $lst[] = [$b->id,$name,$b->qty];
-        $total += $b->qty;
-      }
-    }
-    return [$total,$lst];
-  }
 
   static function whereCoachs($type=null,$includeAdmin=false) {
     
@@ -126,10 +96,13 @@ class User extends Authenticatable
   /////////  user_meta //////////////
   public function setMetaContent($key,$content) {
     
-    $updated =  DB::table('user_meta')->where('user_id',$this->id)
+    $already = DB::table('user_meta')
+            ->where('user_id',$this->id)->where('meta_key',$key)->first();
+    if ($already){
+      DB::table('user_meta')->where('user_id',$this->id)
               ->where('meta_key',$key)
               ->update(['meta_value' => $content]);
-    if ($updated == null) {
+    } else {
       DB::table('user_meta')->insert(
             ['user_id' => $this->id, 'meta_key' => $key,'meta_value' => $content]
         );

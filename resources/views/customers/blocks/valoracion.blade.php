@@ -8,11 +8,11 @@ $count = 1;
       <div class="field">{{$user->name}}</div>
     </div>
     <div class="form-material mt-2">
-      <label for="telefono">EDAD</label>
+      <label for="phone">EDAD</label>
       <div class="field">{{$valora['valora_years']}}</div>
     </div>
     <div class="form-material mt-2">
-      <label for="telefono">FECHA DE VALORACIÓN</label>
+      <label for="phone">FECHA DE VALORACIÓN</label>
       <div class="field">{{convertDateToShow($valora['valora_date'],true)}}</div>
     </div>
   </div>

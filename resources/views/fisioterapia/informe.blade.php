@@ -11,7 +11,7 @@
     <div class="col-md-4" style="margin-right: 1px solid #e8e8e8;">
         <div><b>Cliente:</b><br/>{{$user->name}}</div>
         <div><b>Email: </b><br/>{{$user->email}}</div>
-        <div><b>TEL.: </b><br/>{{$user->telefono}}</div>
+        <div><b>TEL.: </b><br/>{{$user->phone}}</div>
     </div>
     <div class="col-md-8" style="margin-left: 1px solid #e8e8e8;">
         <h4 class="text-left">SERVICIOS ASOCIADOS:</h4>

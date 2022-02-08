@@ -33,11 +33,11 @@
                                 </div>
 
                                 <div class="col_full">
-                                    <label for="telefono" >Teléfono</label>
-                                    <input type="text" class="form-control not-dark" id="telefono" name="telefono" value="{{ old('telefono') }}">
-                                    @if ($errors->has('telefono'))
+                                    <label for="phone" >Teléfono</label>
+                                    <input type="text" class="form-control not-dark" id="phone" name="phone" value="{{ old('phone') }}">
+                                    @if ($errors->has('phone'))
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('telefono') }}</strong>
+                                            <strong>{{ $errors->first('phone') }}</strong>
                                         </span>
                                     @endif
                                 </div>

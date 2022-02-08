@@ -66,7 +66,7 @@ class ImportCustomers {
         $obj->password = str_random(60);
         $obj->remember_token = str_random(60);
         $obj->role = 'user';
-        $obj->telefono = '';
+        $obj->phone = '';
         $obj->save();
         DB::table('0_temp_users2')->where('email',$c->email)->update(['user_id'=>$obj->id]);
       }
