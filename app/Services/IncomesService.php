@@ -60,43 +60,13 @@ class IncomesService {
 
         if (!isset($item['slst'][$r->subfamily]))
           $item['slst'][$r->subfamily] = [];
-        if (str_contains(strtolower($r->name), 'bono')) {
-          $item['slst'][$r->subfamily]['bonos'][$r->id] = $rData;
-          $item['slst'][$r->subfamily]['bonos'][$r->id]['name'] = ' -- '.$r->name;
-        } else {
           $item['slst'][$r->subfamily][$r->id] = $rData;
           $item['slst'][$r->subfamily][$r->id]['name'] = $r->name;
-        }
       } else {
-        if (str_contains(strtolower($r->name), 'bono')) {
-          $item['blst'][$r->id] = $rData;
-          $item['blst'][$r->id]['name'] = $r->name;
-        } else {
           $item['lst'][$r->id] = $rData;
           $item['lst'][$r->id]['name'] = $r->name;
-        }
       }
     }
     return $item;
-  }
-
-  function prepareBonos($aBonos){
-    
-    $aux_lst  = [];
-    foreach ($aBonos as $b){
-      $aux_lst[$b->id] = $this->mm;
-      $aux_lst[$b->id]['name'] = $b->name;
-    }
-    //-------------------------------------------
-    $oBonos = Charges::whereYear('date_payment', '=', $this->year)
-              ->where('bono_id','>',0)->get();
-    
-    foreach ($oBonos as $item){
-      $m = intval(substr($item->date_payment,5,7));
-      if (!isset($aux_lst[$item->bono_id][$m])) $aux_lst[$item->bono_id][$m] = 0;
-      $aux_lst[$item->bono_id][$m] += $item->import;
-    }
-    
-    return $aux_lst;
   }
 }

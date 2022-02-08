@@ -42,13 +42,14 @@
 
     <div class="container">
       <div class="content-box">
-        <img src="{{ asset('assets/logo-retina.png') }}" class="img-logo">
+        <!--<img src="{{ asset('assets/logo-retina.png') }}" class="img-logo">-->
+        <h1 class="siteName">{{ config('app.name', 'Laravel') }}</h1>
         @yield('content')
       </div>
     </div>
     <style>
       .fondo{
-        width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: url('{{ asset('assets/login.jpg') }}') center center no-repeat; background-size: cover; 
+        width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: url('{{ asset('/img/login.webp') }}') center center no-repeat; background-size: cover; 
       }
       .panel.divcenter{
         margin: 6em auto; background-color: rgba(255,255,255,0.93);
@@ -84,6 +85,16 @@
       }
       .card-header {
         text-align: left;
+      }
+      .siteName{
+        padding: 5px;
+        font-size: 43px;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-family: ui-monospace;
+        background-color: #e3e3e3;
+        margin-bottom: 1em;
       }
     </style>
     @yield('scripts')

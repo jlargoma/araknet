@@ -102,7 +102,7 @@ class MailController extends Controller
 		return (!$sended) ? true : false;
 	}
         
-    public static function sendEmailPayDateByStripe($oDate, $oUser, $oRate,$oCoach,$pStripe,$importe,$subj=null,$calFile=null,$urlEntrevista=null)
+    public static function sendEmailPayDateByStripe($oDate, $oUser, $oRate,$oCoach,$importe,$subj=null,$calFile=null,$urlEntrevista=null)
 	{
             $email    = $oUser->email;
             $dateTime = strtotime($oDate->date);
@@ -118,7 +118,6 @@ class MailController extends Controller
                       'rate'    => $oRate,
                       'importe' => $importe,
                       'oCoach'  => $oCoach,
-                      'pStripe' => $pStripe,
                       'hour'    => $hour,
                       'day'     => $day,
                       'urlEntr' => $urlEntrevista,

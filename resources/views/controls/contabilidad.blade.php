@@ -115,63 +115,18 @@
       </table>
     </div>
     <div class="col-md-12">
-      <?php
-      $tPayBono = 0;
-      ?>
-      <h2>Bonos comprados en el mes</h2>
-      <table class="table tableControl">
-        <thead>
-          <tr>
-            <th  class="tleft">Cliente</th>
-            <th>Activo</th>
-            <th>Bono</th>
-            <th>Pagado</th>
-            <th>Tipo Pago</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($bonoCharges as $ur)
-          <tr>
-            <td class="tleft">{{$ur->user->name}}</td>
-            <td>
-              <?php echo ($ur->user->status == 1) ? 'SI' : 'NO'; ?>
-            </td>
-            <?php
-            if (isset($lstBonos[$ur->bono_id])) {
-              echo '<td>' . $lstBonos[$ur->bono_id] . '</td>';
-            } else {
-              echo '<td>-</td>';
-            }
-            echo '<td>' . $ur->import . '</td>';
-            echo '<td>' . $ur->type_payment . '</td>';
-            $tPayBono += $ur->import;
-            ?>
-          </tr>
-          @endforeach
-        </tbody>
-        <tfoot>
-        <th colspan="3" class="tleft">TOTAL</th>
-        <th>{{$tPayBono}}</th>
-        <td></td>
-        </tfoot>
-      </table>
-    </div>
-
-    <div class="col-md-12">
       <table class="table tableControl tableresult">
         <thead>
           <tr>
             <th>Pagado</th>
             <th>Por Pagar</th>
-            <th>Bono</th>
             <th>Total</th>
           </tr>
         </thead>
         <tbody>
         <th>{{$tPay}}</th>
         <th>{{$tDebe}}</th>
-        <th>{{$tPayBono}}</th>
-        <th>{{moneda($tPay+$tDebe+$tPayBono)}}</th>
+        <th>{{moneda($tPay+$tDebe)}}</th>
         </tbody>
       </table>
     </div>

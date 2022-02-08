@@ -53,21 +53,12 @@
                 $sel = ($rate->id == $old) ? 'selected' : '';
                          
                 $price = $rate->price;
-                $tarifa = '';
-                if ($rate->tarifa == 'fidelity'){
-                  if ($uPlan == 'basic'){
-                    $price = priceNoFidelity($price);
-                    $tarifa = 'nofidelity';
-                  }
-                  if ($uPlan == 'fidelity') $tarifa = 'fidelity';
-                }
               
                 ?>
                 
                 <option value="<?php echo $rate->id ?>" 
                     data-price="<?php echo $price ?>"
                     orig="<?php echo $rate->price ?>"
-                    data-tarifa="{{$tarifa}}"
                     {{$sel}}>
                 <?php echo $rate->name ?>
                 </option>
@@ -160,12 +151,6 @@ $(document).ready(function () {
     var price = that.data('price');
     $('#importeFinal').val(price);
     origPrice = price;
-    
-    
-    var tarifa = that.data('tarifa');
-    $('#showTartifa').html('');
-    if (tarifa == 'fidelity') $('#showTartifa').html('<i class="fa fa-heart text-success"></i> Plan Fidelity');
-    if (tarifa == 'nofidelity') $('#showTartifa').html('<i class="fa fa-heart text-danger"></i> Plan Básico');
   });
 
   $('#discount').change(function (event) {

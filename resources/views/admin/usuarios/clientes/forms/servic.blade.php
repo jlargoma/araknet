@@ -15,9 +15,7 @@
     $coach = isset($aCoachs[$r->id_coach]) ? $aCoachs[$r->id_coach] : '--';
     ?>
     <tr>
-      <td>{{$aux->name}}
-      <?php if($r->tarifa == 'fidelity') echo '<i class="fa fa-heart text-success"></i>'; ?>
-      </td>
+      <td>{{$aux->name}}</td>
       <td>{{$coach}}</td>
       <td><input type="number" step="0.01" data-r="{{$r->id}}" value="{{$r->price}}" class="subscr_price">€</td>
       <td>
@@ -44,17 +42,8 @@
           <option></option>
           <?php foreach ($subscrRates as $rate): 
               $price = $rate->price;
-              $tarifa = '';
-              if ($rate->tarifa == 'fidelity'){
-                if ($uPlan == 'basic'){
-                  $price = priceNoFidelity($price);
-                  $tarifa = 'nofidelity';
-                }
-                if ($uPlan == 'fidelity') $tarifa = 'fidelity';
-              }
-  
             ?>
-            <option value="{{$rate->id}}" data-t="{{$rate->type}}" data-p="{{$price}}" data-tarifa="{{$tarifa}}">
+            <option value="{{$rate->id}}" data-t="{{$rate->type}}" data-p="{{$price}}">
               <?php echo $rate->name ?>
             </option>
           <?php endforeach ?>

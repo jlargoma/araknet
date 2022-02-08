@@ -32,7 +32,7 @@ class ChargesService {
    * @param type $id_coach
    * @return type
    */
-  function generatePayment($time, $uID, $rID, $tpay, $value, $disc = 0, $idStripe = null, $cStripe = null, $id_coach = null) {
+  function generatePayment($time, $uID, $rID, $tpay, $value, $disc = 0, $id_coach = null) {
     $month = date('Y-m-d', $time);
     $oUser = User::find($uID);
     if ($id_coach == 'null') $id_coach = null;
@@ -43,9 +43,6 @@ class ChargesService {
     if (!$oRate)
       return ['error', 'Tarifa no encontrada'];
     
-    
-    $uPlan = $oUser->getPlan();
-    $tarifa = ($uPlan == 'fidelity' && $oRate->tarifa == 'fidelity') ? 'fidelity' : '';
     $dataMail = [
         'fecha_pago' => $month,
         'type_payment' => $tpay,
@@ -65,8 +62,6 @@ class ChargesService {
       $oCobro->import = $value;
       $oCobro->discount = $disc;
       $oCobro->type_rate = $oRate->type;
-      $oCobro->id_stripe = $idStripe;
-      $oCobro->customer_stripe = $cStripe;
       $oCobro->save();
 
       /*       * ************************************************** */
@@ -80,7 +75,6 @@ class ChargesService {
       if ($oUserRate) {
         $oUserRate->id_charges = $oCobro->id;
         $oUserRate->coach_id = $id_coach;
-        $oUserRate->tarifa = $tarifa;
         $oUserRate->save();
       } else { //si no tenia asignada la tarifa del mes
         $oUserRate = new UserRates();
@@ -91,7 +85,6 @@ class ChargesService {
         $oUserRate->id_charges = $oCobro->id;
         $oUserRate->coach_id = $id_coach;
         $oUserRate->price = $value;
-        $oUserRate->tarifa = $tarifa;
         $oUserRate->save();
       }
       /*       * *********************************************** */

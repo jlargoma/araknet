@@ -73,26 +73,6 @@ class ControlsControler extends Controller {
     
     
     //*************************************************//
-    //******  AGREGO LA COMPRA DE BONOS ***************//
-    $usedRates['bonos'] = "BONOS";
-    $lstBonos = \App\Models\Bonos::all()->pluck('name','id')->toArray();
-    $qry = Charges::where('bono_id','>',0)
-            ->whereYear('date_payment','=',$year)
-            ->whereMonth('date_payment','=',$mes)
-            ->with('user');
-    
-    if ($uIDs != ''){
-      $qry->whereIn('id_user',$uIDs);
-    }
-     if ($type_payment != ''){
-      $qry->where('type_payment',$type_payment);
-    }
-    
-    $bonoCharges = $qry->get();
-//    dd($bonoCharges);
-    //*************************************************//
-    
-//    dd($uRates);
     return view('controls.contabilidad', [
       'lst' => $lst,
       'mes' => $mes,
@@ -104,8 +84,6 @@ class ControlsControler extends Controller {
       'oRates' => $oRates,
       'rfamily' => $oRfamily,
       'uRates' => $uRates,
-      'bonoCharges' => $bonoCharges,
-      'lstBonos' => $lstBonos,
     ]);
 
     die('usuario no encontrado');

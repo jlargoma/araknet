@@ -6,7 +6,7 @@ Route::get('', function () {
 });
 /* Admin routes */
 Route::get('/unauthorized', 'AdminController@unauthorized');
-Route::post('/changeActiveYear', 'HomeController@changeActiveYear')->name('years.change');
+Route::post('/changeActiveYear', 'AdminController@changeActiveYear')->name('years.change');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
@@ -212,16 +212,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
   
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
-  Route::get('/userRates', 'FunctionalControler@userRates');
-  Route::post('/userRates', 'FunctionalControler@save_userRates');
-});
 
-//Route::get('/checkcrom/{command}/{param}', function ($command, $param) {
-//  $artisan = \Artisan::call($command . ":" . $param);
-//  $output = \Artisan::output();
-//  return $output;
-//}); //->middleware('admin');
 Route::group(['middleware' => 'auth'], function () {
   Route::get('/importarRegistro', 'FunctionalControler@importarRegistro');
 });

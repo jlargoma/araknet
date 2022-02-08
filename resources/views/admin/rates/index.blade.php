@@ -27,7 +27,6 @@
                 <th class="text-center">Familia</th>
                 <th class="text-center">SUBFAMILIA</th>
                 <th class="text-center">Servicio</th>
-                <th class="text-center">Tipo Plan</th>
                 <th class="text-center">Precio</th>
                 <th class="text-center">Nº Ses<span class="hidden-xs hidden-sm">ion / sem</span></th>
                 <th class="text-center">Periodicidad</th>
@@ -64,12 +63,6 @@
                   </td>
                   <td class="text-center td1">
                     <input type="text" class="form-control editables name-rate-<?php echo $rate->id ?>"  data-id="<?php echo $rate->id; ?>" value="<?php echo $rate->name; ?>" />
-                  </td>
-                  <td class="text-center">
-                    <span style="font-size: 23px;" class="rate_fidelity" data-k="<?php echo $rate->id ?>" data-v="<?php echo $rate->tarifa ?>">
-                      <i class="fa fa-heart text-success fidelity" <?php echo ($rate->tarifa != 'fidelity') ? 'style="display:none;"' : ''; ?>></i>
-                      <i class="fa fa-heart-o no_fidelity" <?php echo ($rate->tarifa == 'fidelity') ? 'style="display:none;"' : ''; ?>></i>
-                    </span>
                   </td>
                   <td class="text-center">
                     <input type="text"  class="form-control editables price-rate-<?php echo $rate->id ?>" data-id="<?php echo $rate->id; ?>" value="<?php echo $rate->price; ?>" />
@@ -233,37 +226,6 @@
         
       $.get('/admin/tarifas/update/', data);
     });
-    
-    
-    
-    $('.rate_fidelity').on('click',function(){
-      var that = $(this);
-      var val = that.data('v');
-      if (val == '') val = 'no_fidelity';
-      var newVal = 'fidelity';
-      if (val == 'fidelity') newVal = 'no_fidelity';
-
-      var data= {
-            id: that.data('k'),
-            val: newVal,
-            _token: '{{csrf_token()}}'
-        };
-        
-      $.post('/admin/tarifas/upd_fidelity', data).done(
-        function (resp) {
-          if (resp == 'OK'){
-             window.show_notif('success', 'tipo de plan actualizado');
-             that.find('.'+newVal).show();
-             that.find('.'+val).hide();
-             that.data('v',newVal);
-          } else {
-             window.show_notif('error', 'tipo de plan NO actualizado');
-          }
-        });
-      
-    });
-    
-    
   });
 </script>
 <style>

@@ -35,28 +35,6 @@
                   @endforeach
                 </tr>
                 @foreach($d2 as $k3=>$d3)
-                  @if($k3 == 'bonos')
-                    <tr class="d3 bonos d2_{{$k1}}_{{$k2}}" data-k="{{$k1}}_{{$k2}}_{{$k3}}" >
-                      <td class="static"><i class="fa fa-eye"></i> Bonos</td>
-                      <td class="first-col"></td>
-                      <td><b>{{sumMonthValue($bTotal[$k1.$k2])}}</b></td>
-                      @foreach($monts as $km=>$vm)
-                      <td>{{moneda($bTotal[$k1.$k2][$km])}}</td>
-                      @endforeach
-                    </tr>
-                    @foreach($d3 as $d4)
-                      <?php if (count($d4)<1) continue; ?>
-                      <tr class="d4 bonos d3_{{$k1}}_{{$k2}}_{{$k3}} " >
-                        <td class="static">{{$d4['name']}}</td>
-                        <td class="first-col"></td>
-                        <td><b>{{sumMonthValue($d4)}}</b></td>
-                        @foreach($monts as $km=>$vm)
-                        <td>{{moneda($d4[$km])}}</td>
-                        @endforeach
-                      </tr>
-                    @endforeach
-                
-                  @else
                   <?php 
                   if (count($d3)<1) continue; ?>
                   <tr class="d3 d2_{{$k1}}_{{$k2}} " >
@@ -67,7 +45,6 @@
                     <td>{{moneda($d3[$km])}}</td>
                     @endforeach
                   </tr>
-                  @endif
                 @endforeach
               @endforeach
             @endif

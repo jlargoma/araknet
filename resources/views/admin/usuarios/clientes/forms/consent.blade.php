@@ -79,30 +79,5 @@ function btn_downlConsent($uID,$sign,$type){
     </td>
     <td class="btnCel" colspan="2"><?php echo btn_seeConsent($user->id,$sueloPelvico,'sueloPelvico'); ?></td>
   </tr>
-  @if($uPlan == 'basic' || $uPlan == 'fidelity')
-  <tr data-id="contrato">
-    <th>CONTRATOS PLAN <?php echo ($uPlan == 'fidelity') ? 'FIDELITY' : 'BÁSICO';?></th>
-    <td class="btnCel">
-      @if($sing_contrato)
-      <button type="button" title="Firmado" class="btn btn-success">
-        <i class="fa fa-check"></i> Firmado
-      </button>
-      
-      @else
-      <button type="button" title="Firmado" class="btn btn-danger">
-        <i class="fa fa-close"></i> No firmado
-      </button>
-      
-      @endif
-    </td>
-    <td class="btnCel">
-      <button type="button" title="Enviar / Re-enviar mail de Contrato" class="btn btn-info sendConsent">
-        <i class="fa fa-envelope"></i> Enviar
-      </button>
-    </td>
-    <td class="btnCel"><?php echo btn_seeContrato($user->id,$sing_contrato,'contrato'); ?></td>
-    <td class="btnCel">@if($sing_contrato)<button class="btn btn-danger rmContrato" title="Reiniciar contrato" ><i class="fa fa-close"></i></button>@endif</td>
-  </tr>
-  @endif
 </table>
   </div>

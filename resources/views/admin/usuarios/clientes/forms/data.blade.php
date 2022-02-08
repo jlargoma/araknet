@@ -41,15 +41,6 @@
       <label for="password">Contraseña</label>
     </div>
   </div>
-  <div class="col-md-2 mt-1 fFIDELITY">
-    <select name="fidelity" class="form-control">
-      <option value="none" <?php if($uPlan == 'none') echo "selected"; ?>>SIN PLAN</option>
-      <option value="basic" <?php if($uPlan == 'basic') echo "selected"; ?>>PLAN BASICO</option>
-      <option value="fidelity" <?php if($uPlan == 'fidelity') echo "selected"; ?>>FIDELITY</option>
-    </select>
-    <?php if($uPlan == 'fidelity') echo '<i class="fa fa-heart text-success"></i>'; ?>
-    <?php if($uPlan == 'basic') echo '<i class="fa fa-heart text-danger"></i>'; ?>
-  </div>
   <div class="col-md-2 mt-1">
     <select name="status" class="form-control">
       <option value="1" <?php if($user->status == 1) echo "selected"; ?>>Activo</option>

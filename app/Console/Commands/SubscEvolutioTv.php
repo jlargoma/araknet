@@ -78,38 +78,6 @@ class SubscEvolutioTv extends Command {
           
           $uRdata[] = $uR->user->name;
           $uRdata[] = $uR->user->email;
-          
-          
-          $uPlan = $uR->user->getPlan();
-          if ($uPlan == 'fidelity'){
-              $params = [
-                  'tkn'=>$token,
-                  'name'=>$uR->user->name,
-                  'email'=>$uR->user->email,
-                  'date'=>$suscripEnd];
-              $curl = curl_init();
-              $endpoint = config('app.evolutioTv');
-              curl_setopt_array($curl, array(
-                  CURLOPT_URL => $endpoint,
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_CUSTOMREQUEST => "POST",
-                  CURLOPT_POSTFIELDS => $params,
-              ));
-              $response = curl_exec($curl);
-              $err = curl_error($curl);
-              curl_close($curl);
-              if ($err) $resp =false;
-              else {
-                $resp = ($response == 'OK');
-              }
-
-
-              if ($resp){
-                $this->sLog->info('Creada ',$uRdata);
-              } else {
-                $this->sLog->info('No Creada ',$uRdata);
-              }
-          }
         }
       } else {
         $this->sLog->info('No hay items para '.date('Y-m'));

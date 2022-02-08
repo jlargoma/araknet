@@ -68,21 +68,6 @@ class PyGController extends Controller {
       $crLst[$rateGr][$m] += $c->import;
     }
     //--------------------------------------------------------------------//
-    $aBonos = \App\Models\Bonos::orderBy('name')->get();
-    $lstBonos = [];
-    foreach ($aBonos as $k=>$v){
-      $rateType = null;
-      if ($v->rate_subf){
-        if(str_contains($v->rate_subf,'f')) $rateType = 8;
-        else {
-          if(str_contains($v->rate_subf,'v')) $rateType = 11;
-        }
-      } else {
-        $rateType = $v->rate_type;
-      }
-      $lstBonos[$v->id] = $rateType;
-    }
-    //--------------------------------------------------------------------//
     $oBonos = Charges::whereYear('date_payment', '=', $year)
               ->where('bono_id','>',0)->get();
     $oRateTypes['bono'] = 'BONOS SUELTOS';
@@ -182,9 +167,6 @@ class PyGController extends Controller {
     $oUser = new User();
     $subscs = \App\Models\UsersSuscriptions::count();
     $uActivs = User::where('status',1)->count();
-    $uPlan = $oUser->getMetaUserID_byKey('plan','fidelity');
-    $subscsFidelity = \App\Models\UsersSuscriptions::where('tarifa','fidelity')->count();
-    $uActivsFidelity = \App\Models\User::where('status',1)->whereIn('id',$uPlan)->count();
     /***************************************/
         
     $aux_i = $aux_e = $months_empty; 
@@ -205,8 +187,6 @@ class PyGController extends Controller {
         'aux_e'=>$aux_e,
         'tIncomes'=>$tIncomes,
         'pay_method'=>$pay_method,
-        'subscsFidelity'=>$subscsFidelity,
-        'uActivsFidelity'=>$uActivsFidelity
   ]);
   }
 

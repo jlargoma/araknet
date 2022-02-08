@@ -4,16 +4,6 @@ $tBonos = $oBonoLst[0];
 $oBonoLst = $oBonoLst[1];
 
   $price = $rate->price;
-  $disc = '';
-  $icoFidelity = '';
-  if ($rate->tarifa == 'fidelity'){
-    if ($uPlan == 'basic'){
-      $price = priceNoFidelity($price);
-      $icoFidelity = '<i class="fa fa-heart text-danger"></i> <small>Plan Básico</small>';
-    }
-    if ($uPlan == 'fidelity') $icoFidelity = '<i class="fa fa-heart text-success"></i> <small>Plan Fidelity</small>';
-  }
-
 ?>
 @extends('layouts.popup')
 @section('content')
@@ -31,7 +21,7 @@ $oBonoLst = $oBonoLst[1];
     <div class="col-md-12 push-20">
       <h2 class="text-center font-w300">
         Cuota a cobrar <span class="font-w600 mbl-br"><?php echo $rate->typeRate->name . ': ' . $rate->name; ?></span>
-        <br/>{{moneda($price)}} <?php echo $icoFidelity; ?>
+        <br/>{{moneda($price)}}
       </h2>
     </div>
     <div class="row">

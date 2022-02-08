@@ -78,11 +78,6 @@ if (isset($b_aux[$status])) $b_aux[$status] = 'btn-success';
           Inactivos
         </button>
       </a>
-      <a href="{{url('/admin/clientes/'.$month)}}?status=2" class="inline">
-        <button class="btn btn-md {{$b_aux[2]}}">
-          FIDELITY
-        </button>
-      </a>
       <a href="{{url('/admin/clientes-export')}}" class="inline">
         <button class="btn btn-md">
           EXPORT EXCEL

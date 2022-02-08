@@ -150,11 +150,6 @@
             $('#rateCoach').addClass('disabled');
             $('#id_rateCoach').val('').attr('disabled',true);
           }
-              
-          var tarifa = obj.data('tarifa');
-          $('#showTartifa').html('');
-          if (tarifa == 'fidelity') $('#showTartifa').html('<i class="fa fa-heart text-success"></i> Plan Fidelity');
-          if (tarifa == 'nofidelity') $('#showTartifa').html('<i class="fa fa-heart text-danger"></i> Plan Básico');
         });
         
         /**************************************************/        
@@ -318,16 +313,5 @@
     background-color: #d1eadc;
   }
 
-  .fFIDELITY .form-control{
-    width: calc( 100% - 40px);
-    float: left;
-    padding: 2px;
-  }
-  .fFIDELITY i{
-    padding: 6px 5px;
-    float: left;
-    font-size: 21px;
-    margin-left: 7px;
-  }
 </style>
 @endsection

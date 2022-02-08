@@ -117,9 +117,6 @@ class InformesController extends Controller {
         $aRates =  \App\Models\Rates::whereIn('id', $rates)->get()
                         ->pluck('name', 'id')->toArray();
         
-        $aBonos =  \App\Models\Bonos::whereIn('id', $bonos)->get()
-                        ->pluck('name', 'id')->toArray();
-        
         return [
             'charges' => $charges,
             'extrasCharges' => $extrasCharges,
@@ -134,8 +131,7 @@ class InformesController extends Controller {
             'day' => $day,
             'endDay' => $endDay,
             'aUsers' => $aUsers,
-            'aRates' => $aRates,
-            'aBonos' => $aBonos,
+            'aRates' => $aRates
                 ];
                 
                 
@@ -289,29 +285,10 @@ class InformesController extends Controller {
             }
           }
         }
-        //----------------------------------------------------------//
-        //----  BEGIN: BONOS        --------------------------------//
-        $byBono = [];
-        $aBonos = \App\Models\Bonos::all()->pluck('name','id')->toArray();
-        $oCharges = Charges::where('bono_id', '>', 0)
-                ->whereYear('date_payment','=',$year)
-                ->whereMonth('date_payment','=',$month)->get();
-        foreach ($oCharges as $charges){
-          if (!isset($byBono[$charges->bono_id]))
-              $byBono[$charges->bono_id] = 0;
-          $byBono[$charges->bono_id] += $charges->import;
-//          $payType[$charges->type_payment] += $charges->import;
-        }
-        //----  END: BONOS        --------------------------------//
-        //----------------------------------------------------------//
-                
-      
         
         $data['byRate'] =  $byRate;
         $data['byTypeRate'] =  $byRateT;
         $data['aRType'] =  $aRType;
-        $data['byBono'] =  $byBono;
-        $data['aBonos'] =  $aBonos;
         return view('admin.informes.informeCuotaMes',$data);
     }
     

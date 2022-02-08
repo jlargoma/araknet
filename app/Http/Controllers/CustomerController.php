@@ -20,191 +20,8 @@ class CustomerController extends Controller {
   public function index() {
     die();
   }
-
-  public function pagoSimple($type, $token = null, $control = null) {
-    $amount = 15000;
-    $name = '';
-    $items = null;
-    $sStripe = new \App\Services\StripeService();
-    $data = $sStripe->getPaymentLinkData($type, $token, $control);
-    if (!$data) die('error');
-      
-    $payment = false;
-    $disc = null;
-    if (count($data) == 2) {
-
-      $typeKey = $data[0];
-      $data = $data[1];
-      switch ($typeKey) {
-        case 'rate': //$year,$month,$id_user,$importe*100,$rate
-          $oRate = \App\Models\Rates::find($data[4]);
-          /** @Todo Controlar si ya está pagado */
-          $name = 'Pago de la cuota de '
-                  . $oRate->name
-                  . ' del mes de ' . getMonthSpanish($data[1], false);
-          $name .= ' del ' . $data[0];
-          $amount = round($data[3]);
-          $oUser = User::find($data[2]);
-          $disc  = isset($data[5]) ? $data[5] : 0;
-          $id_coach = isset($data[6]) ? $data[6] : null;
-          break;
-        case 'nutri': //$dID,$oUser->id,$importe*100,$oRate->id;
-        case 'fisio': //$dID,$oUser->id,$importe*100,$oRate->id;
-          $oDate = \App\Models\Dates::find($data[0]);
-          $uRates = $oDate->uRates;
-          if ($uRates->id_charges) $payment = true;
-          if (!$uRates){
-            $oDate->delete();
-            die('Usuario eliminado');
-          }
-          $oUser = $uRates->user;
-          if (!$oUser){
-            $uRates->delete();
-            $oDate->delete();
-            die('Usuario eliminado');
-          }
-          $dateTime = strtotime($oDate->date);
-          $day = date('d', $dateTime) . ' de ' . getMonthSpanish(date('n', $dateTime),false);
-          $hour = $oDate->getHour();
-          $oRate = $uRates->rate;
-          $oCoach = $oDate->coach;
-          /** @Todo Controlar si ya está pagado */
-          $name = 'Pago de su cita de ';
-          $items = [];
-          if ($oDate->date_type == 'nutri') {
-            $name .= ' Nutrición ';
-            $items[] = '<b>Nutricionista:</b> ' . $oCoach->name;
-          }
-          if ($oDate->date_type == 'fisio') {
-            $name .= ' Fisioterapia ';
-            $items[] = '<b>Fisioterapeuta:</b> ' . $oCoach->name;
-          }
-          $items[] = '<b>Servicio:</b> ' . $oRate->name;
-          $items[] = '<b>Fecha:</b> ' . $day;
-          $items[] = '<b>Hora:</b> ' . $hour;
-
-          $amount = round($data[2]);
-          break;
-      }
-    }
-    
-    //--------------------------------------------------------------//
-    //--------------------------------------------------------------//
-    $checkout = null;
-    if (!$payment){
-      $checkout = $sStripe->newCheckout($oUser, $amount,$name);
-      if (is_string($checkout)){
-        die($checkout);
-      }
-
-      $oSession = $checkout->jsonSerialize();
-  //    $payment_id = $oSession->id;
-      $iStripe = $oSession['payment_intent'];
-      $cStripe = $oSession['customer'];
-      $price = round($amount / 100, 2);
-      switch ($typeKey) {
-            case 'rate':
-              $time = strtotime($data[0] . '-' . $data[1] . '-01');
-              \App\Models\Stripe3DS::addNew($oUser->id,$iStripe,$cStripe,'generatePayment',
-                      [
-                        'time'=>$time,'rID'=>$data[4], 
-                        'value'=>$price,'disc'=>$disc,'id_coach'=>$id_coach
-                      ]
-              );
-              break;
-            case 'nutri':
-            case 'fisio':
-              \App\Models\Stripe3DS::addNew($oUser->id,$iStripe,$cStripe,'cita',['dID'=>$oDate->id]);
-              break;
-          }
-    }
-    //--------------------------------------------------------------//
-    //--------------------------------------------------------------//
-    //--------------------------------------------------------------//
-
-    return view('customers.payments.stripe_payment', [
-        'keyStripe' => config('cashier.key'),
-        'amount' => $amount,
-        'name' => $name,
-        'type' => $type,
-        'token' => $token,
-        'control' => $control,
-        'items' => $items,
-        'disc'=>$disc,
-        'email' => $oUser->email,
-        'checkout' => $checkout,
-        'payment' => $payment,
-    ]);
-  }
-
-    public function comprarBonos($token = null, $control = null) {
-    $amount = 15000;
-    $name = '';
-    $items = null;
-    $sStripe = new \App\Services\StripeService();
-    $data = $sStripe->getPaymentLinkData(5, $token, $control);
-//    dd($data);
-    if (!$data) die('error');
-      
-    $payment = false;
-    $disc = null;
-    if (count($data) == 2) {
-
-      $typeKey = $data[0];
-      $data = $data[1];
-      //$oUser->id,$importe*100,$oBono->id,$disc
-      $oBono = \App\Models\Bonos::find($data[2]);
-      $name = 'Compra de bono de '
-              . $oBono->name;
-      $amount = round($data[1]);
-      $oUser = User::find($data[0]);
-      $disc  = isset($data[5]) ? $data[5] : 0;
-    }
-    //--------------------------------------------------------------//
-    //--------------------------------------------------------------//
-    $checkout = null;
-    if (!$payment){
-      $checkout = $sStripe->newCheckout($oUser, $amount,$name);
-      if (is_string($checkout)){
-        die($checkout);
-      }
-
-      $oSession = $checkout->jsonSerialize();
-      $iStripe = $oSession['payment_intent'];
-      $cStripe = $oSession['customer'];
-      $price = round($amount / 100, 2);
-      \App\Models\Stripe3DS::addNew($oUser->id,$iStripe,$cStripe,'asignBono',
-              [
-                  'bono'=>$oBono->id,'value'=>$price,'disc'=>$disc,'tpay'=>'card'
-              ]);
-    }
-    //--------------------------------------------------------------//
-    //--------------------------------------------------------------//
-    //--------------------------------------------------------------//
-
-    return view('customers.payments.stripe_payment', [
-        'keyStripe' => config('cashier.key'),
-        'amount' => $amount,
-        'name' => $name,
-        'type' => 'bono',
-        'token' => $token,
-        'control' => $control,
-        'items' => $items,
-        'disc'=>$disc,
-        'email' => $oUser->email,
-        'checkout' => $checkout,
-        'payment' => $payment,
-    ]);
-  }
-
   public function showResult(Request $request) {
     return view('customers.message');
-  }
-  public function paymentSuccess(Request $request) {
-    return view('customers.payments.stripe_response',['success'=>true,'cancel'=>false]);
-  }
-  public function paymentCancel(Request $request) {
-    return view('customers.payments.stripe_response',['success'=>false,'cancel'=>true]);
   }
   
   public function signConsentSave(Request $request,$code,$control) {
@@ -336,11 +153,9 @@ class CustomerController extends Controller {
       return redirect('404')->withErrors(['Cliente no encontrado']);
     }
     
-    $uPlan = $oUser->getPlan();
     // Already Signed  -------------------------------------------
     $sing_contrato = false;
-    if ($uPlan !== null){
-      $fileName = $oUser->getMetaContent('contrato_FIDELITY_'.$uPlan);
+      $fileName = $oUser->getMetaContent('contrato_FIDELITY_');
       $path = storage_path('app/'.$fileName);
       if ($fileName && File::exists($path)){
         return response()->file($path, [
@@ -348,7 +163,6 @@ class CustomerController extends Controller {
         'Content-Type'        => 'application/pdf'
         ]);
       }
-    }
     
    
 
@@ -490,32 +304,20 @@ class CustomerController extends Controller {
     
     $text = '';
     
-    $uPlan = '';
-    $uF_tCreated = time();
-    $oMeta = \DB::table('user_meta')
-            ->where('user_id',$oUser->id)->where('meta_key','plan')->first();
-    if ($oMeta){
-      $uPlan = $oMeta->meta_value;
-      $uF_tCreated = strtotime($oMeta->created_at);
-    }
     
+    $uF_tCreated = time();
    $uF_start = date('d-m-Y',$uF_tCreated); 
    $uF_end = date('d-m-Y', strtotime('+1 year', $uF_tCreated) ); 
     
       
     $oClientesContratos = new \App\Helps\ClientesContratos();
-    if ($uPlan == 'fidelity'){
         $tit = 'PLAN FIDELITY';
-        $text = $oClientesContratos->planFIDELITY();
-    } else {
-        $tit = 'PLAN BASICO';
-        $text = $oClientesContratos->planNormal();
-    }
+        $text = 's';
     
     
      // Already Signed  -------------------------------------------
     if ($uPlan !== null){
-      $fileName = $oUser->getMetaContent('contrato_FIDELITY_'.$uPlan);
+      $fileName = $oUser->getMetaContent('contrato_FIDELITY_');
       $path = storage_path('app/'.$fileName);
       if ($fileName && File::exists($path)){
         return [
