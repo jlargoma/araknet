@@ -13,20 +13,20 @@ class CitasService {
     if ($oDate) {
       $date = explode(' ', $oDate->date);
       $uRates = $oDate->uRates;
-      $id_serv = $oDate->id_rate;
+      $id_serv = $oDate->rate_id;
       $card    = null;
       $price   = $oDate->price;
-      $id_user = -1;
+      $customer_id = -1;
       $email   = null;
       $phone   = null;
       $charge  = null;
       $oUser  = null;
       if ($uRates){
         $price   = $uRates->price;
-        $id_serv = $uRates->id_rate;
+        $id_serv = $uRates->rate_id;
         $oUser = $uRates->user;
         if ($oUser){
-          $id_user = $oUser->id;
+          $customer_id = $oUser->id;
           $email = $oUser->email;
           $phone = $oUser->phone;
           $charge = $uRates->charges;
@@ -49,8 +49,8 @@ class CitasService {
           'date' => date('d-m-Y', strtotime($date[0])),
           'time' => intval($date[1]),
           'id_serv' => $id_serv,
-          'id_user' => $id_user,
-          'id_coach' => $oDate->id_coach,
+          'customer_id' => $customer_id,
+          'user_id' => $oDate->user_id,
           'customTime' => $oDate->customTime,
           'email' => $email,
           'phone' => $phone,
@@ -81,8 +81,8 @@ class CitasService {
       'date' => date('d-m-Y', $date),
       'time' => $time,
       'id_serv' => -1,
-      'id_user' => -1,
-      'id_coach' => -1,
+      'customer_id' => -1,
+      'user_id' => -1,
       'customTime' => $time.':00',
       'email' => '',
       'phone' => '',
@@ -126,10 +126,10 @@ class CitasService {
             ->where('date', '>=', date('Y-m-d', $start))
             ->where('date', '<=', date('Y-m-d', $finish));
     if ($serv && $serv != 0)
-        $sql->where('id_rate', $serv);
+        $sql->where('rate_id', $serv);
     if ($coach && $coach > 0){
-      $sql->where('id_coach', $coach);
-      $coachTimes = \App\Models\CoachTimes::where('id_coach',$coach)->first(); 
+      $sql->where('user_id', $coach);
+      $coachTimes = \App\Models\CoachTimes::where('user_id',$coach)->first(); 
       if ($coachTimes){
           $times = json_decode($coachTimes->times,true);
           if (!is_array($times)) $times = [];
@@ -173,13 +173,13 @@ class CitasService {
               $aLst[$time][$hour] = [];
               $daysCoatch[$time][$hour] = [];
             }
-            $daysCoatch[$time][$hour][$item->id_coach] = 1;
+            $daysCoatch[$time][$hour][$item->user_id] = 1;
             if ($item->blocked){
               $aLst[$time][$hour][] = [
                 'id' => $item->id,
                 'charged' => ($item->is_group) ? 3 : 2,
-                'type' => $item->id_rate,
-                'coach' => $item->id_coach,
+                'type' => $item->rate_id,
+                'coach' => $item->user_id,
                 'h'=>$hTime,
                 'name' => ($item->is_group) ? 'grupo' : 'bloqueo',
                 'ecogr' => false
@@ -188,16 +188,16 @@ class CitasService {
                   'n' => ($item->is_group) ? 'Cita Grupal' : 'bloqueo',
                   'p'=> '',
                   's'=> ($item->service) ? $item->service->name : '-',
-                  'cn' => isset($cNames[$item->id_coach]) ? $cNames[$item->id_coach] : '-',
+                  'cn' => isset($cNames[$item->user_id]) ? $cNames[$item->user_id] : '-',
                   'mc'=>'', //Metodo pago
                   'dc'=>'', // fecha pago
                   'd'=>$dTime, // fecha 
               ];
               if (($item->is_group)){
-                if (!isset($countByCoah[$item->id_coach])){
-                  $countByCoah[$item->id_coach] = 1;
+                if (!isset($countByCoah[$item->user_id])){
+                  $countByCoah[$item->user_id] = 1;
                 } else {
-                  $countByCoah[$item->id_coach]++;
+                  $countByCoah[$item->user_id]++;
                 }
               }
               continue;
@@ -210,7 +210,7 @@ class CitasService {
               $u_name = ($uRates->user) ? $uRates->user->name : null;
               $charge = $uRates->charges;
             }
-            if ($type == 'pt' && !$sValora->isRate($uRates->id_rate))
+            if ($type == 'pt' && !$sValora->isRate($uRates->rate_id))
               $charged = 1;
             else $charged = ($charge) ? 1 : 0;
             //------------------------------------
@@ -223,8 +223,8 @@ class CitasService {
             $aLst[$time][$hour][] = [
                 'id' => $item->id,
                 'charged' => $charged,
-                'type' => $item->id_rate,
-                'coach' => $item->id_coach,
+                'type' => $item->rate_id,
+                'coach' => $item->user_id,
                 'name' => $u_name,
                 'halfTime'=>$halfTime,
                 'h'=>$hTime,
@@ -235,7 +235,7 @@ class CitasService {
                 'n' => $u_name,
                 'p'=>($uRates) ? moneda($uRates->price): '--',
                 's'=> ($item->service) ? $item->service->name : '-',
-                'cn' => isset($cNames[$item->id_coach]) ? $cNames[$item->id_coach] : '-',
+                'cn' => isset($cNames[$item->user_id]) ? $cNames[$item->user_id] : '-',
                 'mc'=>'', //Metodo pago
                 'dc'=>'', // fecha pago
                 'd'=>$dTime, // fecha 
@@ -246,10 +246,10 @@ class CitasService {
               $detail[$item->id]['dc'] = dateMin($charge->date_payment);
             }
             
-            if (!isset($countByCoah[$item->id_coach])){
-              $countByCoah[$item->id_coach] = 1;
+            if (!isset($countByCoah[$item->user_id])){
+              $countByCoah[$item->user_id] = 1;
             } else {
-              $countByCoah[$item->id_coach]++;
+              $countByCoah[$item->user_id]++;
             }
         }
     }
@@ -318,7 +318,7 @@ class CitasService {
       $disponibles[$i] = $aux;
     }
 
-    $coachTimes = \App\Models\CoachTimes::whereIn('id_coach', array_keys($tCoach))->pluck('times','id_coach'); 
+    $coachTimes = \App\Models\CoachTimes::whereIn('user_id', array_keys($tCoach))->pluck('times','user_id'); 
     if ($coachTimes){
       foreach ($coachTimes as $idCoach => $t){
         $times = json_decode($t,true);

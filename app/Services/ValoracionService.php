@@ -6,7 +6,7 @@ use App\Models\Rates;
 use App\Models\User;
 use App\Models\Bonos;
 use App\Models\UserBonos;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use App\Models\Charges;
 
 class ValoracionService {
@@ -34,17 +34,17 @@ class ValoracionService {
   static function getURate($uID,$rID,$timeCita,$cID) {
     if ($rID != self::$bIDV) return  null;
     
-//    $UserBonos = UserBonos::where('user_id',$uID)
+//    $customerBonos = UserBonos::where('user_id',$uID)
 //              ->where('rate_subf','v01')->first();
-//    if (!$UserBonos) return null;
+//    if (!$customerBonos) return null;
     
     $oRate = Rates::find($rID);
     if (!$oRate) return null;
     
     // crear $uRate
-    $uRate = new UserRates();
-    $uRate->id_user  = $uID;
-    $uRate->id_rate  = $rID;
+    $uRate = new CustomersRates();
+    $uRate->customer_id  = $uID;
+    $uRate->rate_id  = $rID;
     $uRate->coach_id = $cID;
     $uRate->active   = 0;
     $uRate->price    = $oRate->price;

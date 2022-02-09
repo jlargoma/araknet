@@ -1,6 +1,6 @@
 @extends('layouts.popup')
 @section('content')
-<h1 class="text-center"><?php echo $user->name; ?></h1>
+<h1 class="text-center"><?php echo $customer->name; ?></h1>
 <div class="nav-box">
 <ul class="nav nav-tabs">
   <li <?php if ($tab == 'datos') echo 'class="active"'; ?>><a data-toggle="tab" href="#datos">Datos</a></li>
@@ -21,7 +21,7 @@
         @include('admin.usuarios.clientes.forms.notes')
   </div>
   <div id="consent" class="tab-pane fade <?php if ($tab == 'consent') echo 'in active'; ?>">
-        @include('admin.usuarios.clientes.forms.consent')
+        @include('admin.usuarios.clientes.forms.contracts')
   </div>
   <div id="invoice" class="tab-pane fade <?php if ($tab == 'invoice') echo 'in active'; ?>">
         @include('admin.usuarios.clientes.forms.invoice')
@@ -79,8 +79,8 @@
         });
         $('.add_rate').click(function (e) {
           e.preventDefault();
-          var id_user = $(this).attr('data-idUser');
-          $('#ifrCliente').attr('src','/admin/usuarios/cobrar/tarifa?id_user=' + id_user);
+          var customer_id = $(this).attr('data-idUser');
+          $('#ifrCliente').attr('src','/admin/cliente/cobrar/tarifa?customer_id=' + customer_id);
           $('#modalCliente').modal('show');
         });
         $('.openEditCobro').on('click', function (e) {
@@ -101,13 +101,7 @@
             }
             $('#modalCliente').modal('show');
         });
-        $('.add_bono').click(function (e) {
-          e.preventDefault();
-          var id_user = $(this).attr('data-idUser');
-          var back = '/ficha/'+id_user
-          $('#ifrCliente').attr('src','/admin/bonos/comprar/' + id_user + back );
-          $('#modalCliente').modal('show');
-        });
+        
         
         $('.editNote').on('click',function (e) {
             e.preventDefault();
@@ -126,7 +120,7 @@
         });
         $('#delNote').on('click',function (e) {
            if (confirm('Eliminar la nota?'))
-            $(this).closest('form').attr('action','/admin/usuarios/del-note').submit();
+            $(this).closest('form').attr('action','/admin/cliente/del-note').submit();
         });
         
         $('.formLine2').on('keyup','#costComercial,#costAlquiler',function (e) {
@@ -139,18 +133,18 @@
           $('#costTotal').val(costComercial+costAlquiler);
         });
         
-        $('#id_rateSubscr').on('change',function (e) {
+        $('#rate_idSubscr').on('change',function (e) {
           var obj  = $(this).find(':selected');
           var data = obj.data('t');
             
           $('#r_price').val(obj.data('p'));
           if (data == 'pt'){
             $('#rateCoach').removeClass('disabled');
-            $('#id_rateCoach').attr('disabled',false);
+            $('#rate_idCoach').attr('disabled',false);
           }
           else {
             $('#rateCoach').addClass('disabled');
-            $('#id_rateCoach').val('').attr('disabled',true);
+            $('#rate_idCoach').val('').attr('disabled',true);
           }
         });
         
@@ -175,9 +169,9 @@
         /**************************************************/
         $('.sendConsent').on('click', function () {
           var type = $(this).closest('tr').data('id');
-          var posting = $.post('/admin/usuarios/send-consent', {
+          var posting = $.post('/admin/cliente/send-consent', {
             _token: '{{csrf_token()}}',
-            id_user: {{$user->id}},
+            customer_id: {{$customer->id}},
             type: type
           });
           posting.done(function (data) {
@@ -195,9 +189,9 @@
         });
         $('.rmContrato').on('click', function () {
           if (confirm('Cancelar y volver a solicitar el contrato?')){
-            var posting = $.post('/admin/usuarios/remove-contrato', {
+            var posting = $.post('/admin/cliente/remove-contrato', {
               _token: '{{csrf_token()}}',
-              id_user: {{$user->id}},
+              customer_id: {{$customer->id}},
             });
             posting.done(function (data) {
               if (data[0] == 'OK') {
@@ -214,9 +208,9 @@
         });
         /**************************************************/
         $('.sendValora').on('click', function () {
-          var posting = $.post('/admin/usuarios/send-valoracion', {
+          var posting = $.post('/admin/cliente/send-valoracion', {
             _token: '{{csrf_token()}}',
-            id_user: {{$user->id}},
+            customer_id: {{$customer->id}},
           });
           posting.done(function (data) {
             if (data[0] == 'OK') {
@@ -233,7 +227,7 @@
         });
         $('.autosaveValora').on('change', function () {
           var posting = $.post('/admin/clientes/autosaveValora', {
-            id: {{$user->id}},
+            id: {{$customer->id}},
             field: $(this).attr('name'),
             val: $(this).val(),
           }).done(function (data) {
@@ -242,7 +236,7 @@
         });
         /**************************************************/
        $('.nav-tabs').on('click','a',function(){
-         var newURL = '/admin/usuarios/informe/{{$user->id}}/';
+         var newURL = '/admin/cliente/informe/{{$customer->id}}/';
          var href =$(this).attr('href');
          window.history.pushState("", "", newURL+href.slice(1));
        });
@@ -270,7 +264,7 @@
     padding: 5px;
     margin: 1em auto;
   }
-  #id_rateCoach:disabled{
+  #rate_idCoach:disabled{
     background-color: #d0d0d0;
   }
   .subscr_price {

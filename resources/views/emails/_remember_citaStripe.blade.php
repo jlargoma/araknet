@@ -3,14 +3,14 @@ $tit = 'Su cita en Araknet';
 ?>
 @include('emails.head')
 
-Hola! <?php echo $user->name ?><br><br>
+Hola! <?php echo $customer->name ?><br><br>
 
 <p style="color: black">
   Le recordamos su cita en nuestro centro de <b><?php echo $rate->name ?></b> en <strong> Araknet</strong>
 </p>
 
 <p style="color: black;font-size: 18px;">
-    - Nombre: <?php echo $user->name ?><br>
+    - Nombre: <?php echo $customer->name ?><br>
     <?php 
     
     if ($obj->date_type == 'nutri')

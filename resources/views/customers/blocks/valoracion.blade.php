@@ -5,7 +5,7 @@ $count = 1;
   <div class="col-md-6 ">
     <div class="form-material mt-2">
       <label for="name">NOMBRE</label>
-      <div class="field">{{$user->name}}</div>
+      <div class="field">{{$customer->name}}</div>
     </div>
     <div class="form-material mt-2">
       <label for="phone">EDAD</label>

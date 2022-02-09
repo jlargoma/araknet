@@ -29,22 +29,23 @@ class MailsService {
     return 'OK';
   }
 
-  public static function sendEmailPayRate($data, $oUser, $oRate) {
+  public static function sendEmailPayRate($data, $oCustomer, $oRate) {
 
     
     $date = self::convertDateToShow_text($data['fecha_pago']);
     $typePayment = $data['type_payment'];
     $importe = $data['importe'];
-    $email = $oUser->email;
+    $email = $oCustomer->email;
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
       return $email . ' no es un mail válido';
     try {
       $sended = Mail::send('emails._payment_rate', [
-                  'user' => $oUser,
+                  'customer' => $oCustomer,
                   'date' => $date,
                   'rate' => $oRate,
                   'importe' => $importe,
+                  'tit'=>'Nuevo cobro',
                   'typePayment' => $typePayment
                       ], function ($message) use ($email) {
                         $message->subject('Comprobante de pago Araknet');
@@ -128,7 +129,7 @@ class MailsService {
         setlocale(LC_TIME, "es_ES");
         
                 
-        $data = [$uRate->rate_year,$uRate->rate_month,$uRate->id_user,$uRate->price*100,$uRate->id_rate,0];
+        $data = [$uRate->rate_year,$uRate->rate_month,$uRate->customer_id,$uRate->price*100,$uRate->rate_id,0];
         $sStripe = new \App\Services\StripeService();
         $pStripe = url($sStripe->getPaymentLink('rate',$data));
         $mailClientContent = str_replace('{urlPayment}', $pStripe, $mailClientContent);

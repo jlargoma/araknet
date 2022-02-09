@@ -136,7 +136,7 @@
 												<?php if ( $date->status == 1 && $date->charged == 1 ): ?>
 													<div class="col-xs-12  items-push push-20 <?php echo strtolower($date->service->name) ?> <?php if($date->charged == 0){ echo "dateCharge"; } ?>" >
 												<?php else: ?>
-													<div class="col-xs-12  items-push push-20 <?php echo strtolower($date->service->name) ?> <?php if($date->charged == 0){ echo "dateCharge"; } ?>" data-toggle="modal" data-target="#modal-charge-date" type="button" data-idDate="<?php echo $date->id; ?>" data-id="<?php echo $date->id_user ?>">
+													<div class="col-xs-12  items-push push-20 <?php echo strtolower($date->service->name) ?> <?php if($date->charged == 0){ echo "dateCharge"; } ?>" data-toggle="modal" data-target="#modal-charge-date" type="button" data-idDate="<?php echo $date->id; ?>" data-id="<?php echo $date->customer_id ?>">
 												<?php endif ?>
 							
 
@@ -149,7 +149,7 @@
 												</div>
 												<?php if ($date->charged == 0 && $date->status == 0): ?>
 													<div style="position: absolute;top: -15px; right: -15px;  padding:1px 5px; z-index: 100">
-														<a url="{{url('admin/citas/delete')}}/<?php echo $date->id; ?>" data-id="<?php echo $date->id_user ?>" onclick="return confirm('Estas seguro?');">
+														<a url="{{url('admin/citas/delete')}}/<?php echo $date->id; ?>" data-id="<?php echo $date->customer_id ?>" onclick="return confirm('Estas seguro?');">
 															<i class="fa fa-times fa-2x text-danger"></i>
 														</a>
 													</div>

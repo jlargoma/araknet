@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use App\Models\Rates;
 use Illuminate\Support\Facades\DB;
 include_once app_path().'/Functions.php';

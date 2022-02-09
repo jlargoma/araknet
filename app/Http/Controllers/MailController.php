@@ -12,7 +12,7 @@ class MailController extends Controller
 	public static function sendEmailPaymentRate($data)
 	{
 
-		$user        = \App\User::find($data['id_user']);
+		$customer        = \App\User::find($data['customer_id']);
 		$date        = Carbon::createFromFormat('Y-m-d', $data['fecha_pago']);
 		$rate        = \App\Rates::find($data['id_tax']);
 		$typePayment = $data['type_payment'];
@@ -21,7 +21,7 @@ class MailController extends Controller
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return $email.' no es un mail válido';
         try{
           $sended = Mail::send('emails._payment_rate', [
-              'user'        => $user,
+              'user'        => $customer,
               'date'        => $date,
               'rate'        => $rate,
               'importe'     => $importe,

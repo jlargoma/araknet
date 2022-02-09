@@ -10,18 +10,22 @@ class Charges extends Model
     use SoftDeletes; //Implementamos 
     public function rate()
     {
-        return $this->hasOne('\App\Models\Rates', 'id', 'id_rate');
+        return $this->hasOne('\App\Models\Rates', 'id', 'rate_id');
     }
 
     public function user()
     {
-        return $this->hasOne('\App\Models\User', 'id', 'id_user');
+        return $this->hasOne('\App\Models\User', 'id', 'user_id');
+    }
+    public function customer()
+    {
+        return $this->hasOne('\App\Models\Customers', 'id', 'customer_id');
     }
     
     static function getSumYear($year)
     {
       
-      $rates = self::join('users_rates', 'id_charges', 'charges.id')
+      $rates = self::join('users_rates', 'charge_id', 'charges.id')
                 ->where('rate_year',$year)
                 ->sum('import');
       $bono = self::whereYear('date_payment', '=', $year)

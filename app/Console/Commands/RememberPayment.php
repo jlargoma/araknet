@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use App\Models\Rates;
 use App\Services\MailsService;
 use Log;
@@ -54,10 +54,10 @@ class RememberPayment extends Command {
                     ->join('types_rate', 'rates.type', '=', 'types_rate.id')
                     ->whereIn('types_rate.type', ['gral', 'pt'])->pluck('id');
       
-      $uRates = UserRates::where('rate_year',$year)
+      $uRates = CustomersRates::where('rate_year',$year)
               ->where('rate_month',$month)
-              ->whereIn('id_rate',$oRatesSubsc)
-              ->whereNull('id_charges')->get();
+              ->whereIn('rate_id',$oRatesSubsc)
+              ->whereNull('charge_id')->get();
         
       if ($uRates){
         $MailsService = new MailsService();

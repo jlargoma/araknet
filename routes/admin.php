@@ -11,34 +11,33 @@ Route::post('/changeActiveYear', 'AdminController@changeActiveYear')->name('year
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
   /* Clientes */
-  Route::get('/clientes/generar-cobro/{rate}', 'UsersController@clienteRateCharge');
-  Route::get('/clientes/{month?}', 'UsersController@clientes');
-  Route::post('/clientes/update', 'UsersController@updateCli');
-  Route::post('/clientes/setValora', 'UsersController@setValora');
-  Route::post('/clientes/autosaveValora', 'UsersController@autosaveValora');
-  Route::get('/get-mail/{id?}', 'UsersController@getMail');
-  Route::get('/get-rates/{id?}', 'UsersController@getRates');
-  Route::get('/clientes-export', 'UsersController@exportClients');
+  Route::get('/clientes/generar-cobro/{rate}', 'CustomerController@clienteRateCharge');
+  Route::get('/clientes/{month?}', 'CustomerController@index');
+  Route::post('/cliente/update', 'CustomerController@update');
+  Route::post('/cliente/setValora', 'CustomerController@setValora');
+  Route::post('/cliente/autosaveValora', 'CustomerController@autosaveValora');
+  Route::get('/get-mail/{id?}', 'CustomerController@getMail');
+  Route::get('/get-rates/{id?}', 'CustomerController@getRates');
+  Route::get('/clientes-export', 'CustomerController@exportClients');
   Route::get('/clientes-unassigned/{idUserRate}', 'RatesController@unassignedRate');
-  Route::post('/add-subscr', 'UsersController@addSubscr');
-  Route::post('/change-subscr-price', 'UsersController@changeSubscr');
-  Route::get('/clientes-unsubscr/{uID}/{id}', 'UsersController@rmSubscr');
-  Route::get('/usuarios/informe/{id}', 'UsersController@informe');
-  Route::post('/usuarios/notes', 'UsersController@addNotes');
-  Route::post('/usuarios/del-note', 'UsersController@delNotes');
-  Route::post('/usuarios/sign', 'UsersController@addSign');
-  Route::get('/usuarios/sign/{file?}', 'UsersController@getSign');
-  Route::post('/usuarios/send-consent', 'UsersController@sendConsent');
-  Route::post('/usuarios/send-valoracion', 'UsersController@sendValoracion');
-  Route::get('/see-consent/{id}/{type}', 'UsersController@seeConsent');
-  Route::get('/downl-consent/{id}/{type}', 'UsersController@downlConsent');
-  Route::get('/usuarios/informe/{id}/{tab?}', 'UsersController@informe');
-  Route::get('/usuarios/disable/{id}', 'UsersController@disable');
-  Route::get('/usuarios/activate/{id}', 'UsersController@activate');
-  Route::get('/usuarios/nuevo', 'UsersController@newCustomer');
-  Route::post('/usuarios/nuevo', 'UsersController@saveCustomer');
+  Route::post('/add-subscr', 'CustomerController@addSubscr');
+  Route::post('/change-subscr-price', 'CustomerController@changeSubscr');
+  Route::get('/cliente-unsubscr/{uID}/{id}', 'CustomerController@rmSubscr');
+  Route::get('/cliente/informe/{id}', 'CustomerController@informe');
+  Route::post('/cliente/notes', 'CustomerController@addNotes');
+  Route::post('/cliente/del-note', 'CustomerController@delNotes');
+  Route::post('/cliente/sign', 'CustomerController@addSign');
+  Route::get('/cliente/sign/{file?}', 'CustomerController@getSign');
+  Route::post('/cliente/enviar-contrato', 'CustomerController@sendConsent');
+  Route::get('/cliente/ver_contrato/{id}/{type}', 'CustomerController@seeConsent');
+  Route::get('/cliente/downl-consent/{id}/{type}', 'CustomerController@downlConsent');
+  Route::get('/cliente/informe/{id}/{tab?}', 'CustomerController@informe');
+  Route::get('/cliente/disable/{id}', 'CustomerController@disable');
+  Route::get('/cliente/activate/{id}', 'CustomerController@activate');
+  Route::get('/cliente/nuevo', 'CustomerController@newCustomer');
+  Route::post('/cliente/nuevo', 'CustomerController@saveCustomer');
   Route::get('/see-contrato/{id}/{type}', 'CustomerController@seeContracts');
-  Route::post('/usuarios/remove-contrato', 'CustomerController@rmContracts');
+  Route::post('/clientes/remove-contrato', 'CustomerController@rmContracts');
 
   /* Citas */
   Route::post('/citas/checkDisp', 'DatesController@checkDateDisp');
@@ -104,8 +103,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
   Route::post('/cobros/cobrar', 'ChargesController@cobrar');
   Route::post('/cobros/cobrar/{id}', 'ChargesController@updateCharge');
   Route::get('/cobros/getPriceTax', 'ChargesController@getPriceTax');
-  Route::post('/cobros/cobrar-usuario', 'ChargesController@chargeUser');
-  Route::get('/usuarios/cobrar/tarifa/', 'UsersController@rateCharge');
+  Route::post('/cobros/cobrar-cliente', 'ChargesController@chargeCustomer');
+  Route::get('/cliente/cobrar/tarifa/', 'CustomerController@rateCharge');
   
     /* Tarifas */
   Route::get('/tarifas/listado', 'RatesController@index');
@@ -140,9 +139,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::get('/horariosEntrenador/{id?}', 'UsersController@horarios');
   Route::post('/horariosEntrenador', 'UsersController@updHorarios');
 
-  Route::get('', function () {
-    return redirect('admin/clientes');
-  });
 });
 
 Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
@@ -190,14 +186,14 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
   Route::get('/entrenadores/{type?}', 'UsersController@entrenadores');
 
   /* Usuarios */
-  Route::get('/usuarios', 'UsersController@index');
-  Route::get('/usuarios/new/{role?}', 'UsersController@nueva');
-  Route::post('/usuarios/create', 'UsersController@create');
-  Route::get('/usuarios/actualizar/{id}', 'UsersController@actualizar');
-  Route::any('/usuarios/delete/{id}', 'UsersController@delete');
-  Route::get('/usuarios/actualizarUsuario/{id}', 'UsersController@actualizarUsuario');
-  Route::post('/usuarios/update', 'UsersController@update');
-  Route::post('usuarios/newInforme', 'UsersController@newInforme');
+//  Route::get('/usuarios', 'UsersController@index');
+//  Route::get('/usuarios/new/{role?}', 'UsersController@nueva');
+//  Route::post('/usuarios/create', 'UsersController@create');
+//  Route::get('/usuarios/actualizar/{id}', 'UsersController@actualizar');
+//  Route::any('/usuarios/delete/{id}', 'UsersController@delete');
+//  Route::get('/usuarios/actualizarUsuario/{id}', 'UsersController@actualizarUsuario');
+//  Route::post('/usuarios/update', 'UsersController@update');
+//  Route::post('usuarios/newInforme', 'UsersController@newInforme');
 
   /* Facturacion */
   Route::get('/facturacion/entrenadores', 'UsersController@entrenadores');

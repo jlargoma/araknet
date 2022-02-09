@@ -12,7 +12,7 @@ use URL;
 use Cache;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use \App\Traits\EntrenadoresTraits;
 use \App\Traits\ClientesTraits;
 use \App\Traits\ValoracionTraits;
@@ -23,7 +23,7 @@ class UsersController extends Controller {
       ClientesTraits;
 
   public function index() {
-
+dd();
     return view('/admin/usuarios/index', [
         'users' => User::whereIn('role', [
             'admin',
@@ -110,13 +110,13 @@ class UsersController extends Controller {
 
       if ($newUser->save()) {
         /*         * ************************************ */
-        $rateID = $request->input('id_rate');
+        $rateID = $request->input('rate_id');
         if ($rateID > 0) {
-          $oRate = \App\Models\Rates::find($request->input('id_rate'));
+          $oRate = \App\Models\Rates::find($request->input('rate_id'));
           if ($oRate) {
-            $rateUser = new UserRates();
-            $rateUser->id_user = $newUser->id;
-            $rateUser->id_rate = $oRate->id;
+            $rateUser = new CustomersRates();
+            $rateUser->customer_id = $newUser->id;
+            $rateUser->rate_id = $oRate->id;
             $rateUser->rate_year = date('Y');
             $rateUser->rate_month = date('m');
             $rateUser->save();
@@ -125,8 +125,8 @@ class UsersController extends Controller {
         /*         * ************************************ */
         if ($newUser->role == 'user') {
           $uCoach = new \App\Models\CoachUsers();
-          $uCoach->id_user = $newUser->id;
-          $uCoach->id_coach = $request->input('u_coach', 0);
+          $uCoach->customer_id = $newUser->id;
+          $uCoach->user_id = $request->input('u_coach', 0);
           $uCoach->save();
         }
         /*         * ************************************ */
@@ -179,8 +179,8 @@ class UsersController extends Controller {
 //        return ($oUser) ? $oUser->email : '';
   }
   public function getRates($uID) {
-    $aLst = UserRates::where('id_user',$uID)
-            ->where('active',1)->pluck('id_rate')->toArray();
+    $aLst = CustomersRates::where('customer_id',$uID)
+            ->where('active',1)->pluck('rate_id')->toArray();
     \App\Services\ValoracionService::RateLstID($uID,$aLst);
     return response()->json(array_unique($aLst));
   }
@@ -195,68 +195,32 @@ class UsersController extends Controller {
     User::find($id)->delete();
     return redirect('/admin/usuarios');
   }
-/**
- * /clientes/update
- * @param Request $request
- * @return type
- */
-  public function updateCli(Request $request) {
-    $rates = $request->input('id_rates');
 
-    $id = $request->input('id');
-    $userToUpdate = User::find($id);
-    $userToUpdate->name = $request->input('name');
-    $userToUpdate->email = $request->input('email');
-    $userToUpdate->role = $request->input('role', 'user');
-    $userToUpdate->dni = $request->input('dni');
-    $userToUpdate->status = $request->input('status');
-    
-    $userToUpdate->iban = $request->input('iban');
-    $userToUpdate->address = $request->input('address');
-    $userToUpdate->population = $request->input('population');
-    $userToUpdate->province = $request->input('province');
-    $userToUpdate->hotspot_imac = $request->input('hotspot_imac');
-    $userToUpdate->hotspot_date = $request->input('hotspot_date');
-    $userToUpdate->coach_id = $request->input('coach_id');
-    if ($request->input('password'))
-      $userToUpdate->password = bcrypt($request->input('password'));
-
-    $userToUpdate->phone = $request->input('phone');
-    $userToUpdate->save();
-    
-    
-    
-    $userToUpdate->setMetaContent('costComercial',$request->input('costComercial'));
-    $userToUpdate->setMetaContent('costAlquiler',$request->input('costAlquiler'));
-    $userToUpdate->setMetaContent('costTotal',$request->input('costTotal'));
-    
-    return redirect()->back()->with('success', 'Cliente actualizado');
-  }
   public function update(Request $request) {
-    $rates = $request->input('id_rates');
+    $rates = $request->input('rate_ids');
 
     $id = $request->input('id');
-    $userToUpdate = User::find($id);
-    $userToUpdate->name = $request->input('name');
-    $userToUpdate->email = $request->input('email');
-    $userToUpdate->role = $request->input('role', 'user');
-    $userToUpdate->dni = $request->input('dni');
-    $userToUpdate->address = $request->input('address');
+    $customerToUpdate = User::find($id);
+    $customerToUpdate->name = $request->input('name');
+    $customerToUpdate->email = $request->input('email');
+    $customerToUpdate->role = $request->input('role', 'user');
+    $customerToUpdate->dni = $request->input('dni');
+    $customerToUpdate->address = $request->input('address');
       
     if ($request->input('password'))
-      $userToUpdate->password = bcrypt($request->input('password'));
+      $customerToUpdate->password = bcrypt($request->input('password'));
 
-    $userToUpdate->phone = $request->input('phone');
+    $customerToUpdate->phone = $request->input('phone');
 
    
 
-    $userToUpdate->iban = $request->input('iban');
-    $userToUpdate->ss = $request->input('ss');
-    $CoachRates = \App\Models\CoachRates::where('id_user', $userToUpdate->id)->first();
+    $customerToUpdate->iban = $request->input('iban');
+    $customerToUpdate->ss = $request->input('ss');
+    $CoachRates = \App\Models\CoachRates::where('customer_id', $customerToUpdate->id)->first();
 
     if (!$CoachRates) {
       $CoachRates = new \App\Models\CoachRates();
-      $CoachRates->id_user = $userToUpdate->id;
+      $CoachRates->customer_id = $customerToUpdate->id;
     }
     $CoachRates->salary = intval($request->input('salario_base'));
     $CoachRates->ppc = $request->input('ppc');
@@ -315,14 +279,14 @@ class UsersController extends Controller {
 
   public function duplicateRatesUser($date = "") {
     $date = Carbon::now();
-    $users = User::where('role', 'user')->get();
+    $customers = User::where('role', 'user')->get();
 
-    foreach ($users as $user) {
-      $oldRatesUser = UserRates::where('id_user', $user->id)
+    foreach ($customers as $customer) {
+      $oldRatesUser = CustomersRates::where('customer_id', $customer->id)
               ->whereMonth('created_at', '=', $date->copy()->format('m'))
               ->whereYear('created_at', '=', $date->copy()->format('Y'))
               ->get();
-      echo "Cliente: " . $user->name . "<br>";
+      echo "Cliente: " . $customer->name . "<br>";
       $total_tarifas_cliente = count($oldRatesUser);
       echo "Tarifas encontradas para este cliente (" . $total_tarifas_cliente . ") en el mes de " . $date->copy()
               ->format('m') . " : <br>";
@@ -332,8 +296,8 @@ class UsersController extends Controller {
           if ($oldRateUser->rate->type != 4 || !preg_match('/BONO/i', $oldRateUser->rate->name)) {
             if ($oldRateUser->rate->mode <= 1) {
               $actualDate = $date->copy()->addMonth();
-              $isRateExistNow = UserRates::where('id_user', $user->id)
-                      ->where('id_rate', $oldRateUser->id_rate)
+              $isRateExistNow = CustomersRates::where('customer_id', $customer->id)
+                      ->where('rate_id', $oldRateUser->rate_id)
                       ->whereMonth('created_at', '=', $actualDate->copy()
                               ->format('m'))
                       ->whereYear('created_at', '=', $actualDate->copy()
@@ -341,9 +305,9 @@ class UsersController extends Controller {
                       ->get();
 
               if (count($isRateExistNow) == 0) {
-                $newRateUser = new UserRates();
-                $newRateUser->id_user = $oldRateUser->id_user;
-                $newRateUser->id_rate = $oldRateUser->id_rate;
+                $newRateUser = new CustomersRates();
+                $newRateUser->customer_id = $oldRateUser->customer_id;
+                $newRateUser->rate_id = $oldRateUser->rate_id;
                 $newRateUser->created_at = $actualDate->copy()->startOfMonth();
                 $newRateUser->updated_at = $actualDate->copy()->startOfMonth();
                 $newRateUser->save(['timestamps' => false]);
@@ -370,21 +334,21 @@ class UsersController extends Controller {
   public function informRate(Request $request) {
     //_informRateUser
     $rate = \App\Models\Rates::find($request->idRate);
-    $userRates = UserRates::where('id_user', $request->idUser)->where('id_rate', $request->idRate)
+    $CustomersRates = CustomersRates::where('customer_id', $request->idUser)->where('rate_id', $request->idRate)
                     ->orderBy('created_at', 'desc')->get();
     if ($rate->type == 4) {
 
-      if (count($userRates) > 0) {
-        $userRateCreated = $userRates[0]->created_at;
+      if (count($CustomersRates) > 0) {
+        $customerRateCreated = $CustomersRates[0]->created_at;
       }
 
-      $dateCreatedUserRate = Carbon::createFromFormat('Y-m-d H:i:s', $userRateCreated);
-      $classes = \App\Assistance::where('id_user', $request->idUser)
+      $dateCreatedUserRate = Carbon::createFromFormat('Y-m-d H:i:s', $customerRateCreated);
+      $classes = \App\Assistance::where('customer_id', $request->idUser)
               ->where('date_assistance', ">", $dateCreatedUserRate->copy()
                       ->format('Y-m-d H:i:s'))
               ->get();
     } else {
-      $classes = \App\Assistance::where('id_user', $request->idUser)
+      $classes = \App\Assistance::where('customer_id', $request->idUser)
               ->whereYear('date_assistance', "=", date('Y'))
               ->whereMonth('date_assistance', "=", date('m'))
               ->get();
@@ -393,33 +357,33 @@ class UsersController extends Controller {
     return view('/admin/usuarios/_informRateUser', [
         'classes' => $classes,
         'rate' => $rate,
-        'userRates' => $userRates,
+        'CustomersRates' => $CustomersRates,
     ]);
   }
 
   public static function getPendingPaymentByMonth($date) {
     $pendiente = 0;
-    $users = User::where('role', 'user')->where('status', 1)->get();
+    $customers = User::where('role', 'user')->where('status', 1)->get();
     $month = date('m', strtotime($date));
     $year = date('Y', strtotime($date));
 
     $ratesLst = \App\Models\Rates::all()->pluck('price', 'id')->toArray();
-    $users = User::where('role', 'user')->where('status', 1)
-            ->join('users_rates', 'users.id', '=', 'users_rates.id_user')
+    $customers = User::where('role', 'user')->where('status', 1)
+            ->join('users_rates', 'users.id', '=', 'users_rates.customer_id')
             ->whereYear('users_rates.created_at', '=', $year)
             ->whereMonth('users_rates.created_at', '=', $month)
             ->get();
 
-    foreach ($users as $user) {
-      if (isset($ratesLst[$user->id_rate])) {
-        $cobro = \App\Charges::where('id_user', $user->id)
-                ->where('id_rate', $user->id_rate)
+    foreach ($customers as $customer) {
+      if (isset($ratesLst[$customer->rate_id])) {
+        $cobro = \App\Charges::where('customer_id', $customer->id)
+                ->where('rate_id', $customer->rate_id)
                 ->whereYear('date_payment', '=', $year)
                 ->whereMonth('date_payment', '=', $month)
                 ->count();
 
         if ($cobro == 0) {
-          $pendiente += $ratesLst[$user->id_rate];
+          $pendiente += $ratesLst[$customer->rate_id];
         }
       }
     }
@@ -428,7 +392,7 @@ class UsersController extends Controller {
   }
 
   function sendConsent(Request $request){
-    $uID = $request->input('id_user',null);
+    $uID = $request->input('customer_id',null);
     $type = $request->input('type',null);
     if (!$uID){
       return response()->json(['error','usuario no encontrado']);

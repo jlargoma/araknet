@@ -13,17 +13,17 @@ class Dates extends Model
     
     public function service()
     {
-        return $this->hasOne('\App\Models\Rates', 'id', 'id_rate');
+        return $this->hasOne('\App\Models\Rates', 'id', 'rate_id');
     }
 
     public function coach()
     {
-        return $this->hasOne('\App\Models\User', 'id', 'id_coach');
+        return $this->hasOne('\App\Models\User', 'id', 'user_id');
     }
 
     public function uRates()
     {
-        return $this->hasOne('\App\Models\UserRates', 'id', 'id_user_rates');
+        return $this->hasOne('\App\Models\CustomersRates', 'id', 'customer_rate_ids');
     }
     public function getHour()
     {
@@ -39,7 +39,7 @@ class Dates extends Model
     }
     public function user()
     {
-        return $this->hasOne('\App\Models\User', 'id', 'id_user');
+        return $this->hasOne('\App\Models\User', 'id', 'customer_id');
     }
     
     

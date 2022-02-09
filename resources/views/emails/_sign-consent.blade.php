@@ -1,6 +1,6 @@
 @include('emails.head')
 
-Hola! <?php echo $user->name ?><br><br><br>
+Hola! <?php echo $customer->name ?><br><br><br>
 
 <bold>Te enviamos el enlace para aceptar y firmar el documento de <b><?php echo $tit; ?></b></bold><br>
 <br/>

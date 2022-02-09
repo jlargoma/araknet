@@ -4,7 +4,7 @@ $count = 1;
 <table class="formValora">
   <tr>
     <td colspan="2"><label for="name">NOMBRE</label>
-      <div class="field">{{$user->name}}</div></td>
+      <div class="field">{{$customer->name}}</div></td>
     <td colspan="2"> <label>APELLIDOS</label>
       <div class="field">{{$valora['valora_lastname']}}</div></td>
   </tr>
@@ -12,7 +12,7 @@ $count = 1;
     <td colspan="2">  <label for="phone">EDAD</label>
       <div class="field">{{$valora['valora_years']}}</div></td>
     <td colspan="2"><label for="name">*FIRMA DEL TUTOR (en menores de edad)</label>
-      <div class="field">{{$user->dni}}</div></td>
+      <div class="field">{{$customer->dni}}</div></td>
   </tr>
   <tr>
     <td colspan="2"> <label for="phone">FECHA DE VALORACIÓN</label>

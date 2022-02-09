@@ -37,7 +37,7 @@ class InformesController extends Controller {
         if ($search){
             $search = trim($search);
             $cliIDs = User::where('name', 'LIKE', "%" . $search . "%")->pluck('id');
-            $sql_charges->whereIn('id_user',$cliIDs);
+            $sql_charges->whereIn('customer_id',$cliIDs);
             $sql_CashBox->where('concept', 'LIKE', "%" . $search . "%");
         }
         
@@ -60,7 +60,7 @@ class InformesController extends Controller {
           if ($rate != 'all'){
             $filerRate = explode('-', $rate);
             if (count($filerRate) == 2){
-              $sql_charges->where('id_rate', $filerRate[1]);
+              $sql_charges->where('rate_id', $filerRate[1]);
             }
             else{
               $sql_charges->where('type_rate', $filerRate[0]);
@@ -69,7 +69,7 @@ class InformesController extends Controller {
         }
         //------------------------------------------------------------//
         if($f_coach){
-          $uR_IDs = \App\Models\UserRates::where('coach_id',$f_coach)->pluck('id_charges');
+          $uR_IDs = \App\Models\CustomersRates::where('coach_id',$f_coach)->pluck('charge_id');
           $sql_charges->whereIn('id', $uR_IDs);
         }
         //------------------------------------------------------------//
@@ -88,8 +88,8 @@ class InformesController extends Controller {
         $clients = [];
         $rates = $bonos = [];
         foreach ($charges as $charge) {
-            $clients[] = $charge->id_user;
-            if ($charge->id_rate>0)  $rates[] = $charge->id_rate;
+            $clients[] = $charge->customer_id;
+            if ($charge->rate_id>0)  $rates[] = $charge->rate_id;
             if ($charge->bono_id>0)  $bonos[] = $charge->bono_id;
             switch ($charge->type_payment){
               case 'banco':
@@ -139,12 +139,12 @@ class InformesController extends Controller {
     
     public function getChargesRates($year,$month,$day,$search=null) {
       
-      $sqlURates = \App\Models\UserRates::where('id_charges', '>', 0)
+      $sqlURates = \App\Models\CustomersRates::where('charge_id', '>', 0)
               ->where('rate_month',$month)->where('rate_year',$year);
       if ($search){
           $search = trim($search);
           $cliIDs = User::where('name', 'LIKE', "%" . $search . "%")->pluck('id');
-          $sqlURates->whereIn('id_user',$cliIDs);
+          $sqlURates->whereIn('customer_id',$cliIDs);
       }
       $uRates = $sqlURates->orderBy('created_at')->get();
       $bank = 0;
@@ -154,8 +154,8 @@ class InformesController extends Controller {
       $rates = [];
       $charges = [];
       foreach ($uRates as $item) {
-          $clients[] = $item->id_user;
-          $rates[] = $item->id_rate;
+          $clients[] = $item->customer_id;
+          $rates[] = $item->rate_id;
           
           $charge = $item->charges;
           if ($charge){
@@ -219,8 +219,8 @@ class InformesController extends Controller {
         foreach ($data['charges'] as $c){
           $chargesIDs[] = $c->id;
         }
-        $data['aURates']= \App\Models\UserRates::whereIn('id_charges', $chargesIDs)
-              ->pluck('rate_month','id_charges')->toArray();
+        $data['aURates']= \App\Models\CustomersRates::whereIn('charge_id', $chargesIDs)
+              ->pluck('rate_month','charge_id')->toArray();
         
         /*****************************************************************/
         $rateFilter = [];
@@ -273,15 +273,15 @@ class InformesController extends Controller {
         }
         
         foreach ($data['charges'] as $c){
-          if ($c->id_rate>0){
+          if ($c->rate_id>0){
             
-            if (!isset($byRate[$c->id_rate]))
-                $byRate[$c->id_rate] = 0;
+            if (!isset($byRate[$c->rate_id]))
+                $byRate[$c->rate_id] = 0;
             
-            $byRate[$c->id_rate] += $c->import;
-            if (isset($aRrt[$c->id_rate])){
-              $byRateT[$aRrt[$c->id_rate]]['t'] += $c->import;
-              $byRateT[$aRrt[$c->id_rate]][$c->type_payment] += $c->import;
+            $byRate[$c->rate_id] += $c->import;
+            if (isset($aRrt[$c->rate_id])){
+              $byRateT[$aRrt[$c->rate_id]]['t'] += $c->import;
+              $byRateT[$aRrt[$c->rate_id]][$c->type_payment] += $c->import;
             }
           }
         }
@@ -307,24 +307,24 @@ class InformesController extends Controller {
         
         $uResult = [];
         $tCoachs = [];
-        $uRates = \App\Models\UserRates::select(
+        $uRates = \App\Models\CustomersRates::select(
                 'users_rates.*','charges.type_payment',
                 'charges.import','charges.discount')
                 ->where('rate_year',$year)
                 ->where('rate_month',$month)
-                ->join('charges','id_charges','=','charges.id')->get();
+                ->join('charges','charge_id','=','charges.id')->get();
         
         if ($uRates){
           foreach ($uRates as $uR){
-            if (!isset($uResult[$uR->id_user])) $uResult[$uR->id_user] = [];
+            if (!isset($uResult[$uR->customer_id])) $uResult[$uR->customer_id] = [];
 
-            $uResult[$uR->id_user][] = [
-                $uR->id_rate,
+            $uResult[$uR->customer_id][] = [
+                $uR->rate_id,
                 $uR->coach_id,
                 $uR->type_payment,
                 $uR->import,
                 $uR->discount,
-                isset($aRrt[$uR->id_rate]) ? $aRrt[$uR->id_rate] : null
+                isset($aRrt[$uR->rate_id]) ? $aRrt[$uR->rate_id] : null
             ];
 
             if (!isset($tCoachs[$uR->coach_id])) $tCoachs[$uR->coach_id] = 0;
@@ -473,8 +473,8 @@ class InformesController extends Controller {
         foreach ($data['charges'] as $c){
           $chargesIDs[] = $c->id;
         }
-        $data['aURates']= \App\Models\UserRates::whereIn('id_charges', $chargesIDs)
-              ->pluck('rate_month','id_charges')->toArray();
+        $data['aURates']= \App\Models\CustomersRates::whereIn('charge_id', $chargesIDs)
+              ->pluck('rate_month','charge_id')->toArray();
 
         /***************************************************************/
         $date = date('Y-m-d');

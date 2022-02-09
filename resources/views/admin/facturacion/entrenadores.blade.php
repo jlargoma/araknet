@@ -32,7 +32,7 @@
                 <div class="col-sm-6 col-md-3">
                     <div class="block block-link-hover3 text-center" style="border :1px solid #d4d4d4">
                         <div class="block-content block-content-full">
-                            <div class="h1 font-w700 text-success"><i class="fa fa-users"></i> <?php echo count($users) ?></div>
+                            <div class="h1 font-w700 text-success"><i class="fa fa-users"></i> <?php echo count($customers) ?></div>
                         </div>
                         <div class="block-content block-content-full block-content-mini bg-gray-lighter text-success font-w600">Entrenadores</div>
                     </div>
@@ -55,28 +55,28 @@
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    <?php foreach ($users as $key => $user): ?>
+		                    <?php foreach ($customers as $key => $customer): ?>
 		                       <tr>
 		                       		<td class="text-center hidden-xs hidden-sm"> 
-		                       			<?php echo $user->id; ?>
+		                       			<?php echo $customer->id; ?>
 		                       		</td>
 		                       		<td class="text-center"> 
-		                       			<b><?php echo $user->name; ?></b>
+		                       			<b><?php echo $customer->name; ?></b>
 		                       		</td>
 		                       		<td class="text-center hidden-xs hidden-sm"> 
-		                       			<b><?php echo $user->email; ?></b>
+		                       			<b><?php echo $customer->email; ?></b>
 		                       		</td>
 		                       		<td class="text-center hidden-xs hidden-sm"> 
-	                       				<b><?php echo $user->tarifa->nombre; ?></b>
+	                       				<b><?php echo $customer->tarifa->nombre; ?></b>
 		                       		</td>
 		                       		<td class="text-center"> 
-		                       			<a href="tel:<?php echo $user->phone ?>">
-		                       				<?php echo substr($user->phone, 0, 4); ?>...
+		                       			<a href="tel:<?php echo $customer->phone ?>">
+		                       				<?php echo substr($customer->phone, 0, 4); ?>...
 		                       			</a>
 		                       		</td>
 		                       		<td class="text-center"> 
 		                       			<?php 
-		                       				$taxesCoach = \App\Taxes_coach::where('id_user',$user->id)->get();
+		                       				$taxesCoach = \App\Taxes_coach::where('customer_id',$customer->id)->get();
 
 		                       				if ( count($taxesCoach) > 0) {
 		                       					
@@ -101,7 +101,7 @@
 		                       		</td>
 		                       		<td class="text-center">
 		                       			<div class="btn-group">
-											<a href="{{ url('/admin/facturacion/generar-liquidacion/')}}/<?php echo $user->id ?>" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" title="" data-original-title="Generar liquidación "><i class="fa fa-file-text"></i></a>
+											<a href="{{ url('/admin/facturacion/generar-liquidacion/')}}/<?php echo $customer->id ?>" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" title="" data-original-title="Generar liquidación "><i class="fa fa-file-text"></i></a>
 
 		                       				<a href="{{ url('/admin/facturacion/entrenador/actualizar/')}}/<?php echo $taxesCoach[0]->id ?>" class="btn btn-xs btn-primary" type="button" data-toggle="tooltip" title="" data-original-title="Editar Entrenador"><i class="fa fa-pencil"></i></a>
 		                       				

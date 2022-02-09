@@ -15,7 +15,7 @@ if ($oCharges && count($oCharges)>0):
         ?>
         <tr>
           <td><?php echo dateMin($c->date_payment); ?></td>
-          <td><?php echo $servic[$c->id_rate]; ?></td>
+          <td><?php echo $servic[$c->rate_id]; ?></td>
           <td><?php echo moneda($c->import); ?></td>
           <td><?php echo isset($pMeth[$c->type_payment]) ? $pMeth[$c->type_payment] : 'Otro'; ?></td>
         </tr>

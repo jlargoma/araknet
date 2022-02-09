@@ -27,7 +27,7 @@ class CoachLiquidationController extends Controller
       }
       if (!$liquidation){
         $liquidation = new CoachLiquidation();
-        $liquidation->id_coach = $request->id_coach;
+        $liquidation->user_id = $request->user_id;
         $liquidation->total = $request->importe;
         $liquidation->date_liquidation = Carbon::createFromFormat('Y-m-d', $request->date_liquidation)->copy()->format('Y-m-d');
       }
@@ -45,16 +45,16 @@ class CoachLiquidationController extends Controller
     
     public function store(Request $request)
     {
-        $id_coach = $request->id_coach;
+        $user_id = $request->user_id;
         $importe  = $request->importe;
         $type     = $request->type;
         $date     = $request->date.'-01';
         
-        $oLiq = CoachLiquidation::where('id_coach',$id_coach)
+        $oLiq = CoachLiquidation::where('user_id',$user_id)
                 ->where('date_liquidation',$date)->first();
         if (!$oLiq){
             $oLiq = new CoachLiquidation();
-            $oLiq->id_coach = $id_coach;
+            $oLiq->user_id = $user_id;
             $oLiq->date_liquidation = $date;
         }
         if ($type == 'liq') $oLiq->salary = intval($importe);
@@ -111,7 +111,7 @@ class CoachLiquidationController extends Controller
         $liqLst =  [];
         $CommLst = [];
         $CommLstCalc = $emptyMonth;
-        $oLiq = CoachLiquidation::where('id_coach',$id)
+        $oLiq = CoachLiquidation::where('user_id',$id)
                     ->whereYear('date_liquidation' ,'=', $year)
                     ->get();
         if ($oLiq){
@@ -184,13 +184,13 @@ class CoachLiquidationController extends Controller
         }
         $sCoachLiq = new \App\Services\CoachLiqService();
         $aData = $sCoachLiq->liquMensual($id,$year,$month);
-        $user = User::find($id);
-        $aData['user'] = $user;
+        $customer = User::find($id);
+        $aData['user'] = $customer;
         $aData['mes'] = getMonthSpanish($month,false).' '.$year;
 //        $view =  \View::make('pdfs.liquidacion', $aData)->render();
 //        echo $view;die;
 
-        $fileName = str_replace(' ','-','liquidacion '.$aData['mes'].' '. strtoupper($user->name));
+        $fileName = str_replace(' ','-','liquidacion '.$aData['mes'].' '. strtoupper($customer->name));
         $routePdf = storage_path('/app/liquidaciones/'. urlencode($fileName).'.pdf');
         $pdf = PDF::loadView('pdfs.liquidacion', $aData);
         $pdf->save($routePdf);
@@ -198,10 +198,10 @@ class CoachLiquidationController extends Controller
 //        return $pdf->download('invoice.pdf');
 
 //
-//        return view('emails._liquidacion_coach',['user' => $user,'mes'=>$aData['mes']]);
-        $emailing = $user->email;
+//        return view('emails._liquidacion_coach',['user' => $customer,'mes'=>$aData['mes']]);
+        $emailing = $customer->email;
         try{
-        \Mail::send(['html' => 'emails._liquidacion_coach'],['user' => $user,'mes'=>$aData['mes']], function ($message) use ($emailing, $fileName,$routePdf)  {
+        \Mail::send(['html' => 'emails._liquidacion_coach'],['user' => $customer,'mes'=>$aData['mes']], function ($message) use ($emailing, $fileName,$routePdf)  {
                 setlocale(LC_TIME, "ES");
                 setlocale(LC_TIME, "es_ES");
                 $message->subject($fileName);

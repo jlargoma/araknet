@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Rates;
 use App\Models\User;
 use App\Models\Charges;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 
 class ChargesDateService {
 
@@ -27,9 +27,9 @@ class ChargesDateService {
     
     $time = strtotime($oDate->date);
     $oCobro = new Charges();
-    $oCobro->id_user = $oUser->id;
+    $oCobro->customer_id = $oUser->id;
     $oCobro->date_payment = date('Y-m-d');
-    $oCobro->id_rate = $oRate->id;
+    $oCobro->rate_id = $oRate->id;
     $oCobro->type_payment = $tpay;
     $oCobro->type = 1;
     $oCobro->import = $value;
@@ -37,18 +37,18 @@ class ChargesDateService {
     $oCobro->type_rate = $oRate->type;
     $oCobro->save();
     ///--------------------------------//
-    if (!$uRate->id_charges){
-      $uRate->id_charges = $oCobro->id;
+    if (!$uRate->charge_id){
+      $uRate->charge_id = $oCobro->id;
       $uRate->save();
     } else {
-      $urClone = new UserRates();
-      $urClone->id_user = $uRate->id_user;
-      $urClone->id_rate = $uRate->id_rate;
+      $urClone = new CustomersRates();
+      $urClone->customer_id = $uRate->customer_id;
+      $urClone->rate_id = $uRate->rate_id;
       $urClone->rate_year = $uRate->rate_year;
       $urClone->rate_month = $uRate->rate_month;
       $urClone->price = $uRate->price;
       $urClone->coach_id = $uRate->coach_id;
-      $urClone->id_charges = $oCobro->id;
+      $urClone->charge_id = $oCobro->id;
       $urClone->save();
     }
     ///--------------------------------//

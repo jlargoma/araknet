@@ -50,7 +50,7 @@ $date_type = 'nutri'
 jQuery(function () {
     App.initHelpers(['datepicker', 'select2']);
 
-        $("#id_user").change(function() {
+        $("#customer_id").change(function() {
             var id = $(this).val();
             $.get('/admin/get-mail/' + id, function(data) {
                 $('#NC_email').val(data[0]);
@@ -64,8 +64,8 @@ jQuery(function () {
             id: {{$id}},
             date: oForm.find('#date').val(),
             time: oForm.find('#hour').val(),
-            uID: oForm.find('#id_user').val(),
-            cID: oForm.find('#id_coach').val(),
+            uID: oForm.find('#customer_id').val(),
+            cID: oForm.find('#user_id').val(),
             type: 'nutri',
             _token: '{{csrf_token()}}',
           };
@@ -89,7 +89,7 @@ jQuery(function () {
             }
           });
         });
-        $("#id_rate").change(function () {
+        $("#rate_id").change(function () {
             var price = $(this).find(':selected').data('price');
             $('#importeFinal').val(price);
         });
@@ -107,17 +107,17 @@ jQuery(function () {
                 e.preventDefault();
                 $('#u_name').show();
                 $('#div_user').hide();
-                $('#id_user').val('0');
+                $('#customer_id').val('0');
                 $('#tit_user').text('Nuevo Cliente');
             });
           $('#is_group').click(function (e) {
             if($(this).is(':checked')){
-              $('#id_user').val('0').attr('disabled',true);
+              $('#customer_id').val('0').attr('disabled',true);
               $('#NC_email').val('').attr('disabled',true);
               $('#NC_phone').val('').attr('disabled',true);
               $('#u_name').val('').attr('disabled',true);
             } else {
-              $('#id_user').val('0').attr('disabled',false);
+              $('#customer_id').val('0').attr('disabled',false);
               $('#NC_email').val('').attr('disabled',false);
               $('#NC_phone').val('').attr('disabled',false);
               $('#u_name').val('').attr('disabled',false);

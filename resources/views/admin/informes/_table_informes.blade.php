@@ -43,18 +43,18 @@
             <td class="text-center"><b>{{dateMin($charge->date_payment)}}</b></td>
             <td class="text-center">
                 <?php
-                echo (isset($aUsers[$charge->id_user])) ? $aUsers[$charge->id_user] : ' - ';
+                echo (isset($aUsers[$charge->customer_id])) ? $aUsers[$charge->customer_id] : ' - ';
                 ?>
             </td>
             <td class="text-center">
                 <?php
-                if ($charge->id_rate>0) echo (isset($aRates[$charge->id_rate])) ? $aRates[$charge->id_rate] : ' - ';
+                if ($charge->rate_id>0) echo (isset($aRates[$charge->rate_id])) ? $aRates[$charge->rate_id] : ' - ';
                 if ($charge->bono_id>0) echo (isset($aBonos[$charge->bono_id])) ? $aBonos[$charge->bono_id] : ' - ';
                 ?>
             </td>
             <td class="text-center">
                 <?php
-                echo (isset($aTRates[$charge->id_rate])) ? $aTRates[$charge->id_rate] : ' - ';
+                echo (isset($aTRates[$charge->rate_id])) ? $aTRates[$charge->rate_id] : ' - ';
                 ?>
             </td>
             <td class="text-center">{{moneda($charge->import,false,1)}}</td>

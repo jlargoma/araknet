@@ -1,7 +1,7 @@
 <form action="{{ url('/admin/citas/chargeAdvanced') }}" method="post" id="chargeDate">
   <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
   <input type="hidden" name="idDate" id="idDate" value="<?php echo $id ?>">
-  <input type="hidden" name="id_rate" value="<?php echo $id_serv ?>">
+  <input type="hidden" name="rate_id" value="<?php echo $id_serv ?>">
   <div class="col-xs-12 col-md-6 push-20">
     <div class="box-payment-card">
       <h4>PAGAR AHORA</h4>
@@ -60,7 +60,7 @@ button.btn.btn-lg.btn-success.sharedBono {
     padding: 6px;
     margin-top: 3px;
 }
-#modal-shareBonos span#select2-id_userBono-container {
+#modal-shareBonos span#select2-customer_idBono-container {
     padding: 8px;
 }
 #modal-shareBonos div#lstBonos {

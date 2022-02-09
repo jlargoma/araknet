@@ -14,7 +14,7 @@
           <input class="js-datepicker form-control" value="{{$date}}" type="text" id="date" name="date" placeholder="Fecha y hora..." style="cursor: pointer;" data-date-format="dd-mm-yyyy"/>
         </div>
         <div class="col-xs-3 col-md-2 not-padding  push-20">
-          <label for="id_user">hora</label>
+          <label for="customer_id">hora</label>
           <select class="form-control" id="hour" name="hour" style="width: 100%;" data-placeholder="hora" required >
             <?php for ($i = 8; $i <= 22; $i++) : ?>
               <?php
@@ -41,11 +41,11 @@
         <div class="col-xs-1 col-md-3  push-20"></div>
                 
         <div class="col-xs-3 col-md-2 push-20">
-          <label for="id_coach"><?php echo $date_type_u; ?></label>
-          <select class="js-select2 form-control" id="id_coach" name="id_coach" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." >
+          <label for="user_id"><?php echo $date_type_u; ?></label>
+          <select class="js-select2 form-control" id="user_id" name="user_id" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." >
             <option></option>
             <?php foreach ($coachs as $key => $coach): ?>
-              <option value="<?php echo $coach->id; ?>" <?php if (isset($id_coach) && $id_coach == $coach->id) echo 'selected' ?>>
+              <option value="<?php echo $coach->id; ?>" <?php if (isset($user_id) && $user_id == $coach->id) echo 'selected' ?>>
                 <?php echo $coach->name; ?>
               </option>
             <?php endforeach ?>
@@ -53,7 +53,7 @@
         </div>
         <div class="col-xs-6 col-md-4 push-20">
       <label for="id_type_rate">Servicio</label>
-      <select class="js-select2 form-control" id="id_rate" name="id_rate" style="width: 100%;" data-placeholder="Seleccione un servicio" required >
+      <select class="js-select2 form-control" id="rate_id" name="rate_id" style="width: 100%;" data-placeholder="Seleccione un servicio" required >
         <option></option>
         <?php foreach ($services as $key => $service): ?>
           <option value="<?php echo $service->id; ?>" data-price="<?php echo $service->price ?>" <?php if (isset($id_serv) && $id_serv == $service->id) echo 'selected' ?>>

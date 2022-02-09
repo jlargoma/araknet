@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Rates;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use App\Models\User;
 use App\Models\Charges;
 
@@ -19,12 +19,12 @@ class IncomesService {
     $this->crLst = [];
   }
 
-  function getUserRatesLst() {
+  function getCustomersRatesLst() {
     $crLst = [];
-    $uRates = \App\Models\UserRates::where('rate_year', $this->year)->get();
+    $uRates = \App\Models\CustomersRates::where('rate_year', $this->year)->get();
     foreach ($uRates as $item) {
       $c = $item->charges;
-      $rID = $item->id_rate;
+      $rID = $item->rate_id;
       if (!isset($crLst[$rID]))
           $crLst[$rID] = $this->mm;
       $m = $item->rate_month;

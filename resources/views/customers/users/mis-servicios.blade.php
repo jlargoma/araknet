@@ -22,8 +22,8 @@
 	<h2 style="letter-spacing: -2px;" class="font-w300 push-10">Mis suscripciones</h2>
 </div>
 <div class="col-xs-12 col-md-12 push-20">
-	<?php if ( count($userSuscription['data']) > 0): ?>
-		<?php foreach ($userSuscription['data'] as $key => $suscription): ?>
+	<?php if ( count($customerSuscription['data']) > 0): ?>
+		<?php foreach ($customerSuscription['data'] as $key => $suscription): ?>
 			<div class="col-xs-12 col-md-12 div-suscriptions">
 				<?php if ($suscription['status'] == 'active'): ?>
 					<div class="suscription-status">

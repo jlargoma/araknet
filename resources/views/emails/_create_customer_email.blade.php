@@ -3,7 +3,7 @@ $tit = 'Bienvenido a Araknet';
 ?>
 @include('emails.head')
 
-Hola! <?php echo $user->name ?><br><br><br>
+Hola! <?php echo $customer->name ?><br><br><br>
 
 <bold>Bienvenido a Araknet, esperamos que te pongas muuuy en forma y que cumplas todos los objetivos que te has marcado.</bold><br>
 

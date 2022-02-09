@@ -9,7 +9,7 @@
 	    	<input type="hidden" name="type" value="2">
     		<input type="hidden" name="idDate" value="<?php echo $date->id; ?>">
     		<div class="col-xs-12 push-20">
-				<select class="js-select2 form-control" id="id_rate" name="id_rate" style="width: 100%;" data-placeholder="Seleccione una tarifa" required >
+				<select class="js-select2 form-control" id="rate_id" name="rate_id" style="width: 100%;" data-placeholder="Seleccione una tarifa" required >
 	                <option></option>
 	                <?php foreach (\App\Rates::where('type', $date->service->id)->get() as $key => $rate): ?>
 	                	<option value="<?php echo $rate->id; ?>">

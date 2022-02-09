@@ -10,6 +10,6 @@ class CoachRates extends Model
 
     public function trainer()
     {
-        return $this->hasOne('\App\Models\User', 'id', 'id_user');
+        return $this->hasOne('\App\Models\User', 'id', 'customer_id');
     }
 }

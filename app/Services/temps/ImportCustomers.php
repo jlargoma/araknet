@@ -31,7 +31,7 @@ class ImportCustomers {
 //        $this->updChargesDate();
 //        break;
 //      case 'urates':
-//        $this->updUserRates();
+//        $this->updCustomersRates();
 //        break;
     }
   }
@@ -79,9 +79,9 @@ class ImportCustomers {
     $tRates = \App\Models\Rates::pluck('type','id')->toArray();
     foreach ($cutomers as $c){
       $oCobro = new \App\Models\Charges();
-      $oCobro->id_user = $c->user_id;
+      $oCobro->customer_id = $c->user_id;
       $oCobro->date_payment = $c->date;
-      $oCobro->id_rate = $c->rate_id;
+      $oCobro->rate_id = $c->rate_id;
       $oCobro->type_payment = strtolower($c->tpay);
       $oCobro->type = 1;
       $oCobro->import = $c->price;
@@ -91,12 +91,12 @@ class ImportCustomers {
 
       /**************************************************** */
 
-      $newRate = new \App\Models\UserRates();
-      $newRate->id_user = $c->user_id;
-      $newRate->id_rate = $c->rate_id;
+      $newRate = new \App\Models\CustomersRates();
+      $newRate->customer_id = $c->user_id;
+      $newRate->rate_id = $c->rate_id;
       $newRate->rate_year = date('Y', strtotime($c->date));
       $newRate->rate_month = date('n', strtotime($c->date));
-      $newRate->id_charges = $oCobro->id;
+      $newRate->charge_id = $oCobro->id;
       $newRate->coach = $c->coach;
       $newRate->save();
       
@@ -111,8 +111,8 @@ class ImportCustomers {
         if ($month != 4)          continue;
         $year = date('Y', strtotime($c->date));
         
-        $oRate = \App\Models\UserRates::where('id_user',$c->user_id)
-                ->where('id_rate',$c->rate_id)
+        $oRate = \App\Models\CustomersRates::where('customer_id',$c->user_id)
+                ->where('rate_id',$c->rate_id)
                 ->where('rate_month',$month)
                 ->where('rate_year',$year)->first();
         if ($oRate){
@@ -126,25 +126,25 @@ class ImportCustomers {
     function updChargesDate(){
       $allDates = \App\Models\Dates::all();
       foreach ($allDates as $i){
-        if (!$i->id_user_rates){
-          $uRate = \App\Models\UserRates::where('id_appointment',$i->id)->first();
+        if (!$i->customer_rate_ids){
+          $uRate = \App\Models\CustomersRates::where('id_appointment',$i->id)->first();
           if ($uRate){
-            $uRate->id_charges = $i->id_charges;
+            $uRate->charge_id = $i->charge_id;
             $uRate->save();
             
           } else {
             $timeCita = strtotime($i->date);
-            $uRate = new \App\Models\UserRates();
-            $uRate->id_user = $i->id_user;
-            $uRate->id_rate = $i->id_rate;
+            $uRate = new \App\Models\CustomersRates();
+            $uRate->customer_id = $i->customer_id;
+            $uRate->rate_id = $i->rate_id;
             $uRate->rate_year = date('Y', $timeCita);
             $uRate->rate_month = date('n', $timeCita);
             $uRate->price = $i->price;
-            $uRate->id_charges = $i->id_charges;
+            $uRate->charge_id = $i->charge_id;
             $uRate->save();
           }
           
-          $i->id_user_rates = $uRate->id;
+          $i->customer_rate_ids = $uRate->id;
           $i->save();
         }
       }
@@ -161,10 +161,10 @@ class ImportCustomers {
         
       }
      
-      $uRates = \App\Models\UserRates::whereIn('id_charges',$cIDS)
+      $uRates = \App\Models\CustomersRates::whereIn('charge_id',$cIDS)
               ->where('rate_month','<',5)->get();
       foreach ($uRates as $ur){
-        $oCharge = $aCh[$ur->id_charges];
+        $oCharge = $aCh[$ur->charge_id];
         $day = date('d', strtotime($oCharge->date_payment));
         
         $oCharge->date_payment = $ur->rate_year.'-'.$ur->rate_month.'-'.$day;
@@ -175,14 +175,14 @@ class ImportCustomers {
     /**
      * http://evol.virtual/admin/import/urates
      */
-    function updUserRates(){
-      $suscr = \App\Models\UsersSuscriptions::whereNotNull('id_coach')->get();
+    function updCustomersRates(){
+      $suscr = \App\Models\UsersSuscriptions::whereNotNull('user_id')->get();
       foreach ($suscr as $i){
       
         $affected = DB::table('users_rates')
-              ->where('id_user',$i->id_user)
-              ->where('id_rate',$i->id_rate)
-              ->update(['coach_id' => $i->id_coach]);
+              ->where('customer_id',$i->customer_id)
+              ->where('rate_id',$i->rate_id)
+              ->update(['coach_id' => $i->user_id]);
         
       }
     }

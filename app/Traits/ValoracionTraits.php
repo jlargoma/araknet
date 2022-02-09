@@ -113,15 +113,15 @@ trait ValoracionTraits {
         ];
     
   }
-  public function get_valoracion($user) {
+  public function get_valoracion($customer) {
   
     $fields = $this->get_valoracionFields();
-    $data = $user->getMetaContentGroups($fields);
+    $data = $customer->getMetaContentGroups($fields);
     foreach ($fields as $f)
       if (!isset($data[$f])) $data[$f] = null;
     
       
-    $code = encriptID($user->id).'-'.encriptID(time()*rand());
+    $code = encriptID($customer->id).'-'.encriptID(time()*rand());
     $keys = $code.'/'.getKeyControl($code);
     $data['url'] = '/valoracion/'.$keys;
     $data['url_dwnl'] = '/descargar-valoracion/'.$keys;
@@ -130,10 +130,10 @@ trait ValoracionTraits {
       
     return array_merge($data,$this->get_valoracionQuestions());
   }
-  public function show_valoracion($user) {
+  public function show_valoracion($customer) {
   
     $fields = $this->get_valoracionFields();
-    $data = $user->getMetaContentGroups($fields);
+    $data = $customer->getMetaContentGroups($fields);
     foreach ($fields as $f)
       if (!isset($data[$f])) $data[$f] = null;
     
@@ -244,7 +244,7 @@ trait ValoracionTraits {
   }
 
   public function sendValoracion(Request $request) {
-    $uID = $request->input('id_user',null);
+    $uID = $request->input('customer_id',null);
     if (!$uID){
       return response()->json(['error','usuario no encontrado']);
     }

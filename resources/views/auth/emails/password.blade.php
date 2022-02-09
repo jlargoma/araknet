@@ -1,5 +1,5 @@
 <h2>¿Has perdido tu contraseña?</h2><br><br><br>
-<p>Para cambiarla por favor <a href="{{ $link = url('password/reset', $token).'?email='.urlencode($user->getEmailForPasswordReset()) }}"> Pincha aquí </a></p>
+<p>Para cambiarla por favor <a href="{{ $link = url('password/reset', $token).'?email='.urlencode($customer->getEmailForPasswordReset()) }}"> Pincha aquí </a></p>
 <div>
 	<p><bold>Te recordamos que tienes a tu disposición los siguiente servicios:</bold></p>
 	<ul>

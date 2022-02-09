@@ -4,7 +4,7 @@
       <h2 class="font-w300" style="margin: 0">LISTADO DE <b>FACTURAs ({{moneda($totalInvoice)}}) </b></h2>
     </div>
     <div class="col-md-3 pull-right col-xs-12 text-right">
-      <a href="{{ route('invoice.create',$user->id) }}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nueva</a>
+      <a href="{{ route('invoice.create',$customer->id) }}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nueva</a>
     </div>
   </div>
   <div class="row mt-2">

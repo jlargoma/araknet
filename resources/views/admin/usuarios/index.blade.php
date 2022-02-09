@@ -42,29 +42,29 @@
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    <?php foreach ($users as $key => $user): ?>
+		                    <?php foreach ($customers as $key => $customer): ?>
 		                       <tr>
 		                       		<td class="text-center">
-		                       			<?php if ($user->status == 1): ?>
-											<a href="{{ url('/admin/usuarios/disable')}}/<?php echo $user->id ?>" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" title="" data-original-title="Desactivar usuario"><i class="fa fa-circle"></i></a>
+		                       			<?php if ($customer->status == 1): ?>
+											<a href="{{ url('/admin/usuarios/disable')}}/<?php echo $customer->id ?>" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" title="" data-original-title="Desactivar usuario"><i class="fa fa-circle"></i></a>
 										<?php else: ?>
-											<a href="{{ url('/admin/usuarios/activate')}}/<?php echo $user->id ?>" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="" data-original-title="Activar usuario"><i class="fa fa-circle"></i></a>
+											<a href="{{ url('/admin/usuarios/activate')}}/<?php echo $customer->id ?>" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="" data-original-title="Activar usuario"><i class="fa fa-circle"></i></a>
 										<?php endif ?>
 		                       		</td>
 		                       		<td class="text-center">
-		                       			<b><?php echo $user->name; ?></b>
+		                       			<b><?php echo $customer->name; ?></b>
 		                       		</td>
 		                       		<td class="text-center"> 
-		                       			<b><?php echo $user->email; ?></b>
+		                       			<b><?php echo $customer->email; ?></b>
 		                       		</td>
 		                       		<td class="text-center"> 
-		                       			<?php echo $user->phone; ?>
+		                       			<?php echo $customer->phone; ?>
 		                       		</td>
 		                       		
 		                       		
 		                       		<td class="text-center"> 
                             <?php 
-                              switch ($user->role):
+                              switch ($customer->role):
                                 case 'admin':
                                   ?><span class="label label-success">Administrador</span><?php
                                   break;
@@ -82,16 +82,16 @@
                             ?>
 		                       		</td>
 		                       		<td class="text-center"> 
-		                       			<?php if ($user->created_at == NULL): ?>
+		                       			<?php if ($customer->created_at == NULL): ?>
 		                       			Creada directamente en BD
 		                       		<?php else: ?>
-		                       			<?php echo $user->created_at; ?>
+		                       			<?php echo $customer->created_at; ?>
 		                       		<?php endif ?>
 		                       		</td>
 		                       		<td class="text-center">
-										<button id="updateuser" data-target="#modal-updateuser" class="btn-user btn btn-xs btn-success" type="button" data-idUser="{{ $user->id }}" data-toggle="modal" title="" data-original-title="Actualizar Usuario"><i class="fa fa-edit"></i></button>
+										<button id="updateuser" data-target="#modal-updateuser" class="btn-user btn btn-xs btn-success" type="button" data-idUser="{{ $customer->id }}" data-toggle="modal" title="" data-original-title="Actualizar Usuario"><i class="fa fa-edit"></i></button>
 								
-										<a onclick="return confirm('Seguro que desea eliminar a {{$user->name}}');" href="{{ url('/admin/usuarios/delete')}}/<?php echo $user->id ?>" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="" data-original-title="Eliminar usuario"><i class="fa fa-trash"></i></a>
+										<a onclick="return confirm('Seguro que desea eliminar a {{$customer->name}}');" href="{{ url('/admin/usuarios/delete')}}/<?php echo $customer->id ?>" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="" data-original-title="Eliminar usuario"><i class="fa fa-trash"></i></a>
 		                       		</td>
 		                       		
 		                       </tr>

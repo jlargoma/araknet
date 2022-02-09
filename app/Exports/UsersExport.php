@@ -19,24 +19,24 @@ class UsersExport implements FromCollection {
     ];
     
     $aRates = \App\Models\Rates::getByTypeRate('pt')->pluck('name', 'id')->toArray();
-    $oUserRates = \App\Models\UserRates::whereIn('id_rate',array_keys($aRates))->orderBy('id','desc')->get();
-    $aUserRates = [];
-    if ($oUserRates) {
-      foreach ($oUserRates as $i) {
-        if (!isset($aUserRates[$i->id_user]))
-            $aUserRates[$i->id_user] = $aRates[$i->id_rate];
+    $oCustomersRates = \App\Models\CustomersRates::whereIn('rate_id',array_keys($aRates))->orderBy('id','desc')->get();
+    $aCustomersRates = [];
+    if ($oCustomersRates) {
+      foreach ($oCustomersRates as $i) {
+        if (!isset($aCustomersRates[$i->customer_id]))
+            $aCustomersRates[$i->customer_id] = $aRates[$i->rate_id];
       }
     }
     
     
-    $users = \App\Models\User::where('role', 'user')->get();
-    foreach ($users as $user) {
+    $customers = \App\Models\User::where('role', 'user')->get();
+    foreach ($customers as $customer) {
         $array_excel[] = [
-            $user->name,
-            $user->email,
-            $user->phone,
-            $user->status ? 'ACTIVO' : 'NO ACTIVO',
-            isset($aUserRates[$user->id]) ? $aUserRates[$user->id] : '-'
+            $customer->name,
+            $customer->email,
+            $customer->phone,
+            $customer->status ? 'ACTIVO' : 'NO ACTIVO',
+            isset($aCustomersRates[$customer->id]) ? $aCustomersRates[$customer->id] : '-'
         ];
     }
     

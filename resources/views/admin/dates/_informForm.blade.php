@@ -22,9 +22,9 @@
 							<input type="hidden" name="id_type_rate" id="id_type_rate" class="form-control" value="<?php echo $type->id ?>">
 						</div>
 						<div class="col-xs-12 col-md-6 push-20">
-							<label for="id_user">Usuario</label>
-							<h3 class="text-center"> <?php echo $user->name ?></h3>
-							<input type="hidden" name="id_user" id="id_user" class="form-control" value="<?php echo $user->id ?>">
+							<label for="customer_id">Usuario</label>
+							<h3 class="text-center"> <?php echo $customer->name ?></h3>
+							<input type="hidden" name="customer_id" id="customer_id" class="form-control" value="<?php echo $customer->id ?>">
 						</div>
 					</div>
 					<div class=" col-xs-12 form-group push-20">
@@ -45,8 +45,8 @@
 	        	            </select>
 	                    </div>
 	                    <div class="col-xs-12 col-md-6 push-20">
-							<label for="id_user">Coach</label>
-							<select class=" form-control" id="id_coach" name="id_coach" style="width: 100%;" placeholder="Seleccione un coach" required >
+							<label for="customer_id">Coach</label>
+							<select class=" form-control" id="user_id" name="user_id" style="width: 100%;" placeholder="Seleccione un coach" required >
 								<option></option>
 				                <?php if (Auth::user()->role == 'nutri'): ?>
 				                	<?php foreach ($nutris as $nutri): ?>
@@ -82,8 +82,8 @@
 				            </select>
 						</div>
 						<div class="col-xs-12 col-md-6 push-20" style="display: none" id="cont-rate">
-							<label for="id_rate">Tarifa</label>
-							<select class=" form-control" id="id_rate" name="id_rate" style="width: 100%;" placeholder="Seleccione tarifa" >
+							<label for="rate_id">Tarifa</label>
+							<select class=" form-control" id="rate_id" name="rate_id" style="width: 100%;" placeholder="Seleccione tarifa" >
 				                <?php foreach (\App\Rates::where('type', $type->id)->get() as $key => $rate): ?>
 				                	<option value="<?php echo $rate->id ?>" data-price="<?php echo $rate->price ?>">
 				                		<?php echo $rate->name ?>
@@ -156,9 +156,9 @@
     		}
     	});
 
-    	$('#id_rate ').change(function(event) {
+    	$('#rate_id ').change(function(event) {
 
-    		var price = $('#id_rate option:selected').attr('data-price');
+    		var price = $('#rate_id option:selected').attr('data-price');
     		$('#price-rate').text(price+" €");
     	});
 
@@ -173,10 +173,10 @@
     	  	var $form = $( this ),
 				_token       = $form.find( "input[name='_token']" ).val(),
 				id_type_rate = $form.find( "input[name='id_type_rate']" ).val(),
-				id_user      = $form.find( "input[name='id_user']" ).val(),
+				customer_id      = $form.find( "input[name='customer_id']" ).val(),
 				date         = $form.find( "input[name='date']" ).val(),
 				hour         = $form.find( "select[name='hour']" ).val(),
-				id_coach     = $form.find( "select[name='id_coach']" ).val(),
+				user_id     = $form.find( "select[name='user_id']" ).val(),
 				type     	 = $form.find( "select[name='type']" ).val(),
 				url          = $form.attr( "action" );
 
@@ -185,22 +185,22 @@
     	  		var posting = $.post( url, { 
     	  								_token: _token,
 										id_type_rate: id_type_rate,
-										id_user: id_user,
+										customer_id: customer_id,
 										date: date,
 										hour: hour,
-										id_coach: id_coach,
+										user_id: user_id,
 										type: type,
-										id_rate: $("select[name='id_rate']").val(),
+										rate_id: $("select[name='rate_id']").val(),
     	  						} );
     	 	}else{
     	 		// Send the data using post
     	  		var posting = $.post( url, { 
     	  								_token: _token,
 										id_type_rate: id_type_rate,
-										id_user: id_user,
+										customer_id: customer_id,
 										date: date,
 										hour: hour,
-										id_coach: id_coach,
+										user_id: user_id,
 										type: type,
     	  						} );
     	 	}

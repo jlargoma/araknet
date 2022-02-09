@@ -20,12 +20,12 @@ class CoachLiqService {
     if ($type == 'desactivados')
       $sql->where('status', 0);
 
-    $users = $sql->orderBy('status', 'DESC')->get();
+    $customers = $sql->orderBy('status', 'DESC')->get();
     $aux = [];
     for ($i = 1; $i < 13; $i++)
       $aux[$i] = 0;
 
-    foreach ($users as $u) {
+    foreach ($customers as $u) {
       $aLiq[$u->id] = $aux;
     }
     //---------------------------------------------------------------//
@@ -33,24 +33,24 @@ class CoachLiqService {
     $oLiquidations = CoachLiquidation::whereYear('date_liquidation', '=', $year)->get();
     if ($oLiquidations) {
       foreach ($oLiquidations as $liq) {
-        if (!isset($aLiq[$liq->id_coach])) {
-          $aLiq[$liq->id_coach] = $aux;
+        if (!isset($aLiq[$liq->user_id])) {
+          $aLiq[$liq->user_id] = $aux;
         }
         $aux2 = intval(substr($liq->date_liquidation, 5, 2));
-        $aLiq[$liq->id_coach][$aux2] += ($liq->commision + $liq->salary);
+        $aLiq[$liq->user_id][$aux2] += ($liq->commision + $liq->salary);
       }
     }
 
     //---------------------------------------------------------------//
     // Calculate total
-    foreach ($users as $u) {
+    foreach ($customers as $u) {
       $aLiqTotal[$u->id] = array_sum($aLiq[$u->id]);
     }
 
     return [
         'months' => $months,
         'year' => $year,
-        'users' => $users,
+        'users' => $customers,
         'aLiq' => $aLiq,
         'aLiqTotal' => $aLiqTotal,
     ];
@@ -60,7 +60,7 @@ class CoachLiqService {
     $lstMonts = lstMonthsSpanish();
     $typePT = 2;
 
-    $taxCoach = CoachRates::where('id_user', $id)->first();
+    $taxCoach = CoachRates::where('customer_id', $id)->first();
 
     $ppc = $salary = $comm = $pppt = $ppcg = 0;
     if ($taxCoach) {
@@ -72,7 +72,7 @@ class CoachLiqService {
     }
     //---------------------------------------------------------------//
 
-    $oLiq = CoachLiquidation::where('id_coach', $id)
+    $oLiq = CoachLiquidation::where('user_id', $id)
             ->whereYear('date_liquidation', '=', $year)
             ->whereMonth('date_liquidation', '=', $month)
             ->first();
@@ -82,14 +82,14 @@ class CoachLiqService {
     }
     //---------------------------------------------------------------//
     /** @ToDo ver si es sólo citas o todos los cobros */
-    $oTurnos = Dates::where('id_coach', $id)
+    $oTurnos = Dates::where('user_id', $id)
             ->whereMonth('date', '=', $month)
             ->whereYear('date', '=', $year)
-            ->join('users_rates', 'users_rates.id', '=', 'id_user_rates')
+            ->join('users_rates', 'users_rates.id', '=', 'customer_rate_ids')
             ->with('user')->with('service')->with('uRates')
             ->orderBy('date')
             ->get();
-//            ->whereNotNull('users_rates.id_charges')
+//            ->whereNotNull('users_rates.charge_id')
 
     $totalClase = array();
     $pagosClase = array();
@@ -133,7 +133,7 @@ class CoachLiqService {
      * Citas grupales
      */
     
-    $oTurnos = Dates::where('id_coach', $id)
+    $oTurnos = Dates::where('user_id', $id)
             ->where('is_group', 1)
             ->whereMonth('date', '=', $month)
             ->whereYear('date', '=', $year)
@@ -208,11 +208,11 @@ class CoachLiqService {
     $oLiquidations = CoachLiquidation::whereYear('date_liquidation', '=', $year)->get();
     if ($oLiquidations) {
       foreach ($oLiquidations as $liq) {
-        if (!isset($aLiq[$liq->id_coach])) {
-          $aLiq[$liq->id_coach] = $aux;
+        if (!isset($aLiq[$liq->user_id])) {
+          $aLiq[$liq->user_id] = $aux;
         }
         $aux2 = intval(substr($liq->date_liquidation, 5, 2));
-        $aLiq[$liq->id_coach][$aux2] += ($liq->commision + $liq->salary);
+        $aLiq[$liq->user_id][$aux2] += ($liq->commision + $liq->salary);
       }
     }
     foreach ($aLiq as $k=>$v){

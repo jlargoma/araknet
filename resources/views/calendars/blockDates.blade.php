@@ -13,8 +13,8 @@
       <input type="hidden" name="blocked" value="1">
       <div class="row">
         <div class="col-xs-3 col-md-2 push-20">
-          <label for="id_coach">Usuario</label>
-          <select class="js-select2 form-control" id="id_coach" name="id_coach" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." >
+          <label for="user_id">Usuario</label>
+          <select class="js-select2 form-control" id="user_id" name="user_id" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." >
             <option></option>
             <?php foreach ($coachs as $key => $coach): ?>
               <option value="<?php echo $key; ?>">

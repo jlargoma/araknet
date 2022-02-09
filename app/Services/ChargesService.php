@@ -4,8 +4,9 @@ namespace App\Services;
 
 use App\Models\Rates;
 use App\Models\User;
+use App\Models\Customers;
 use App\Models\Charges;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 
 class ChargesService {
 
@@ -15,8 +16,8 @@ class ChargesService {
     $tpay = 'card';//$oData->tpay;
     $value = $oData->value;
     $disc = intval($oData->disc);
-    $id_coach = intval($oData->id_coach);
-    return $this->generatePayment($time, $uID, $rID, $tpay, $value, $disc, $pID, $cID, $id_coach);
+    $user_id = intval($oData->user_id);
+    return $this->generatePayment($time, $uID, $rID, $tpay, $value, $disc, $pID, $cID, $user_id);
   }
   
   /**
@@ -29,15 +30,15 @@ class ChargesService {
    * @param type $disc
    * @param type $idStripe
    * @param type $cStripe
-   * @param type $id_coach
+   * @param type $user_id
    * @return type
    */
-  function generatePayment($time, $uID, $rID, $tpay, $value, $disc = 0, $id_coach = null) {
+  function generatePayment($time, $customerID, $rID, $tpay, $value, $disc = 0, $user_id = null) {
     $month = date('Y-m-d', $time);
-    $oUser = User::find($uID);
-    if ($id_coach == 'null') $id_coach = null;
-    if (!$oUser)
-      return ['error', 'Usuario no encontrado'];
+    $oCustomer = Customers::find($customerID);
+    if ($user_id == 'null') $user_id = null;
+    if (!$oCustomer)
+      return ['error', 'Cliente no encontrado'];
 
     $oRate = Rates::find($rID);
     if (!$oRate)
@@ -54,36 +55,37 @@ class ChargesService {
     for ($i = 0; $i < $oRate->mode; $i++) {
 
       $oCobro = new Charges();
-      $oCobro->id_user = $oUser->id;
+      $oCobro->customer_id = $oCustomer->id;
       $oCobro->date_payment = date('Y-m-d');
-      $oCobro->id_rate = $oRate->id;
+      $oCobro->rate_id = $oRate->id;
       $oCobro->type_payment = $tpay;
       $oCobro->type = 1;
       $oCobro->import = $value;
       $oCobro->discount = $disc;
       $oCobro->type_rate = $oRate->type;
+      $oCobro->user_id = $user_id;
       $oCobro->save();
 
       /*       * ************************************************** */
 
-      $oUserRate = UserRates::where('id_user', $oUser->id)
-              ->where('id_rate', $oRate->id)
+      $oUserRate = CustomersRates::where('customer_id', $oCustomer->id)
+              ->where('rate_id', $oRate->id)
               ->where('rate_month', date('n', $time))
               ->where('rate_year', date('Y', $time))
-              ->whereNull('id_charges')
+              ->whereNull('charge_id')
               ->first();
       if ($oUserRate) {
-        $oUserRate->id_charges = $oCobro->id;
-        $oUserRate->coach_id = $id_coach;
+        $oUserRate->charge_id = $oCobro->id;
+        $oUserRate->user_id = $user_id;
         $oUserRate->save();
       } else { //si no tenia asignada la tarifa del mes
-        $oUserRate = new UserRates();
-        $oUserRate->id_user = $oUser->id;
-        $oUserRate->id_rate = $oRate->id;
+        $oUserRate = new CustomersRates();
+        $oUserRate->customer_id = $oCustomer->id;
+        $oUserRate->rate_id = $oRate->id;
         $oUserRate->rate_year = date('Y', $time);
         $oUserRate->rate_month = date('n', $time);
-        $oUserRate->id_charges = $oCobro->id;
-        $oUserRate->coach_id = $id_coach;
+        $oUserRate->charge_id = $oCobro->id;
+        $oUserRate->user_id = $user_id;
         $oUserRate->price = $value;
         $oUserRate->save();
       }
@@ -97,7 +99,7 @@ class ChargesService {
     //END PAYMENTS MONTH
     $statusPayment = 'Pago realizado correctamente, por ' . payMethod($tpay);
     /*     * ********************************************************** */
-    MailsService::sendEmailPayRate($dataMail, $oUser, $oRate);
+    MailsService::sendEmailPayRate($dataMail, $oCustomer, $oRate);
     return ['OK', $statusPayment, $oCobro->id];
   }
 

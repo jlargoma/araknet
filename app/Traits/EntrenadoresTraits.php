@@ -58,7 +58,7 @@ trait EntrenadoresTraits {
         $aMonths[$year . '-' . str_pad($k, 2, "0", STR_PAD_LEFT)] = $v;
     }
     //---------------------------------------------------------------//
-    $coachRates = \App\Models\CoachRates::where('id_user', $oUser->id)->first();
+    $coachRates = \App\Models\CoachRates::where('customer_id', $oUser->id)->first();
     $salario_base = $ppc = $comm = $pppt = $ppcg = 0;
     if ($coachRates) {
       $salario_base = $coachRates->salary;
@@ -95,7 +95,7 @@ trait EntrenadoresTraits {
       $horarios[$k] = $aux;
     }
     //---------------------------------------------------------------//
-    $coachTimes = CoachTimes::where('id_coach', $id)->first();
+    $coachTimes = CoachTimes::where('user_id', $id)->first();
     if ($coachTimes) {
       $t = json_decode($coachTimes->horarios, true);
       if ($t) {
@@ -163,10 +163,10 @@ trait EntrenadoresTraits {
     }
     //---------------------------------------------------------------//
 
-    $coachTimes = CoachTimes::where('id_coach', $uID)->first();
+    $coachTimes = CoachTimes::where('user_id', $uID)->first();
     if (!$coachTimes) {
       $coachTimes = new CoachTimes();
-      $coachTimes->id_coach = $uID;
+      $coachTimes->user_id = $uID;
     }
     $coachTimes->horarios = json_encode($horarios);
     $coachTimes->times = json_encode($h2);

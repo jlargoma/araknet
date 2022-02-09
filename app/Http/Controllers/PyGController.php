@@ -44,7 +44,7 @@ class PyGController extends Controller {
 //      $incomesYear[$yAux] = Charges::whereYear('date_payment', '=', $yAux)->sum('import');
     }
     //----------------------------------------------------------//
-    $uRates = \App\Models\UserRates::where('id_charges', '>', 0)
+    $uRates = \App\Models\CustomersRates::where('charge_id', '>', 0)
               ->where('rate_year',$year)->get();
       
     $aux = $months_empty;
@@ -64,7 +64,7 @@ class PyGController extends Controller {
           $pay_method['b'][$m] += $c->import;
           break;
       }
-      $rateGr = isset($aRates[$c->id_rate]) ? $aRates[$c->id_rate] : 3;
+      $rateGr = isset($aRates[$c->rate_id]) ? $aRates[$c->rate_id] : 3;
       $crLst[$rateGr][$m] += $c->import;
     }
     //--------------------------------------------------------------------//

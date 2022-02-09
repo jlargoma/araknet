@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use App\Models\Dates;
 use Illuminate\Support\Facades\Mail;
 use Log;

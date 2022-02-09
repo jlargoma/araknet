@@ -81,10 +81,10 @@
               <?php echo ($ur->user->status == 1) ? 'SI' : 'NO'; ?>
             </td>
             <?php
-            if (isset($oRates[$ur->id_rate])) {
-              echo '<td>' . $oRates[$ur->id_rate] . '</td>';
-              echo '<td>' . $rTypes[$ur->id_rate] . '</td>';
-              echo '<td>' . $rfamily[$ur->id_rate] . '</td>';
+            if (isset($oRates[$ur->rate_id])) {
+              echo '<td>' . $oRates[$ur->rate_id] . '</td>';
+              echo '<td>' . $rTypes[$ur->rate_id] . '</td>';
+              echo '<td>' . $rfamily[$ur->rate_id] . '</td>';
             } else {
               echo '<td>-</td>';
               echo '<td>-</td>';

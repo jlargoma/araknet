@@ -37,11 +37,11 @@
 			                    
 			                    <div class="col-md-6  push-20">
 			                        <div class="form-material">
-			                            <select class="js-select2 form-control" id="id_user" name="id_user" style="width: 100%;" data-placeholder="Entrenador..." required >
+			                            <select class="js-select2 form-control" id="customer_id" name="customer_id" style="width: 100%;" data-placeholder="Entrenador..." required >
 		                                    <option></option>
-			                                <?php foreach ($users as $user): ?>
-			                                	<option value="<?php echo $user->id ?>">
-			                                		<?php echo $user->name ?>
+			                                <?php foreach ($customers as $customer): ?>
+			                                	<option value="<?php echo $customer->id ?>">
+			                                		<?php echo $customer->name ?>
 			                                	</option>
 			                                <?php endforeach ?>
 			                            </select>

@@ -6,10 +6,10 @@ $count = 1;
 </h3>
 <form class="row formValora" action="{{ url('/admin/clientes/setValora') }}" method="post">
   <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-  <input type="hidden" name="id" value="{{ $user->id }}">
+  <input type="hidden" name="id" value="{{ $customer->id }}">
   <div class="col-md-6 ">
     <div class="form-material mt-3">
-      <input class="form-control autosaveValora" type="text" id="name" name="name" required value="<?php echo $user->name ?>">
+      <input class="form-control autosaveValora" type="text" id="name" name="name" required value="<?php echo $customer->name ?>">
       <label for="name">NOMBRE</label>
     </div>
     <div class="form-material mt-3">
@@ -173,7 +173,7 @@ $count = 1;
     <h4 class="mt-1">FIRMA Y DNI DE CLIENTE<br/>(o padre/madre/tutor legal en caso de menores de edad)</h4>
     <div class="boxSign">
       @if($valora['valora_sign'])
-      <img src="/admin/usuarios/sign/{{$valora['valora_sign']}}" >
+      <img src="/admin/cliente/sign/{{$valora['valora_sign']}}" >
       <input type="checkbox" name="delSign">Borrar firma
       @else
       <p>Documento no Firmado</p>

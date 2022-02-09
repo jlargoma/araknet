@@ -71,7 +71,7 @@ class InvoicesController extends Controller {
     $data['charge_id'] = -1;
     $oUser = \App\Models\User::find($uID);
     $oInvoice->charge_id = -1;
-    $oInvoice->user_id = $uID;
+    $oInvoice->customer_id = $uID;
     $oInvoice->name = $oUser->name;
     $oInvoice->email = $oUser->email;
     $oInvoice->nif  = $oUser->dni;
@@ -90,7 +90,7 @@ class InvoicesController extends Controller {
     $oInvoice = Invoices::where('charge_id',$charge_id)->first();
     $data = $this->getData($oInvoice);
     $oCharge = \App\Models\Charges::find($charge_id);
-    $oRateUser = \App\Models\UserRates::where('id_charges',$charge_id)->first();
+    $oRateUser = \App\Models\CustomersRates::where('charge_id',$charge_id)->first();
     
     if (!$data['items'] || count($data['items']) == 0){
       $detail = '';
@@ -128,7 +128,7 @@ class InvoicesController extends Controller {
       $data['charge_id'] = $charge_id;
       $oUser = $oCharge->user;
       $oInvoice->charge_id = $charge_id;
-      $oInvoice->user_id = $oUser->id;
+      $oInvoice->customer_id = $oUser->id;
       $oInvoice->name = $oUser->name;
       $oInvoice->email = $oUser->email;
       $oInvoice->nif  = $oUser->dni;
@@ -150,7 +150,7 @@ class InvoicesController extends Controller {
     $iva = $request->input('iva',[]);
     $prices = $request->input('price',[]);
     $charge_id = $request->input('charge_id',null);
-    $user_id = $request->input('user_id',null);
+    $customer_id = $request->input('user_id',null);
     $date = $request->input('date',null);
     
     $oInvoice = null;
@@ -163,7 +163,7 @@ class InvoicesController extends Controller {
       $oInvoice->code = 'SN'.date('y');
       $oInvoice->status = 1;
       $oInvoice->charge_id = $charge_id;
-      $oInvoice->user_id = $user_id;
+      $oInvoice->customer_id = $customer_id;
       $nextNumber = Invoices::select('number')
               ->withTrashed()
               ->whereYear('date','=',date('Y'))
@@ -184,7 +184,7 @@ class InvoicesController extends Controller {
       $oInvoice->zip_code_business = $aEmisor['zipcode'];
     }
     if ($date) $oInvoice->date = $date;
-    $oInvoice->user_id = $user_id;
+    $oInvoice->customer_id = $customer_id;
     $oInvoice->name = $request->input('name');
     $oInvoice->nif  = $request->input('nif');
     $oInvoice->address = $request->input('address');
@@ -209,8 +209,8 @@ class InvoicesController extends Controller {
       $oInvoice->setMetaContent('items', serialize ($invItems));
     
     //Guardar los datos del cliente
-    if ($user_id>0){
-      $oUser = \App\Models\User::find($user_id);
+    if ($customer_id>0){
+      $oUser = \App\Models\User::find($customer_id);
       if ($oUser){
         $oUser->dni  = $request->input('nif');
         $oUser->address  = $request->input('address');

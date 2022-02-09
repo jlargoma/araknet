@@ -29,8 +29,8 @@
 <script src="//js.stripe.com/v3/"></script>
 <form action="{{ url('clientes/generarSuscripcion') }}" method="POST" id="payment-form">
 	<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-	<input type="hidden" name="id_rate" value="{{ $rate->id }}">
-	<input type="hidden" name="id_user" value="{{ $user->id }}">
+	<input type="hidden" name="rate_id" value="{{ $rate->id }}">
+	<input type="hidden" name="customer_id" value="{{ $customer->id }}">
 
 	<div class="form-row" style="padding: 20px 15px; background-color: #93e1ff">
 	    <label for="card-element">

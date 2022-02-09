@@ -4,38 +4,38 @@
     <div class="col-xs-12 my-2">
         <div class="block-1"><img src="/admin-css/assets/img/profile.png" class="img-responsive" style="max-width: 100%;"></div>
         <div class="block-2">
-            <h2>{{$user->name}}</h2>
-            <h4>{{$user->email}}</h4>
+            <h2>{{$customer->name}}</h2>
+            <h4>{{$customer->email}}</h4>
         </div>
        
     </div>
     <div class="col-xs-12">
         <form class="form-horizontal" action="{{ url('/admin/usuarios/update') }}" method="post">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-            <input type="hidden" name="id" value="{{ $user->id }}">
+            <input type="hidden" name="id" value="{{ $customer->id }}">
             <div class="row">
 
                 <div class="col-lg-4 col-sm-4">
                     <div class="form-material">
-                        <input class="form-control" type="text" id="name" name="name" required value="<?php echo $user->name ?>">
+                        <input class="form-control" type="text" id="name" name="name" required value="<?php echo $customer->name ?>">
                         <label for="name">Nombre</label>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-4  push-20">
                     <div class="form-material">
-                        <input type="text" id="email" class="form-control" name="email" required value="<?php echo $user->email ?>">
+                        <input type="text" id="email" class="form-control" name="email" required value="<?php echo $customer->email ?>">
                         <label for="email">E-mail</label>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-4  push-20">
                     <div class="form-material">
-                        <input class="form-control" type="number" id="phone" name="phone" required maxlength="9" value="<?php echo $user->phone ?>">
+                        <input class="form-control" type="number" id="phone" name="phone" required maxlength="9" value="<?php echo $customer->phone ?>">
                         <label for="phone">Teléfono</label>
                     </div>
                 </div>
                 <div class="col-lg-2 col-sm-4  push-20">
                     <div class="form-material">
-                        <input class="form-control" type="text" id="iban" name="iban" maxlength="20" value="<?php echo $user->iban ?>" >
+                        <input class="form-control" type="text" id="iban" name="iban" maxlength="20" value="<?php echo $customer->iban ?>" >
                         <label for="iban">IBAN</label>
                     </div>
                 </div>
@@ -48,8 +48,8 @@
                 <div class="col-lg-4 col-sm-4 push-20">
                     <div class="form-material">
                         <select class="form-control" id="role" name="role" style="width: 100%;" data-placeholder="Seleccione una role" required>
-                          @foreach($user->roles as $k=>$v)
-                          <option value="{{$k}}" <?php if ($user->role == $k) echo "selected";?>>{{$v}}</option>
+                          @foreach($customer->roles as $k=>$v)
+                          <option value="{{$k}}" <?php if ($customer->role == $k) echo "selected";?>>{{$v}}</option>
                           @endforeach
                         </select>
                         <label for="role">Role</label>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-lg-2 col-sm-4 push-20">
                     <div class="form-material">
-                        <input class="form-control" type="text" id="ss" name="ss" maxlength="18" value="<?php echo $user->ss ?>">
+                        <input class="form-control" type="text" id="ss" name="ss" maxlength="18" value="<?php echo $customer->ss ?>">
                         <label for="ss">Seg. soc</label>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
 <!--                <div class="col-lg-2 col-sm-4 push-20">
-                  <button class="btn btn-horarios" type="button" data-id="{{ $user->id }}">Horarios</button>
+                  <button class="btn btn-horarios" type="button" data-id="{{ $customer->id }}">Horarios</button>
                 </div>-->
             </div>
 
@@ -140,13 +140,13 @@
 @section('scripts')
 <script type="text/javascript">
 $(document).ready(function () {
-    $('#blockPayments').load('/admin/paymentsEntrenador/{{$user->id}}');
-    $('#blockLiquid').load('/admin/liquidacion-Entrenador/{{$user->id}}');
+    $('#blockPayments').load('/admin/paymentsEntrenador/{{$customer->id}}');
+    $('#blockLiquid').load('/admin/liquidacion-Entrenador/{{$customer->id}}');
     
     var currentMonth = "{{$month}}";
     $('#selectMonth').on('click','button',function (event) {
         var val = $(this).data('v');
-        $('#blockLiquid').load('/admin/liquidacion-Entrenador/{{$user->id}}/'+val);
+        $('#blockLiquid').load('/admin/liquidacion-Entrenador/{{$customer->id}}/'+val);
         $('#sendLiquid').attr("disabled", false);
         $('#selectMonth').find('button').removeClass('active');
         $(this).addClass('active');
@@ -155,14 +155,14 @@ $(document).ready(function () {
     
     var saveLiq = function(obj,type){
       var data = {
-        id_coach: {{$user->id}},
+        user_id: {{$customer->id}},
         importe: obj.val(),
         date: obj.data('k'),
         type: type,
         _token: '{{csrf_token()}}',
       };
       $.post('/admin/payment-Entrenador', data).done(function (resp) {
-         $('#blockPayments').load('/admin/paymentsEntrenador/{{$user->id}}');
+         $('#blockPayments').load('/admin/paymentsEntrenador/{{$customer->id}}');
       });
     }
     
@@ -173,11 +173,11 @@ $(document).ready(function () {
         saveLiq($(this),'comm');
     });
     $('#sendLiquid').on('click',function (event) {
-        var id_coach = {{$user->id}};
+        var user_id = {{$customer->id}};
         var date = $('#selectMonth .active').data('v');
         var dateText = $('#selectMonth  .active').text();
         var that = $(this);
-        $.get('/admin/enviar-liquidacion-Entrenador/'+id_coach+'/'+date).done(function (resp) {
+        $.get('/admin/enviar-liquidacion-Entrenador/'+user_id+'/'+date).done(function (resp) {
           if (resp == 'OK'){
               alert('Liquidación '+dateText+' enviada');
               that.attr("disabled", true);

@@ -32,20 +32,20 @@
 			            </select>
 					</div>
 					<div class="col-xs-12 col-md-6 push-20">
-						<label for="id_user">Usuario</label>
-						<!-- <select class="js-select2 form-control" id="id_user" name="id_user" style="width: 100%;" data-placeholder="Seleccione un usuario" required >
+						<label for="customer_id">Usuario</label>
+						<!-- <select class="js-select2 form-control" id="customer_id" name="customer_id" style="width: 100%;" data-placeholder="Seleccione un usuario" required >
 			                <option></option>
-			                <?php foreach ($users as $key => $user): ?>
-			                	<option value="<?php echo $user->id; ?>">
-			                		<?php echo $user->name; ?>
+			                <?php foreach ($customers as $key => $customer): ?>
+			                	<option value="<?php echo $customer->id; ?>">
+			                		<?php echo $customer->name; ?>
 			                	</option>
 			                <?php endforeach ?>
 			            </select> -->
-						<select class="js-select2 form-control" id="id_user" name="id_user" style="width: 100%; cursor: pointer" data-placeholder="Seleccione usuario.." multiple >
+						<select class="js-select2 form-control" id="customer_id" name="customer_id" style="width: 100%; cursor: pointer" data-placeholder="Seleccione usuario.." multiple >
 							<option></option>
-								<?php foreach ($users as $key => $user): ?>
-									<option value="<?php echo $user->id; ?>">
-									<?php echo $user->name; ?>
+								<?php foreach ($customers as $key => $customer): ?>
+									<option value="<?php echo $customer->id; ?>">
+									<?php echo $customer->name; ?>
 									</option>
 								<?php endforeach ?>
 						</select>
@@ -57,7 +57,7 @@
                         <input class="js-datepicker form-control" type="text" id="date" name="date" placeholder="Fecha y hora..." style="cursor: pointer;" data-date-format="dd-mm-yyyy"/>
                     </div>
                     <div class="col-xs-12 col-md-2 not-padding  push-20">
-        				<label for="id_user">hora</label>
+        				<label for="customer_id">hora</label>
         				<select class="form-control" id="hour" name="hour" style="width: 100%;" data-placeholder="hora" required >
         					<?php for ($i=8; $i <= 22; $i++) :?>
         						<?php if($i < 10){ $hour = "0".$i; }else{ $hour = $i; } ?>
@@ -69,9 +69,9 @@
         	            </select>
                     </div>
                     <div class="col-xs-12 col-md-6 push-20">
-						<label for="id_coach">Coach</label>
+						<label for="user_id">Coach</label>
 
-						<select class="js-select2 form-control" id="id_coach" name="id_coach" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." multiple >
+						<select class="js-select2 form-control" id="user_id" name="user_id" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." multiple >
 							<option></option>
 								<?php if (Auth::user()->role == 'nutri'): ?>
 									<?php foreach ($nutris as $nutri): ?>
@@ -96,7 +96,7 @@
 						</select>
 
 						
-						<!-- <select class="js-select2 form-control" id="id_coach" name="id_coach" style="width: 100%;" data-placeholder="Seleccione un coach" required >
+						<!-- <select class="js-select2 form-control" id="user_id" name="user_id" style="width: 100%;" data-placeholder="Seleccione un coach" required >
 			                <option></option>
 			                <?php if (Auth::user()->role == 'nutri'): ?>
 			                	<?php foreach ($nutris as $nutri): ?>

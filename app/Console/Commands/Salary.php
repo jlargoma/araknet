@@ -53,20 +53,20 @@ class Salary extends Command {
       
       $sCoachLiqService = new CoachLiqService();
       $e_noSalary = $i_loaders = $i_already = [];
-      $users = User::whereCoachs()->select('id')
+      $customers = User::whereCoachs()->select('id')
               ->where('status', 1)->pluck('id');
       
-      foreach ($users as $uID) {
-        $taxCoach = CoachRates::where('id_user', $uID)->first();
+      foreach ($customers as $uID) {
+        $taxCoach = CoachRates::where('customer_id', $uID)->first();
         if ($taxCoach) {
-            $oLiq = CoachLiquidation::where('id_coach', $uID)
+            $oLiq = CoachLiquidation::where('user_id', $uID)
               ->whereYear('date_liquidation', '=', $year)
               ->whereMonth('date_liquidation', '=', $month)
               ->first();
             if (!$oLiq){
               $oLiq = new CoachLiquidation();
               $oLiq->date_liquidation = "$year-$month-01";
-              $oLiq->id_coach = $uID;
+              $oLiq->user_id = $uID;
               $oLiq->salary = $taxCoach->salary;
               $commision = $sCoachLiqService->liqMensualBasic($uID, $year, $month);
               $oLiq->commision = array_sum($commision['totalClase']);

@@ -9,7 +9,7 @@ use Stripe;
 use App\Models\Bonos;
 use App\Models\User;
 use App\Models\UserBonos;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use App\Models\Rates;
 use App\Models\Charges;
 
@@ -36,18 +36,18 @@ class ControlsControler extends Controller {
     $showEmpty = $req->input('showEmpty', 'NO');
     $lst = [];
     $uIDs = null;
-    $qry = UserRates::where('rate_year',$year)
+    $qry = CustomersRates::where('rate_year',$year)
             ->where('rate_month',$mes)
             ->with('charges','user');
         
     if ($active != ''){
       $uIDs = User::where('status',$active)->pluck('id');
-      $qry->whereIn('id_user',$uIDs);
+      $qry->whereIn('customer_id',$uIDs);
     }
             
     if ($type_payment != ''){
       $cIDs = Charges::where('type_payment',$type_payment)->pluck('id');
-      $qry->whereIn('id_charges',$cIDs);
+      $qry->whereIn('charge_id',$cIDs);
     }
     
             

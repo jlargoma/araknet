@@ -22,7 +22,7 @@ trait ClientesNutriTraits {
 
         $arrayPaymentMonthByUser = array();
         $month = $date->copy()->startOfYear();
-        $visitas = \App\Dates::where('id_type_rate', 5)->groupBy('id_user')->get();
+        $visitas = \App\Dates::where('id_type_rate', 5)->groupBy('customer_id')->get();
 
         for ($i = 0; $i < 6; $i++) {
             $arrayPaymentMonthByUser[$i] = $this->getPendingPaymentByMonth($month->copy()->format('Y-m-d'));
@@ -56,14 +56,14 @@ trait ClientesNutriTraits {
             11 => 'Noviembre',
             12 => 'Diciembre'
         ];
-        $user = User::find($id);
+        $customer = User::find($id);
 
-        $directory = storage_path() . "/Nutricion/" . $user->name;
+        $directory = storage_path() . "/Nutricion/" . $customer->name;
         if (!file_exists($directory)) {
             mkdir($directory, 0777, true);
         }
         $directorio = dir($directory);
-        $resumenes = \App\FisicCheck::where('id_user', $id)->orderBy('id_date', 'DSEC')->first();
+        $resumenes = \App\FisicCheck::where('customer_id', $id)->orderBy('id_date', 'DSEC')->first();
 
         if (count($resumenes) > 0) {
             $age = $resumenes->age;
@@ -77,7 +77,7 @@ trait ClientesNutriTraits {
             $weight = "";
         }
 
-        $resumen2 = \App\FisicCheck::where('id_user', $id)->orderBy('id_date', 'DSEC')->first();
+        $resumen2 = \App\FisicCheck::where('customer_id', $id)->orderBy('id_date', 'DSEC')->first();
         if (count($resumen2) > 0) {
             $actualWeight = $resumen2['weight'];
         } else {
@@ -88,14 +88,14 @@ trait ClientesNutriTraits {
         return view('/admin/usuarios/informe_nutricion', [
             'services' => \App\TypesRate::all(),
             'months' => $months,
-            'dates' => \App\Dates::where('id_user', $id)->get(),
+            'dates' => \App\Dates::where('customer_id', $id)->get(),
             'age' => $age,
             'height' => $height,
             'objetive' => $objetive,
             'weight' => $weight,
-            'chequeos' => \App\FisicCheck::where('id_user', $id)->get(),
+            'chequeos' => \App\FisicCheck::where('customer_id', $id)->get(),
             'year' => $year,
-            'user' => $user,
+            'user' => $customer,
             'directory' => $directory,
             'download' => $directorio,
             'actualWeight' => $actualWeight,
@@ -105,7 +105,7 @@ trait ClientesNutriTraits {
 
     public function canvasInforme($id) {
 
-        $resumenes = \App\FisicCheck::where('id_user', $id)->orderBy('id', 'ASC')->first();
+        $resumenes = \App\FisicCheck::where('customer_id', $id)->orderBy('id', 'ASC')->first();
 
         if (count($resumenes) > 0) {
             $age = $resumenes->age;
@@ -118,14 +118,14 @@ trait ClientesNutriTraits {
             $objetive = "";
             $weight = "";
         }
-        $resumen2 = \App\FisicCheck::where('id_user', $id)->orderBy('id', 'DSEC')->first();
+        $resumen2 = \App\FisicCheck::where('customer_id', $id)->orderBy('id', 'DSEC')->first();
         if (count($resumen2) > 0) {
             $actualWeight = $resumen2['weight'];
         } else {
             $actualWeight = 0;
         }
 
-        $chequeos = \App\FisicCheck::where('id_user', $id)->get();
+        $chequeos = \App\FisicCheck::where('customer_id', $id)->get();
         $fechas = array();
         if (count($chequeos) > 0) {
             foreach ($chequeos as $key => $chequeo) {
@@ -139,8 +139,8 @@ trait ClientesNutriTraits {
             'objetive' => $objetive,
             'weight' => $weight,
             'actualWeight' => $actualWeight,
-            'fechas' => \App\FisicCheck::where('id_user', $id)->get(),
-            'chequeos' => \App\FisicCheck::where('id_user', $id)->get(),
+            'fechas' => \App\FisicCheck::where('customer_id', $id)->get(),
+            'chequeos' => \App\FisicCheck::where('customer_id', $id)->get(),
         ]);
     }
 
@@ -161,8 +161,8 @@ trait ClientesNutriTraits {
             $informe = new \App\FisicCheck();
 
             $informe->id_date = $request->id;
-            $informe->id_coach = $request->coach;
-            $informe->id_user = $request->user;
+            $informe->user_id = $request->coach;
+            $informe->customer_id = $request->user;
             $informe->comment = $request->comentario;
             $informe->age = $request->age;
             $informe->weight = $request->weight;
@@ -172,7 +172,7 @@ trait ClientesNutriTraits {
 
             $forma = new \App\PlanFit();
 
-            $forma->id_user = $request->user;
+            $forma->customer_id = $request->user;
             $forma->weight = $request->weight;
             $forma->week = 0;
             $forma->save();
@@ -213,10 +213,10 @@ trait ClientesNutriTraits {
         }
     }
 
-    public function getDownload($user, $namefile) {
+    public function getDownload($customer, $namefile) {
         //PDF file is stored under project/public/download/info.pdf
 
-        $file = storage_path() . "/Nutricion/" . $user . "/" . $namefile;
+        $file = storage_path() . "/Nutricion/" . $customer . "/" . $namefile;
 
         $headers = array(
             'Content-Type: application/pdf',
@@ -238,14 +238,14 @@ trait ClientesNutriTraits {
 
             $excel->sheet('clientes_activos_inactivos', function ($sheet) use ($array_excel) {
 
-                $users = User::where('role', 'user')->get();
+                $customers = User::where('role', 'user')->get();
 
-                foreach ($users as $user) {
+                foreach ($customers as $customer) {
                     $array_excel[] = [
-                        $user->name,
-                        $user->email,
-                        $user->phone,
-                        $user->status ? 'ACTIVO' : 'NO ACTIVO'
+                        $customer->name,
+                        $customer->email,
+                        $customer->phone,
+                        $customer->status ? 'ACTIVO' : 'NO ACTIVO'
                     ];
                 }
 

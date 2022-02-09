@@ -8,7 +8,7 @@ use \Carbon\Carbon;
 use Stripe;
 use App\Models\Rates;
 use App\Models\TypesRate;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 
 class RatesController extends Controller {
 
@@ -98,19 +98,19 @@ class RatesController extends Controller {
   }
 
   public function unassignedRate($idUserRate) {
-    $userRate = UserRates::find($idUserRate);
-    if (!$userRate){
+    $customerRate = CustomersRates::find($idUserRate);
+    if (!$customerRate){
         return redirect()->back()->withErrors(['Tarifa no encontrada']);
     }
-    if ($userRate->charges){
+    if ($customerRate->charges){
       return redirect()->back()->withErrors(['Tarifa cobrada.']);
     }
-    $appointment = \App\Models\Dates::where('id_user_rates',$userRate->id)->first();
+    $appointment = \App\Models\Dates::where('customer_rate_ids',$customerRate->id)->first();
     if ($appointment){
       return redirect()->back()->withErrors(['Tarifa asociada a una cita.']);
     }
-    $date = getMonthSpanish($userRate->rate_month).' '.$userRate->rate_year;
-    if ($userRate->delete()) {
+    $date = getMonthSpanish($customerRate->rate_month).' '.$customerRate->rate_year;
+    if ($customerRate->delete()) {
       return redirect()->back()->with('success','Servicio removido para el perdiodo '.$date);
     }
   }

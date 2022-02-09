@@ -39,13 +39,13 @@
 			<?php setlocale(LC_TIME, "ES"); ?>
 			<?php setlocale(LC_TIME, "es_ES"); ?>
             COBRO DE <span class="font-w600"><?php echo strtoupper($date->copy()->formatLocalized('%B'))?></span> A
-            <span class="font-w600"><?php echo strtoupper($user->name); ?></span>
+            <span class="font-w600"><?php echo strtoupper($customer->name); ?></span>
         </h2>
     </div>
 
     <form class="form-toPayment" method="post" action="{{ url('/admin/cobros/cobrar') }}">
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-        <input type="hidden" name="id_user" value="<?php echo $user->id; ?>">
+        <input type="hidden" name="customer_id" value="<?php echo $customer->id; ?>">
         <input type="hidden" id="importeCobrar" value="<?php echo $rate->price; ?>">
         <h1>En construcción</h1>
           
@@ -102,7 +102,7 @@
                         <div class="col-md-12 col-xs-12 text-left push-20">
                             <label for="email">Email</label>
                             <input type="email" class="form-control stripe-price" name="email"
-                                   placeholder="example@example.com" value="<?php echo $user->email; ?>"/>
+                                   placeholder="example@example.com" value="<?php echo $customer->email; ?>"/>
                         </div>
                         <div class="form-row col-xs-12 push-20">
                             <label for="card-element">
@@ -126,7 +126,7 @@
                 </div>
                 <div class="col-md-6 col-xs-12">
                     <a class="btn btn-lg btn-danger"
-                       href="{{ url('/admin/rates/unassigned')}}/<?php echo $user->id; ?>/<?php echo $rate->id; ?>/<?php echo $date->format('Y-m-d'); ?>">
+                       href="{{ url('/admin/rates/unassigned')}}/<?php echo $customer->id; ?>/<?php echo $rate->id; ?>/<?php echo $date->format('Y-m-d'); ?>">
                         Desasignar
                     </a>
                 </div>

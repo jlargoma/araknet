@@ -27,7 +27,7 @@
 			        <div class="block col-md-6 col-md-offset-3 bg-white" style="padding: 20px;">
 			        	<div class="col-xs-12 col-md-12 push-20">
 			        		<h3 class="text-center font-w200">
-			        			Tarifa de <span class="font-w600"><?php echo $user->name ?></span>
+			        			Tarifa de <span class="font-w600"><?php echo $customer->name ?></span>
 			        		</h3>
 			        	</div>
 			        	<div class="clear"></div>
@@ -37,19 +37,19 @@
 			                    
 			                    <div class="col-md-6  push-20">
 			                        <div class="form-material">
-			                            <h4><?php echo $user->name ?></h4>
+			                            <h4><?php echo $customer->name ?></h4>
 			                            <label for="name">Nombre</label>
 			                        </div>
 			                    </div>
 			                    <div class="col-md-6  push-20">
 			                        <div class="form-material">
-			                            <h4><?php echo $user->email ?></h4>
+			                            <h4><?php echo $customer->email ?></h4>
 			                            <label for="Email">E-mail</label>
 			                        </div>
 			                    </div>
 			                    <div class="col-md-6  push-20">
 			                        <div class="form-material">
-			                            <h4><?php echo $user->phone ?></h4>
+			                            <h4><?php echo $customer->phone ?></h4>
 			                            <label for="phone">Teléfono</label>
 			                        </div>
 			                    </div>

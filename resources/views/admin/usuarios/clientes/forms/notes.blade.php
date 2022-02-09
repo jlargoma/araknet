@@ -5,25 +5,21 @@
         if ($oNotes):
             foreach ($oNotes as $v):
                 $dateTime = strtotime($v->created_at);
-                $type = '';
-                switch ($v->type) {
-                    case 'nutri': $type = 'Nutrición';
-                        break;
-                    case 'fisio': $type = 'Fisioterapeuta';
-                        break;
-                    case 'pt': $type = 'Entr. Pers.';
-                        break;
-                    default: $type = 'Otros';
-                        break;
-                }
-                $personal = isset($allCoachs[$v->id_coach]) ? $allCoachs[$v->id_coach] : '-';
                 ?>
                 <div>
                   <div class="row">
-                      <div class="col-md-8"><b>{{$personal}}</b> ({{$type}})</div>
+                    <div class="col-md-8">
+                      <?php 
+                      if (isset($allUsers[$v->user_id])){
+                        $personal = $allUsers[$v->user_id];
+                        echo "<b>$personal->n</b> ($personal->rn)";
+                      }
+                      ?>
+                      
+                    </div>
                     <div class="col-md-4">
                       {{convertDateToShow_text(date('Y-m-d',$dateTime),true)}}
-                      <button class="btn editNote" data-id="{{$v->id}}" data-note="{{$v->note}}" data-coach="{{$v->id_coach}}">Editar</button>
+                      <button class="btn editNote" data-id="{{$v->id}}" data-note="{{$v->note}}" data-coach="{{$v->user_id}}">Editar</button>
                     </div>
                   </div>
                   <p>{{$v->note}}</p>
@@ -35,15 +31,16 @@
         ?>
     </div>
     <div class="col-md-4 col-xs-12">
-        <form  action="{{ url('/admin/usuarios/notes') }}" method="post">
+        <form  action="{{ url('/admin/cliente/notes') }}" method="post">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-            <input type="hidden" name="uid" value="{{ $user->id }}">
+            <input type="hidden" name="uid" value="{{ $customer->id }}">
             <input type="hidden" name="id" id="noteID" value="">
             <div class="form-simple">
                 <label for="name">Usuario</label>
                 <select class="form-control" name="coach" id="coach_note">
-                  @foreach($allCoachs as $id=>$c)
-                  <option value="{{$id}}" @if($id == $u_current) selected @endif>{{$c}}</option>
+                  <option>Personal</option>
+                  @foreach($allUsers as $id=>$c)
+                  <option value="{{$id}}" @if($id == $u_current) selected @endif>{{$c->n}}</option>
                   @endforeach
                 </select>
             </div>

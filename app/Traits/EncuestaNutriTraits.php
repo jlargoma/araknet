@@ -82,15 +82,15 @@ trait EncuestaNutriTraits {
         'options' => $options,
         ];
   }
-  public function get_encNutri($user) {
+  public function get_encNutri($customer) {
   
     $fields = $this->get_encNutriFields();
-    $data = $user->getMetaContentGroups($fields);
+    $data = $customer->getMetaContentGroups($fields);
     foreach ($fields as $f)
       if (!isset($data[$f])) $data[$f] = null;
     
       
-    $code = encriptID($user->id).'-'.encriptID(time()*rand());
+    $code = encriptID($customer->id).'-'.encriptID(time()*rand());
     $keys = $code.'/'.getKeyControl($code);
     $data['url'] = '/encNutri/'.$keys;
     $data['url_dwnl'] = '/descargar-encNutri/'.$keys;
@@ -99,10 +99,10 @@ trait EncuestaNutriTraits {
       
     return array_merge($data,$this->get_nutriQuestions());
   }
-  public function show_encNutri($user) {
+  public function show_encNutri($customer) {
   
     $fields = $this->get_encNutriFields();
-    $data = $user->getMetaContentGroups($fields);
+    $data = $customer->getMetaContentGroups($fields);
     foreach ($fields as $f)
       if (!isset($data[$f])) $data[$f] = null;
     
@@ -192,7 +192,7 @@ trait EncuestaNutriTraits {
   }
 
   public function sendEncNutri(Request $request) {
-    $uID = $request->input('id_user',null);
+    $uID = $request->input('customer_id',null);
     if (!$uID){
       return response()->json(['error','usuario no encontrado']);
     }

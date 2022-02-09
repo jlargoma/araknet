@@ -1,6 +1,6 @@
 @extends('layouts.admin-master')
 
-@section('title') Liquidacion {{ $user->name}} - Araknet HTS @endsection
+@section('title') Liquidacion {{ $customer->name}} - Araknet HTS @endsection
 
 @section('externalScripts')
 	<link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.css') }}">
@@ -27,7 +27,7 @@
 					</select>
 				</div>
 				<div class="col-xs-6 col-xs-offset-3 not-padding">
-					<a class="btn btn-primary" href="{{ url('/admin/facturacion/enviar-liquidacion') }}/<?php echo $user->id ?>/<?php echo $date->copy()->format('Y-m') ?>">
+					<a class="btn btn-primary" href="{{ url('/admin/facturacion/enviar-liquidacion') }}/<?php echo $customer->id ?>/<?php echo $date->copy()->format('Y-m') ?>">
 						<i class="fa fa-envelope" aria-hidden="true"></i> Enviar
 					</a>
 				</div>
@@ -50,10 +50,10 @@
 	   			<div class="col-xs-12 col-md-10">
 	   				<div class="col-xs-12">
 	   					<h2 class="font-w300 text-left">
-	   						<span class="font-w600">{{ $user->name }}</span>
+	   						<span class="font-w600">{{ $customer->name }}</span>
 	   					</h2>
 	   					<p class="font-s18 text-left">
-	   						{{ $user->email }}
+	   						{{ $customer->email }}
 	   					</p>
 	   				</div>
 	   			</div>
@@ -82,7 +82,7 @@
 	   						<tr>
 	   							<td class="text-center"><strong><?php echo $i ?></strong></td>
 	   							<td class="text-left font-s18">
-	   								<a class="desgloce-clase" style="cursor: pointer;" data-toggle="modal" data-target="#modal-desgloce-clase" data-idClase="<?php echo $pago[0]->id_class; ?>" data-idCoach="<?php echo $user->id ?>">
+	   								<a class="desgloce-clase" style="cursor: pointer;" data-toggle="modal" data-target="#modal-desgloce-clase" data-idClase="<?php echo $pago[0]->id_class; ?>" data-idCoach="<?php echo $customer->id ?>">
 	   									<?php echo strtoupper(str_replace('-', ' ', $key)) ?>
 	   								</a>
 	   							</td>
@@ -124,9 +124,9 @@
 	    					</td>
 			    			<?php for ($i = 1; $i <= 12; $i++): ?>
 								<td class="text-center">
-									<strong><?php echo $user->getTotalLiquidation($user->id, $year);?> €</strong>
+									<strong><?php echo $customer->getTotalLiquidation($customer->id, $year);?> €</strong>
 								</td>
-								<?php  $totalAnualUser += $user->getTotalLiquidation($user->id, $year); ?>
+								<?php  $totalAnualUser += $customer->getTotalLiquidation($customer->id, $year); ?>
 								<?php $year->addMonth(); ?>
 		    				<?php endfor; ?>
 		    				<td class="text-center">
@@ -176,17 +176,17 @@
 		$(document).ready(function() {
 			$('.desgloce-clase').click(function(event) {
 				var id_clase = $(this).attr('data-idClase');
-				var id_user = $(this).attr('data-idCoach');
-				$.get('/admin/facturacion/getDesgloceClase', {id_clase: id_clase, id_user: id_user}, function(data) {
+				var customer_id = $(this).attr('data-idCoach');
+				$.get('/admin/facturacion/getDesgloceClase', {id_clase: id_clase, customer_id: customer_id}, function(data) {
 					$('#content-desgloce').empty().html(data);
 				});
 			});
 
 			$('#date').change(function(event) {
 				var date = $(this).val();
-				var id_user = '<?php echo $user->id ?>';
+				var customer_id = '<?php echo $customer->id ?>';
 				
-				window.location = '/admin/facturacion/generar-liquidacion/'+id_user+'/'+ date;
+				window.location = '/admin/facturacion/generar-liquidacion/'+customer_id+'/'+ date;
 
 			});
 

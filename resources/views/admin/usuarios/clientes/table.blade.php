@@ -32,26 +32,26 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($users as $key => $user): ?>
+        <?php foreach ($customers as $key => $customer): ?>
             <tr>
                 <td class="text-center hidden-xs hidden-sm tc0">
                     <label class="css-input switch switch-sm switch-success">
-                        <?php $checked = ($user->status == 1) ? 'checked' : ''; ?>
-                        <input type="checkbox" class="switchStatus" data-id="<?php echo $user->id ?>" <?php echo $checked ?>><span></span>
+                        <?php $checked = ($customer->status == 1) ? 'checked' : ''; ?>
+                        <input type="checkbox" class="switchStatus" data-id="<?php echo $customer->id ?>" <?php echo $checked ?>><span></span>
                     </label>
                 </td>
                 <td class="text-left tc1"> 
-                    <a  class="openUser" data-id="<?php echo $user->id; ?>"  data-type="user" data-original-title="Editar user" ><b><?php echo $user->name; ?></b></a>
+                    <a  class="openUser" data-id="<?php echo $customer->id; ?>"  data-type="user" data-original-title="Editar user" ><b><?php echo $customer->name; ?></b></a>
                 </td>
                 <td class="text-center tc2">
-                    <button class="btn btn-default add_rate" data-toggle="modal" data-target="#modalCliente" data-iduser="<?php echo $user->id; ?>">
+                    <button class="btn btn-default add_rate" data-toggle="modal" data-target="#modalCliente" data-iduser="<?php echo $customer->id; ?>">
                         <i class="fa fa-usd" aria-hidden="true"></i>
                     </button>
                 </td>
                 <td class="text-center tc3">
-                    <span class="hidden-xs hidden-sm"><?php echo $user->phone; ?></span>
+                    <span class="hidden-xs hidden-sm"><?php echo $customer->phone; ?></span>
                     <span class="hidden-lg hidden-md">
-                        <a href="tel:<?php echo $user->phone; ?>">
+                        <a href="tel:<?php echo $customer->phone; ?>">
                             <i class="fa fa-phone"></i>
                         </a>
                     </span>
@@ -64,9 +64,9 @@
                     if ($auxMonth>12) $auxMonth = 1;
                     $textAux = '';
                     $auxPend = 0;
-                    if (isset($uRates[$i][$user->id])):
+                    if (isset($uRates[$i][$customer->id])):
                       if ($pending == null) $pending = false;
-                      foreach ($uRates[$i][$user->id] as $rate):
+                      foreach ($uRates[$i][$customer->id] as $rate):
                         foreach ($rate as $r):
                           if($r['paid']):
                             $auxPay[$i] += $r['price'];

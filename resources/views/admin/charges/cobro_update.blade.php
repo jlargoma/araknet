@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/select2/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/select2/select2-bootstrap.min.css') }}">
 <h2 class="text-center font-w300">
-  ACTUALIZAR COBRO DE <b>{{$date}}</b> A <span class="font-w600"><?php echo strtoupper($user->name); ?></span>
+  ACTUALIZAR COBRO DE <b>{{$date}}</b> A <span class="font-w600"><?php echo strtoupper($customer->name); ?></span>
 </h2>
 <?php 
 $disableType = ($charge->type_payment == "card");
@@ -34,17 +34,17 @@ $disableType = ($charge->type_payment == "card");
     </div>
     
     <div class="col-md-3">
-        <label for="id_rate">Personal</label>
-        <select class="form-control" id="id_coach" name="id_coach" style="width: 100%; cursor: pointer"
+        <label for="rate_id">Personal</label>
+        <select class="form-control" id="user_id" name="user_id" style="width: 100%; cursor: pointer"
                 placeholder="Personal asignado" required="">
           <option></option>
           <?php
-          $old = old('id_coach');
-          foreach ($coachs as $v):
-            $sel = ($coach_id == $v->id) ? 'selected' : '';
+          $old = old('user_id');
+          foreach ($allUsers as $k=>$v):
+            $sel = ($user_id == $k) ? 'selected' : '';
             ?>
-          <option value="<?php echo $v->id ?>" <?php echo $sel; ?>>
-            <?php echo $v->name ?>
+          <option value="<?= $k ?>" <?php echo $sel; ?>>
+            <?php echo $v->n ?>
             </option>
             <?php
           endforeach;

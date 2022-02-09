@@ -9,6 +9,6 @@ class CoachLiquidation extends Model
 	protected $table = "coach_liquidation";
     public function coach()
     {
-        return $this->hasOne('\App\Models\User', 'id', 'id_coach');
+        return $this->hasOne('\App\Models\User', 'id', 'user_id');
     }
 }

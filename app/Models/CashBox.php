@@ -93,7 +93,7 @@ class CashBox extends Model
 //            $type = !is_numeric($movement["type"]) ? $movement["type"] : "INGRESO";
 //
 //            $type_payment = isset($movement["type_rate"]) ? \App\Models\TypesRate::find($movement["type_rate"])->name : $movement["typePayment"];
-//            $rate = isset($movement["id_rate"]) ? \App\Models\Rates::find($movement["id_rate"]) : null;
+//            $rate = isset($movement["rate_id"]) ? \App\Models\Rates::find($movement["rate_id"]) : null;
 //            $concept = $comment = '';
 //            if ($rate){
 //              $concept = $rate->name;
@@ -106,8 +106,8 @@ class CashBox extends Model
 //            
 //            
 //            $import = $type == "GASTO" && $type_payment != "ARQUEO" ? $movement["import"] * -1 : $movement["import"];
-//	    $user   = isset($movement["id_user"]) ? 'USER-name' : $movement["type"];
-////	    $user   = isset($movement["id_user"]) ? \App\Models\User::find($movement["id_user"])->name : $movement["type"];
+//	    $customer   = isset($movement["customer_id"]) ? 'USER-name' : $movement["type"];
+////	    $customer   = isset($movement["customer_id"]) ? \App\Models\User::find($movement["customer_id"])->name : $movement["type"];
 //
 //            $data_tranformed = [
 //                "type" => $type,
@@ -117,7 +117,7 @@ class CashBox extends Model
 //                "import" => (float)$import,
 //                "comment" => $comment,
 //                "balance" => 0,
-//                "user" => $user,
+//                "user" => $customer,
 //            ];
 //            $movements["movements"][$date][] = $data_tranformed;
 //            $data_tranformed = null;

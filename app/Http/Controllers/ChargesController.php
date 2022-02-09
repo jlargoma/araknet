@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use \Carbon\Carbon;
 use App\Models\User;
+use App\Models\Customers;
 use App\Models\Rates;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use App\Models\UserBonos;
 use App\Models\Charges;
 use App\Services\ChargesService;
@@ -19,41 +20,40 @@ class ChargesController extends Controller {
 
     if (!$charge)
       return view('admin.popup_msg');
-    $uRate = UserRates::where('id_charges', $charge->id)->first();
-    $coach_id = null;
-    if ($uRate) {
-      $date = getMonthSpanish($uRate->rate_month, false) . ' ' . $uRate->rate_year;
-      $coach_id = $uRate->coach_id;
+    $cRate = CustomersRates::where('charge_id', $charge->id)->first();
+    $user_id = null;
+    if ($cRate) {
+      $date = getMonthSpanish($cRate->rate_month, false) . ' ' . $cRate->rate_year;
+      $user_id = $cRate->user_id;
     } else {
       $time = strtotime($charge->date_payment);
       $date = getMonthSpanish(date('n', $time), false) . ' ' . date('Y', $time);
     }
-    $oUser = $charge->user;
     return view('admin.charges.cobro_update', [
         'taxes' => Rates::all(),
-        'rate' => Rates::find($charge->id_rate),
+        'rate' => Rates::find($charge->rate_id),
         'date' => $date,
-        'user' => $oUser,
+        'customer' => $charge->user,
         'importe' => $charge->import,
         'charge' => $charge,
-        'coach_id' => $coach_id,
-        'coachs' => User::getCoachs()
+        'user_id' => $user_id,
+        'allUsers' => User::getUsersWithRoles()
     ]);
   }
 
   public function updateCharge(Request $request, $id) {
     $charge = Charges::find($id);
-    $id_coach = $request->input('id_coach', null);
+    $user_id = $request->input('user_id', null);
     if (!$charge) {
       return back()->withErrors(['cobro no encontrado']);
     }
     if ($request->input('deleted')) {
-      $uRate = UserRates::where('id_charges', $id)->first();
-      if ($uRate) {
-        $uRate->id_charges = null;
-        $uRate->save();
+      $cRate = CustomersRates::where('charge_id', $id)->first();
+      if ($cRate) {
+        $cRate->charge_id = null;
+        $cRate->save();
         $charge->delete();
-        return redirect('/admin/clientes/generar-cobro/' . $uRate->id)->with('success', 'cobro Eliminado');
+        return redirect('/admin/clientes/generar-cobro/' . $cRate->id)->with('success', 'cobro Eliminado');
       }
       $charge->delete();
       return back()->with('success', 'cobro Eliminado');
@@ -70,69 +70,54 @@ class ChargesController extends Controller {
 
   public function cobrar(Request $req) {
 
-    $id_uRate = $req->input('id_uRate', null);
-    $uRate = UserRates::find($id_uRate);
+    $id_cRate = $req->input('id_cRate', null);
+    $cRate = CustomersRates::find($id_cRate);
 
-    if (!$uRate) {
+    if (!$cRate) {
       return back()->withErrors(['Tarifa no encontrada']);
     }
 
-    $time = strtotime($uRate->rate_year . '/' . $uRate->rate_month . '/01');
-    $uID = $uRate->id_user;
-    $rID = $uRate->id_rate;
+    $time = strtotime($cRate->rate_year . '/' . $cRate->rate_month . '/01');
+    $uID = $cRate->customer_id;
+    $rID = $cRate->rate_id;
     $tpay = $req->input('type_payment', 'cash');
     $value = $req->input('importe', 0);
     $disc = $req->input('discount', '0');
-    $id_coach = $req->input('id_coach', null);
+    $user_id = $req->input('user_id', null);
     $ChargesService = new ChargesService();
     $resp = $ChargesService->generatePayment(
             $time, $uID, $rID, $tpay, $value,
-            $disc, $id_coach);
+            $disc, $user_id);
 
     if ($resp[0] == 'error') {
       return back()->withErrors([$resp[1]]);
     }
     if ($tpay == 'bono') {
 
-      $UserBonos->usar($resp[2], $oDates->date_type, $oDates->date);
+      $customerBonos->usar($resp[2], $oDates->date_type, $oDates->date);
     }
 
     return redirect('/admin/update/cobro/' . $resp[2])->with('success', $resp[1]);
   }
 
-  public function chargeUser(Request $req) {
+  public function chargeCustomer(Request $req) {
     $month = $req->input('date_payment', null);
     $operation = $req->input('type', 'all');
-    $id_coach = $req->input('id_coach', null);
+    $customer_id = $req->input('customer_id', null);
+    $user_id = $req->input('user_id', null);
     if ($month)
       $time = strtotime($month);
     else
       $time = time();
-    $uID = $req->input('id_user', null);
-    $rID = $req->input('id_rate', null);
+    $rID = $req->input('rate_id', null);
     $tpay = $req->input('type_payment', 'cash');
     $value = $req->input('importe', 0);
     $disc = $req->input('discount', 0);
-    $oUser = User::find($uID);
+    $oCustomer = Customers::find($customer_id);
     /*     * ********************************************************* */
     $resp = ['error', 'Error al procesar su cobro'];
-    if ($operation == 'all' || !$operation) {
-      $ChargesService = new ChargesService();
-      $resp = $ChargesService->generatePayment($time, $uID, $rID, $tpay, $value, $disc, $id_coach);
-    } else {
-      $u_email = $req->input('u_email', null);
-      if ($u_email && $oUser->email != $u_email) {
-        $oUser->email = $u_email;
-        $oUser->save();
-      }
-      $u_phone = $req->input('u_phone', null);
-      if ($u_phone && $oUser->phone != $u_phone) {
-        $oUser->phone = $u_phone;
-        $oUser->save();
-      }
-      return $this->generateStripeLink($time, $uID, $rID, $tpay, $value, $disc, $operation, $id_coach);
-    }
-
+    $ChargesService = new ChargesService();
+    $resp = $ChargesService->generatePayment($time, $customer_id, $rID, $tpay, $value, $disc, $user_id);
     if ($resp[0] == 'error') {
       return back()->withErrors([$resp[1]]);
     }
@@ -155,9 +140,9 @@ class ChargesController extends Controller {
       $disc = 0;
     //BEGIN PAYMENTS
     $oCobro = new Charges();
-    $oCobro->id_user = $oUser->id;
+    $oCobro->customer_id = $oUser->id;
     $oCobro->date_payment = date('Y-m-d');
-    $oCobro->id_rate = $oRate->id;
+    $oCobro->rate_id = $oRate->id;
     $oCobro->type_payment = $tpay;
     $oCobro->type = 1;
     $oCobro->import = $value;

@@ -1,16 +1,17 @@
 <?php
-$tit = 'Nueva cita en Araknet';
+if (!isset($tit))
+  $tit =  'Nueva cita en Araknet';
 ?>
 @include('emails.head')
 
-Hola! <?php echo $user->name ?><br><br><br>
+Hola! <?php echo $customer->name ?><br><br><br>
 
 <p style="color: black">
     Te adjuntamos el comprobante del pago que acabas de realizar en <strong> Araknet</strong>
 </p>
 
 <p style="color: black;font-size: 18px;">
-    - Nombre: <?php echo $user->name ?><br><br>
+    - Nombre: <?php echo $customer->name ?><br><br>
     - Tarifa: <?php echo $rate->name ?><br><br>
     - Fecha : <?php echo $date; ?><br><br>
     - Importe: <?php echo round($importe) ?> €<br><br>

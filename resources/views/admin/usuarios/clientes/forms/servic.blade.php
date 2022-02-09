@@ -10,9 +10,9 @@
     @if($subscrLst)
     @foreach($subscrLst as $r)
     <?php 
-    if (!isset($aRates[$r->id_rate])){ continue;}
-    $aux =  $aRates[$r->id_rate] ; 
-    $coach = isset($aCoachs[$r->id_coach]) ? $aCoachs[$r->id_coach] : '--';
+    if (!isset($aRates[$r->rate_id])){ continue;}
+    $aux =  $aRates[$r->rate_id] ; 
+    $coach = isset($aCoachs[$r->user_id]) ? $aCoachs[$r->user_id] : '--';
     ?>
     <tr>
       <td>{{$aux->name}}</td>
@@ -20,7 +20,7 @@
       <td><input type="number" step="0.01" data-r="{{$r->id}}" value="{{$r->price}}" class="subscr_price">€</td>
       <td>
         <a 
-          href="/admin/clientes-unsubscr/{{ $user->id }}/{{$r->id}}"
+          href="/admin/clientes-unsubscr/{{ $customer->id }}/{{$r->id}}"
           onclick="return confirm('Remover el servicio para el periodo en curso?')"
           >
           <i class="fa fa-trash "></i>
@@ -35,10 +35,10 @@
 <div class="row my-1">
   <form action="/admin/add-subscr" method="post">
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-    <input type="hidden" name="id" value="{{ $user->id }}">
+    <input type="hidden" name="id" value="{{ $customer->id }}">
     <div class="col-md-4  push-20">
       <div class="form-material">
-        <select class="form-control" id="id_rateSubscr" name="id_rate" style="width: 100%; cursor: pointer" data-placeholder="Seleccione tarifas.." >
+        <select class="form-control" id="rate_idSubscr" name="rate_id" style="width: 100%; cursor: pointer" data-placeholder="Seleccione tarifas.." >
           <option></option>
           <?php foreach ($subscrRates as $rate): 
               $price = $rate->price;
@@ -48,12 +48,12 @@
             </option>
           <?php endforeach ?>
         </select>
-        <label for="id_rate">Agregar Servicio</label>
+        <label for="rate_id">Agregar Servicio</label>
       </div>
     </div>
     <div class="col-md-3  push-20">
       <div class="form-material">
-        <select class="form-control" name="id_rateCoach" id="id_rateCoach" disabled>
+        <select class="form-control" name="rate_idCoach" id="rate_idCoach" disabled>
           <option value=""> -- </option>
           <?php
           foreach ($aCoachs as $k => $v) {
@@ -61,7 +61,7 @@
           }
           ?>
         </select>
-        <label for="id_rate">Entrenador</label>
+        <label for="rate_id">Entrenador</label>
       </div>
     </div>
     <div class="col-md-2  push-20">

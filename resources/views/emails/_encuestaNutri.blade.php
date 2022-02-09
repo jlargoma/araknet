@@ -3,7 +3,7 @@ $tit = 'Su cita en Araknet';
 ?>
 @include('emails.head')
 
-Hola! <?php echo $user->name ?><br><br>
+Hola! <?php echo $customer->name ?><br><br>
 
 <p style="color: black">
   Necesitamos que nos completes una breve encuesta para tu cita de Nutrición en <strong> Araknet</strong>

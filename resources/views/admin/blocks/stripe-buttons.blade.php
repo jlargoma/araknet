@@ -23,7 +23,7 @@ $(document).ready(function () {
         var type = $(this).data('t');
         var posting = $.post( '/admin/send/cobro-gral', { 
                             _token: '{{csrf_token()}}',
-                            id_coach: $('#id_coach').val(),
+                            user_id: $('#user_id').val(),
                             u_email: $('#NC_email').val(),
                             u_phone: $('#NC_phone').val(),
                             idDate: $('#idDate').val(),

@@ -10,14 +10,14 @@
 	<body>
 		<div class="container">
 			<div class="col-xs-12">
-				<h3 class="text-center">Hola, <?php echo $user->name ?></h3>
+				<h3 class="text-center">Hola, <?php echo $customer->name ?></h3>
 				<p class="text-center">
 					Debido a la actualización de nuestro sistema, de ahora en adelante para registrarte en las clases deberás estar autenticado.
 				</p>
 				<p class="text-center">
 					Aquí tienes los accesos a tu cuenta de usuario de Araknet HTS:<br><br>
-					Usuario: <?php echo $user->email ?><br>
-					Password: <?php echo $user->email ?><br><br>
+					Usuario: <?php echo $customer->email ?><br>
+					Password: <?php echo $customer->email ?><br><br>
 
 					Puedes acceder mediante la siguiente URL: <a href="http://Araknet.tech/login">Araknet zona clientes</a>
 				</p>

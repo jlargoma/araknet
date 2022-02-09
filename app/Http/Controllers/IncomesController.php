@@ -19,7 +19,7 @@ class IncomesController extends Controller {
       $mm[$k] = 0;
 
     $sIncomes = new \App\Services\IncomesService($year, $mm);
-    $sIncomes->getUserRatesLst();
+    $sIncomes->getCustomersRatesLst();
     $lst = $sIncomes->getTypeRatesLst();
 
     //----------------------------------//
@@ -104,7 +104,7 @@ class IncomesController extends Controller {
     $oCharges = null;
     if (count($servic) > 0) {
       $oCharges = Charges::whereYear('date_payment', '=', $year)
-                      ->whereIn('id_rate', array_keys($servic))
+                      ->whereIn('rate_id', array_keys($servic))
                       ->orderBy('date_payment')->get();
     }
 

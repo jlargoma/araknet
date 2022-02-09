@@ -32,7 +32,7 @@
 							<?php for ($i=1; $i <= 12; $i++): ?>
 								<th>
 									<?php 
-											$charges = \App\Charges::where('id_user', $cliente->id)
+											$charges = \App\Charges::where('customer_id', $cliente->id)
 																	->whereYear('date_payment','=', $date->copy()->format('Y'))
 																	->whereMonth('date_payment','=', $date->copy()->format('m'))
 																	->get(); 

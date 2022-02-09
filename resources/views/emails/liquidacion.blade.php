@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no">
-		<title>Liquidación de <?php echo strtoupper($date->copy()->formatLocalized('%B')) ?> de {{ $user->name }}</title>
+		<title>Liquidación de <?php echo strtoupper($date->copy()->formatLocalized('%B')) ?> de {{ $customer->name }}</title>
 		<!-- Latest compiled and minified CSS & JS -->
 		<link rel="stylesheet" href="{{ asset('/admin-css/assets/css/bootstrap.min.css') }}">
 		<link rel="stylesheet" id="css-main" href="{{ asset('/admin-css/assets/css/oneui.css') }}">
@@ -104,7 +104,7 @@
 					   	<div class="col-xs-12">
 					   		<div class="col-xs-12 push-20" style="margin-bottom: 100px;">
 					   			<h2 class="text-center font-w300">
-					   				Liquidación de <span class="text-green font-w600"><?php echo strtoupper($date->copy()->formatLocalized('%B')) ?> </span> de <?php echo strtoupper( $user->name) ?>
+					   				Liquidación de <span class="text-green font-w600"><?php echo strtoupper($date->copy()->formatLocalized('%B')) ?> </span> de <?php echo strtoupper( $customer->name) ?>
 					   			</h2>
 					   		</div><br><br><br>
 					   		<div class="col-xs-12">
@@ -135,7 +135,7 @@
 					   									<?php echo strtoupper(str_replace('-', ' ', $key)) ?>
 					   								</span><br>
 					   								<?php 
-						   								$clases = \App\CoachClasses::where('id_user', $user->id)
+						   								$clases = \App\CoachClasses::where('customer_id', $customer->id)
 						   								                            ->where('id_class', $pago[0]->id_class)
 						   								                            ->get();
 					   								?>

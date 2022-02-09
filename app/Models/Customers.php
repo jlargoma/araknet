@@ -10,7 +10,7 @@ use DB;
 use Laravel\Cashier\Billable;
 use Laravel\Cashier\Subscription;
 
-class User extends Authenticatable {
+class Customers extends Authenticatable {
 
   use HasFactory,
       Notifiable;
@@ -46,18 +46,7 @@ class User extends Authenticatable {
       'email_verified_at' => 'datetime',
   ];
 
-  /**
-   * Roles List
-   * @var type
-   */
-  var $roles = [
-      'admin' => 'SuperAdmin',
-      'subadmin' => 'Admin',
-      'partners' => 'Socio / Dueño',
-      'commercial' => 'Comercial',
-      'installer' => 'Instalador',
-      'invertor' => 'Inversor'
-  ];
+ 
 
   public function rates() {
     return $this->hasMany('\App\Models\CustomersRates', 'customer_id', 'id');
@@ -67,69 +56,27 @@ class User extends Authenticatable {
     return $this->hasMany('\App\Models\Charges', 'customer_id', 'id');
   }
 
-  public function rateCoach() {
-    return $this->hasOne('\App\Models\CoachRates', 'customer_id', 'id');
-  }
-
-  public function userCoach() {
-    return $this->hasOne('\App\Models\CoachUsers', 'customer_id', 'id');
-  }
+ 
 
   public function suscriptions() {
-    return $this->hasMany('\App\Models\UsersSuscriptions', 'customer_id', 'id');
+    return $this->hasMany('\App\Models\CustomersSuscriptions', 'customer_id', 'id');
   }
 
-  static function whereCoachs($type = null, $includeAdmin = false) {
-
-    if (is_null($type)){
-      $roles = ['partners', 'commercial', 'installer', 'invertor'];
-    } else {
-      $roles = (is_array($type)) ? $type : [$type];
-    }
-
-    if ($includeAdmin){
-      $roles[] = 'admin';
-      $roles[] = 'subadmin';
-    }
-
-    return self::whereIn('role', $roles);
-  }
-
-  static function getCoachs($type = null, $includeAdmin = false) {
-    return User::whereCoachs($type, $includeAdmin)
-                    ->where('status', 1)->orderBy('status', 'DESC')->get();
-  }
   
-  static function getUsersWithRoles($type = null) {
-    $lst =  User::whereCoachs($type, false)
-                    ->where('status', 1)->orderBy('name')->get();
-    $allUsers = [];
-    if ($lst){
-      foreach ($lst as $i){
-        $allUsers[$i->id] = (object)[
-          'n'=>$i->name,
-          'r'=>$i->role,
-          'rn'=>isset($i->roles[$i->role]) ? $i->roles[$i->role] : ''
-        ];
-      }
-    }
-    return $allUsers;
-  }
-
   /*   * ******************************************************************* */
 
-  /////////  user_meta //////////////
+  /////////  customers_meta //////////////
   public function setMetaContent($key, $content) {
 
-    $already = DB::table('user_meta')
-                    ->where('user_id', $this->id)->where('meta_key', $key)->first();
+    $already = DB::table('customers_meta')
+                    ->where('customer_id', $this->id)->where('meta_key', $key)->first();
     if ($already) {
-      DB::table('user_meta')->where('user_id', $this->id)
+      DB::table('customers_meta')->where('customer_id', $this->id)
               ->where('meta_key', $key)
               ->update(['meta_value' => $content]);
     } else {
-      DB::table('user_meta')->insert(
-              ['user_id' => $this->id, 'meta_key' => $key, 'meta_value' => $content]
+      DB::table('customers_meta')->insert(
+              ['customer_id' => $this->id, 'meta_key' => $key, 'meta_value' => $content]
       );
     }
     return null;
@@ -137,8 +84,8 @@ class User extends Authenticatable {
 
   public function getMetaContent($key) {
 
-    $oMeta = DB::table('user_meta')
-                    ->where('user_id', $this->id)->where('meta_key', $key)->first();
+    $oMeta = DB::table('customers_meta')
+                    ->where('customer_id', $this->id)->where('meta_key', $key)->first();
 
     if ($oMeta) {
       return $oMeta->meta_value;
@@ -150,7 +97,7 @@ class User extends Authenticatable {
     if (count($metaDataUPD)) {
       $d = [];
       foreach ($metaDataUPD as $k => $v) {
-        $updated = DB::table('user_meta')->where('user_id', $this->id)
+        $updated = DB::table('customers_meta')->where('customer_id', $this->id)
                 ->where('meta_key', $k)
                 ->update(['meta_value' => $v]);
         if (!$updated) {
@@ -162,26 +109,26 @@ class User extends Authenticatable {
     if (count($metaDataADD)) {
       $d = [];
       foreach ($metaDataADD as $k => $v)
-        $d[] = ['user_id' => $this->id, 'meta_key' => $k, 'meta_value' => $v];
-      DB::table('user_meta')->insert($d);
+        $d[] = ['customer_id' => $this->id, 'meta_key' => $k, 'meta_value' => $v];
+      DB::table('customers_meta')->insert($d);
     }
   }
 
   public function getMetaContentGroups($keys) {
 
-    return DB::table('user_meta')
-                    ->where('user_id', $this->id)->whereIn('meta_key', $keys)
+    return DB::table('customers_meta')
+                    ->where('customer_id', $this->id)->whereIn('meta_key', $keys)
                     ->pluck('meta_value', 'meta_key')->toArray();
   }
 
   public function getMetaUserID_byKey($keys, $val = null) {
 
-    $sql = DB::table('user_meta')
+    $sql = DB::table('customers_meta')
             ->where('meta_key', $keys);
     if ($val)
       $sql->where('meta_value', $val);
 
-    return $sql->pluck('user_id')->toArray();
+    return $sql->pluck('customer_id')->toArray();
   }
 
   function getPayCard() {

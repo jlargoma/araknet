@@ -10,12 +10,12 @@ class TypesRate extends Model
 
     public function user()
     {
-        return $this->hasOne('\App\Models\User', 'id', 'id_user');
+        return $this->hasOne('\App\Models\User', 'id', 'customer_id');
     }
 
     public function rate()
     {
-        return $this->hasMany('\App\Models\Rates', 'id', 'id_rate');
+        return $this->hasMany('\App\Models\Rates', 'id', 'rate_id');
     }
     static function subfamily($key=null) {
       $lst = [

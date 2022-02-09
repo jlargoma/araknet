@@ -17,7 +17,7 @@
         <label>DNI</label>
       </div>
       <div class="col-md-7">
-        <input type="text" id="email" class="field" name="email" required value="">
+        <input type="email" id="email" class="field" name="email" required value="">
         <label>E-mail</label>
       </div>
       <div class="col-md-5">

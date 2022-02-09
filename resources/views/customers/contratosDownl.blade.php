@@ -100,16 +100,16 @@ div.saltopagina{
   <div class="body">
     <table>
     <tr>
-      <td><b>NOMBRE APELLIDOS: </b><?php echo $user->name; ?></td>
+      <td><b>NOMBRE APELLIDOS: </b><?php echo $customer->name; ?></td>
     </tr>
     <tr>
-      <td><b>DIRECCIÓN: </b><?php echo $user->address; ?></td>
+      <td><b>DIRECCIÓN: </b><?php echo $customer->address; ?></td>
     </tr>
     <tr>
-      <td><b>TELÉFONO: </b><?php echo $user->phone; ?></td>
+      <td><b>TELÉFONO: </b><?php echo $customer->phone; ?></td>
     </tr>
     <tr>
-      <td><b>E-MAIL: </b><?php echo $user->email; ?></td>
+      <td><b>E-MAIL: </b><?php echo $customer->email; ?></td>
     </tr>
   </table>
   <table>

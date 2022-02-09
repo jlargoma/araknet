@@ -1,52 +1,18 @@
 @extends('layouts.popup')
 @section('content')
-<style type="text/css">
-  .StripeElement {
-    background-color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid transparent;
-    box-shadow: 0 1px 3px 0 #e6ebf1;
-    -webkit-transition: box-shadow 150ms ease;
-    transition: box-shadow 150ms ease;
-  }
-
-  .StripeElement--focus {
-    box-shadow: 0 1px 3px 0 #cfd7df;
-  }
-
-  .StripeElement--invalid {
-    border-color: #fa755a;
-  }
-
-  .StripeElement--webkit-autofill {
-    background-color: #fefde5 !important;
-  }
-
-  .stripe-price {
-    background-color: white !important;
-    padding: 8px 12px !important;
-    border-radius: 4px !important;
-    border: 1px solid transparent !important;
-    box-shadow: 0 1px 3px 0 #e6ebf1 !important;
-    -webkit-transition: box-shadow 150ms ease !important;
-    transition: box-shadow 150ms ease !important;
-  }
-  .stripeEmail{height: 0px;    overflow: hidden;}
-</style>
 <div class="content" style="max-width:975px;">
-  <h2 class="text-center push-20"> ASIGNAR Y GENERAR COBRO PARA <?php echo strtoupper($user->name) ?></h2>
-  <form class="form-toPayment" method="post" action="{{ url('/admin/cobros/cobrar-usuario') }}">
+  <h2 class="text-center push-20"> ASIGNAR Y GENERAR COBRO PARA <?php echo strtoupper($customer->name) ?></h2>
+  <form class="form-toPayment" method="post" action="{{ url('/admin/cobros/cobrar-cliente') }}">
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-    <input type="hidden" name="id_user" value="<?php echo $user->id; ?>">
+    <input type="hidden" name="customer_id" value="<?php echo $customer->id; ?>">
     <div class="row">
       <div class="col-xs-6 col-md-4 push-20">
-        <label for="id_rate">Tarifa</label>
-        <select class="form-control" id="id_rate" name="id_rate" style="width: 100%; cursor: pointer"
+        <label for="rate_id">Tarifa</label>
+        <select class="form-control" id="rate_id" name="rate_id" style="width: 100%; cursor: pointer"
                 placeholder="Seleccione tarifas.." required="">
           <option></option>
           <?php
-          $old = old('id_rate');
+          $old = old('rate_id');
             foreach ($rateFamily as $k=>$v):
               echo '<optgroup label="'.$v['n'].'">';
               foreach ($v['l'] as $rate):
@@ -71,12 +37,12 @@
       </div>
 
        <div class="col-xs-6 col-md-3 push-20">
-        <label for="id_rate">Personal</label>
-        <select class="form-control" id="id_coach" name="id_coach" style="width: 100%; cursor: pointer"
+        <label for="rate_id">Personal</label>
+        <select class="form-control" id="user_id" name="user_id" style="width: 100%; cursor: pointer"
                 placeholder="Personal asignado" >
           <option value="null">--</option>
           <?php
-          $old = old('id_coach');
+          $old = old('user_id');
           foreach ($coachs as $v):
             $sel ='';
             ?>
@@ -146,8 +112,8 @@ jQuery(function () {
 });
 $(document).ready(function () {
   var origPrice = 0;
-  $('#id_rate').change(function (event) {
-    var that = $("#id_rate option:selected");
+  $('#rate_id').change(function (event) {
+    var that = $("#rate_id option:selected");
     var price = that.data('price');
     $('#importeFinal').val(price);
     origPrice = price;
@@ -172,49 +138,7 @@ $(document).ready(function () {
     }
   });
 
-  $('.btnStripe').on('click', function () {
-    var type = $(this).data('t');
-    var posting = $.post('/admin/cobros/cobrar-usuario', {
-    _token: '{{csrf_token()}}',
-    id_coach: $('#id_coach').val(),
-    id_rate: $('#id_rate').val(),
-    id_user: {{$user->id}},
-    u_email: $('#u_email').val(),
-    u_phone: $('#u_phone').val(),
-    discount: $('#discount').val(),
-    importe: $('#importeFinal').val(),
-    type: type
-    });
-    posting.done(function (data) {
-    if (data[0] == 'OK') {
-      if (type == 'mail') {
-        window.show_notif('success', data[1]);
-      }
-      if (type == 'wsp') {
-        if (window.detectMob()) {
-          var url = 'whatsapp://send?text=' + encodeURI(data[1]);
-        } else {
-          var url = 'https://web.whatsapp.com/send?phone=' + $('#u_phone').val() + '&text=' + encodeURI(data[1]);
-        }
-        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-        if (newWindow)
-          newWindow.opener = null
-      }
-      if (type == 'copy') {
-        $('#cpy_link').val(data[1]);
-        document.getElementById("cpy_link").style.display = "block";
-        document.getElementById("cpy_link").select();
-        document.execCommand("copy");
-        document.getElementById("cpy_link").style.display = "none";
-        window.show_notif('success', 'Mensaje copiado');
-      }
-
-    } else {
-      window.show_notif('error', data[1]);
-    }
-    });
-  });
+  
 });
 </script>
-@include('admin.blocks.cardScripts')
 @endsection

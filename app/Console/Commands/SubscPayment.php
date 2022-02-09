@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\UsersSuscriptions;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use Log;
 
 class SubscPayment extends Command {
@@ -43,15 +43,15 @@ class SubscPayment extends Command {
       $year = date('Y');
       $month = date('m');
       foreach ($lst as $s){
-        $uID = $s->id_user;
-        $rID = $s->id_rate;
-        $uRate = UserRates::where('id_user',$uID)
+        $uID = $s->customer_id;
+        $rID = $s->rate_id;
+        $uRate = CustomersRates::where('customer_id',$uID)
                 ->where('rate_year',$year)->where('rate_month',$month)
-                ->where('id_rate', $rID)->first();
+                ->where('rate_id', $rID)->first();
         if (!$uRate){
-          $uRate = new UserRates();
-          $uRate->id_user = $uID;
-          $uRate->id_rate = $rID;
+          $uRate = new CustomersRates();
+          $uRate->customer_id = $uID;
+          $uRate->rate_id = $rID;
           $uRate->price   = $s->price;
           $uRate->rate_year = $year;
           $uRate->rate_month = $month;

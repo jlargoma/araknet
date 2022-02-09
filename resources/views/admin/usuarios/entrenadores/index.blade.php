@@ -69,31 +69,31 @@
         <tbody>
           <?php $totalMonthCoach = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; ?>
           <?php $totalYear = 0; ?>
-          <?php foreach ($users as $key => $user): ?>
+          <?php foreach ($customers as $key => $customer): ?>
             <tr>
               <td class="text-left nowrap static"> 
                 <label class="css-input css-checkbox css-checkbox-primary">
-                  <input type="checkbox" class="user-checker" name="email[<?php echo $key; ?>]" value="<?php echo $user->id ?>"><span></span>
+                  <input type="checkbox" class="user-checker" name="email[<?php echo $key; ?>]" value="<?php echo $customer->id ?>"><span></span>
                 </label>
-                <a class="btn-user" data-toggle="modal" data-target="#modal-popout" data-idUser="<?php echo $user->id; ?>" type="button" data-toggle="tooltip" title="" data-type="user" data-original-title="Editar Entrenador">
-                  <b><?php echo ($user->name) ? $user->name : '--'; ?></b>
+                <a class="btn-user" data-toggle="modal" data-target="#modal-popout" data-idUser="<?php echo $customer->id; ?>" type="button" data-toggle="tooltip" title="" data-type="user" data-original-title="Editar Entrenador">
+                  <b><?php echo ($customer->name) ? $customer->name : '--'; ?></b>
                 </a>
               </td>
               <td class="first-col"></td>
               <td class="text-center hidden-xs hidden-sm"> 
-                <?php if ($user->status == 1): ?>
-                  <a href="{{ url('/admin/usuarios/disable')}}/<?php echo $user->id ?>" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" title="" data-original-title="Desactivar entrenador"><i class="fa fa-circle"></i></a>
+                <?php if ($customer->status == 1): ?>
+                  <a href="{{ url('/admin/usuarios/disable')}}/<?php echo $customer->id ?>" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" title="" data-original-title="Desactivar entrenador"><i class="fa fa-circle"></i></a>
                 <?php else: ?>
-                  <a href="{{ url('/admin/usuarios/activate')}}/<?php echo $user->id ?>" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="" data-original-title="Activar entrenador"><i class="fa fa-circle"></i></a>
+                  <a href="{{ url('/admin/usuarios/activate')}}/<?php echo $customer->id ?>" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="" data-original-title="Activar entrenador"><i class="fa fa-circle"></i></a>
                 <?php endif ?>
               </td>
               <td class="text-center"> 
-                <?php echo $user->phone; ?>
+                <?php echo $customer->phone; ?>
               </td>
               <td class="text-center"> 
 
                 <?php
-                switch ($user->role) {
+                switch ($customer->role) {
                   case 'admin';
                   case 'administrativo';
                     echo 'Admin';
@@ -113,8 +113,8 @@
               <td class="text-center">
                 <?php
                 $totalLiquidationByCoach = 0;
-                if (isset($aLiqTotal[$user->id])):
-                  $totalLiquidationByCoach = $aLiqTotal[$user->id];
+                if (isset($aLiqTotal[$customer->id])):
+                  $totalLiquidationByCoach = $aLiqTotal[$customer->id];
                   $totalYear += $totalLiquidationByCoach;
                 endif;
                 ?>
@@ -122,8 +122,8 @@
               </td>
               <?php
               foreach ($months as $k => $v):
-                $aux = isset($aLiq[$user->id]) ? $aLiq[$user->id] : null;
-                $liq = ($aux && isset($aLiq[$user->id][$k])) ? $aLiq[$user->id][$k] : 0;
+                $aux = isset($aLiq[$customer->id]) ? $aLiq[$customer->id] : null;
+                $liq = ($aux && isset($aLiq[$customer->id][$k])) ? $aLiq[$customer->id][$k] : 0;
                 $totalMonthCoach[$k] += $liq;
                 ?>
                 <td class="text-center">{{mformat($liq)}}</td>
@@ -336,10 +336,10 @@ $(document).ready(function () {
 
   $('.liquidation').change(function (event) {
     var id_liquidation = $(this).attr('data-idLiquidation');
-    var id_coach = $(this).attr('data-idCoach');
+    var user_id = $(this).attr('data-idCoach');
     var date_liquidation = $(this).attr('data-dateLiquidation');
     var importe = $(this).val();
-    $.get('/admin/entrenadores/liquidacion-entrenador/', {id_coach: id_coach, importe: importe, id_liquidation: id_liquidation, date_liquidation: date_liquidation}).done(function (data) {
+    $.get('/admin/entrenadores/liquidacion-entrenador/', {user_id: user_id, importe: importe, id_liquidation: id_liquidation, date_liquidation: date_liquidation}).done(function (data) {
       location.reload();
     });
   });

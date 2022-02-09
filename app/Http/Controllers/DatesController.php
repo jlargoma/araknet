@@ -8,7 +8,7 @@ use \Carbon\Carbon;
 use App\Models\User;
 use App\Models\Dates;
 use App\Models\Rates;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use App\Models\CoachTimes;
 use Illuminate\Support\Facades\Mail;
 
@@ -57,13 +57,13 @@ class DatesController extends Controller {
 
     $ID = $request->input('idDate', null);
     $blocked = $request->input('blocked', null);
-    $id_user = $request->input('id_user', null);
+    $customer_id = $request->input('customer_id', null);
     $uEmail = $request->input('email');
     $uPhone = $request->input('phone');
     $type = $request->input('date_type');
     $importe = $request->input('importe', 0);
-    $id_rate = $request->input('id_rate');
-    $id_coach = $request->input('id_coach');
+    $rate_id = $request->input('rate_id');
+    $user_id = $request->input('user_id');
     $date = $request->input('date');
     $hour = $request->input('hour');
     $cHour = $request->input('customTime');
@@ -77,14 +77,14 @@ class DatesController extends Controller {
     if ($blocked && !$isGroup) {
       $alreadyExit = Dates::where('date', $date_compl)
               ->where('id', '!=', $ID)
-              ->where('id_coach', $id_coach)
+              ->where('user_id', $user_id)
               ->first();
       if ($alreadyExit) {
         $msg = 'Personal ocupado';
         return redirect()->back()->withErrors([$msg]);
       }
       $oObj = Dates::find($ID);
-      $oObj->id_coach = $id_coach;
+      $oObj->user_id = $user_id;
       $oObj->date = $date_compl;
       $oObj->updated_at = $date;
       $oObj->save();
@@ -93,31 +93,31 @@ class DatesController extends Controller {
     /* -------------------------------------------------------------------- */
     $validated = $this->validate($request, [
         'date' => 'required',
-        'id_rate' => 'required',
-        'id_coach' => 'required',
+        'rate_id' => 'required',
+        'user_id' => 'required',
             ], [
         'date.required' => 'Fecha requerida',
-        'id_rate.required' => 'Tarifa requerida',
-        'id_coach.required' => 'Coach requerido',
+        'rate_id.required' => 'Tarifa requerida',
+        'user_id.required' => 'Coach requerido',
     ]);
     /* -------------------------------------------------------------------- */
     $alreadyExit = Dates::where('date', $date_compl)
                     ->where('id', '!=', $ID)
                     ->where('date_type', $type)
                     ->where('blocked', 1)
-                    ->where('id_coach', $id_coach)->first();
+                    ->where('user_id', $user_id)->first();
     if ($alreadyExit) {
       return redirect()->back()->withErrors(['Horario bloqueado']);
     }
     $alreadyExit = Dates::where('date', $date_compl)
                     ->where('id', '!=', $ID)
-                    ->where('id_coach', $id_coach)->count();
+                    ->where('user_id', $user_id)->count();
     if ($alreadyExit > 1) {
       return redirect()->back()->withErrors(['Personal ocupado']);
     }
     /* -------------------------------------------------------------------- */
     if (!$isGroup) {
-      if (!$id_user) {
+      if (!$customer_id) {
         $issetUser = User::where('email', $uEmail)->first();
         if ($issetUser) {
           return redirect()->back()->withErrors(["email duplicado"])->withInput();
@@ -130,10 +130,10 @@ class DatesController extends Controller {
           $oUser->role = 'user';
           $oUser->phone = $uPhone;
           $oUser->save();
-          $id_user = $oUser->id;
+          $customer_id = $oUser->id;
         }
       } else {
-        $oUser = User::find($id_user);
+        $oUser = User::find($customer_id);
 
         if ($oUser && $oUser->email != $uEmail) {
           $oUser->email = $uEmail;
@@ -147,13 +147,13 @@ class DatesController extends Controller {
 
       $alreadyExit = Dates::where('date', $date_compl)
                       ->where('id', '!=', $ID)
-                      ->where('id_user', $id_user)->count();
+                      ->where('customer_id', $customer_id)->count();
       if ($alreadyExit > 1) {
         return redirect()->back()->withErrors(['Usuario ocupado']);
       }
     }
     /* -------------------------------------------------------------------- */
-    $coachTimes = CoachTimes::where('id_coach', $id_coach)->first();
+    $coachTimes = CoachTimes::where('user_id', $user_id)->first();
     if ($coachTimes) {
       $t_control = json_decode($coachTimes->times, true);
       $aux_d = $oCarbon->format('w');
@@ -171,37 +171,37 @@ class DatesController extends Controller {
     }
     /* -------------------------------------------------------------------- */
     //nueva cita => crear userRate
-    $id_user_rates = null;
+    $customer_rate_ids = null;
     if (!$isGroup) {
-      $uRate = UserRates::find($oObj->id_user_rates);
+      $uRate = CustomersRates::find($oObj->customer_rate_ids);
       if ($uRate) {
         $uRate->rate_year = date('Y', $timeCita);
         $uRate->rate_month = date('n', $timeCita);
         $uRate->price = $importe;
-        $uRate->id_rate = $id_rate;
-        $uRate->coach_id = $id_coach;
+        $uRate->rate_id = $rate_id;
+        $uRate->coach_id = $user_id;
         $uRate->save();
       } else {
 
-        $uRate = new UserRates();
-        $uRate->id_user = $oUser->id;
-        $uRate->id_rate = $id_rate;
+        $uRate = new CustomersRates();
+        $uRate->customer_id = $oUser->id;
+        $uRate->rate_id = $rate_id;
         $uRate->rate_year = date('Y', $timeCita);
         $uRate->rate_month = date('n', $timeCita);
         $uRate->price = $importe;
-        $uRate->coach_id = $id_coach;
+        $uRate->coach_id = $user_id;
         $uRate->save();
       }
       if (!$uRate)
         return redirect()->back()->withErrors(['Servicio no encontrado']);
 
-      $id_user_rates = $uRate->id;
+      $customer_rate_ids = $uRate->id;
     }
     /* -------------------------------------------------------------------- */
-    $oObj->id_rate = $id_rate;
-    $oObj->id_user = $id_user;
-    $oObj->id_coach = $id_coach;
-    $oObj->id_user_rates = $id_user_rates;
+    $oObj->rate_id = $rate_id;
+    $oObj->customer_id = $customer_id;
+    $oObj->user_id = $user_id;
+    $oObj->customer_rate_ids = $customer_rate_ids;
     $oObj->date_type = $type;
     $oObj->date = $date_compl;
     $oObj->customTime = $cHour;
@@ -209,7 +209,7 @@ class DatesController extends Controller {
 
     if ($isGroup) {
       $oObj->price = $importe;
-      $oObj->id_user = 0;
+      $oObj->customer_id = 0;
       $oObj->blocked = 1;
       $oObj->is_group = 1;
       $oObj->save();
@@ -224,9 +224,9 @@ class DatesController extends Controller {
 
     if ($oObj->save()) {
       $timeCita = strtotime($oObj->date);
-      $service = Rates::find($oObj->id_rate);
-      $coach = User::find($oObj->id_coach);
-      $oRate = Rates::find($oObj->id_rate);
+      $service = Rates::find($oObj->rate_id);
+      $coach = User::find($oObj->user_id);
+      $oRate = Rates::find($oObj->rate_id);
 
       /*       * BEGIN: prepare iCAL * */
       $uID = str_pad($oObj->id, 7, "0", STR_PAD_LEFT);
@@ -315,7 +315,7 @@ class DatesController extends Controller {
   function openChargeDate($id) {
     $obj = Dates::find($id);
     if (!$obj) {
-      UserRates::where('id_appointment', $id)->delete();
+      CustomersRates::where('id_appointment', $id)->delete();
       echo 'Registro no encontrado.';
     } else {
       $date_type = $obj->date_type;
@@ -351,7 +351,7 @@ class DatesController extends Controller {
   function blockDatesSave(Request $req) {
 
     $type = $req->input('date_type');
-    $id_coach = $req->input('id_coach');
+    $user_id = $req->input('user_id');
     $start = $req->input('start');
     $end = $req->input('end');
     $hours = $req->input('hours');
@@ -371,16 +371,16 @@ class DatesController extends Controller {
       if ($wd > 0) {
         foreach ($hours as $h) {
           $dateHour = $d . " $h:00:00";
-          $exist = Dates::where('id_coach', $id_coach)
+          $exist = Dates::where('user_id', $user_id)
                           ->where('date_type', $type)
                           ->where('date', $dateHour)->first();
           if (!$exist) {
             $oObj = new Dates();
-            $oObj->id_coach = $id_coach;
-            $oObj->id_rate = 0;
-            $oObj->id_user = 0;
+            $oObj->user_id = $user_id;
+            $oObj->rate_id = 0;
+            $oObj->customer_id = 0;
             $oObj->blocked = 1;
-            $oObj->id_user_rates = -1;
+            $oObj->customer_rate_ids = -1;
             $oObj->date_type = $type;
             $oObj->date = $dateHour;
             $oObj->save();
@@ -396,7 +396,7 @@ class DatesController extends Controller {
     $cNames = [];
     $uRate = $obj->uRates;
 
-    $id_coach = $obj->id_coach;
+    $user_id = $obj->user_id;
     $alreadyUsed = [];
 
     $start = substr($obj->date, 0, 10);
@@ -404,7 +404,7 @@ class DatesController extends Controller {
     $oCalendar->setLastDayWeeks(6);
     $calendar = $oCalendar->getCalendarWeeks();
 
-    $rslt = \App\Services\CitasService::get_calendars($calendar['firstDay'], $calendar['lastDay'], null, $id_coach, $obj->date_type);
+    $rslt = \App\Services\CitasService::get_calendars($calendar['firstDay'], $calendar['lastDay'], null, $user_id, $obj->date_type);
 //      dd($rslt);
 
     $rslt['calendar'] = $calendar['days'];
@@ -435,23 +435,23 @@ class DatesController extends Controller {
 
     foreach ($aDates as $d) {
       $timeCita = strtotime($d);
-      $urClone = new UserRates();
-      $urClone->id_user = $uRate->id_user;
-      $urClone->id_rate = $uRate->id_rate;
+      $urClone = new CustomersRates();
+      $urClone->customer_id = $uRate->customer_id;
+      $urClone->rate_id = $uRate->rate_id;
       $urClone->rate_year = date('Y', $timeCita);
       $urClone->rate_month = date('n', $timeCita);
       $urClone->price = $uRate->price;
       $urClone->coach_id = $uRate->coach_id;
       $urClone->save();
-      $id_user_rates = $urClone->id;
+      $customer_rate_ids = $urClone->id;
 
       $clone = new Dates();
       $clone->date = $d;
-      $clone->id_rate = $oDate->id_rate;
-      $clone->id_user = $oDate->id_user;
-      $clone->id_coach = $oDate->id_coach;
+      $clone->rate_id = $oDate->rate_id;
+      $clone->customer_id = $oDate->customer_id;
+      $clone->user_id = $oDate->user_id;
       $clone->date_type = $oDate->date_type;
-      $clone->id_user_rates = $id_user_rates;
+      $clone->customer_rate_ids = $customer_rate_ids;
       $clone->save();
     }
 
@@ -465,7 +465,7 @@ class DatesController extends Controller {
     $ID = $req->input('id');
     $uID = $req->input('uID');
     $type = $req->input('type');
-    $cID = $req->input('cID'); //id_coach
+    $cID = $req->input('cID'); //user_id
 
 
     $aux = explode('-', $date);
@@ -475,9 +475,9 @@ class DatesController extends Controller {
 
     $dateCompl = $date . " $time:00:00";
 
-    $sqlCoach = Dates::where('date', $dateCompl)->where('id_coach', $cID);
-    $sqlUser = Dates::where('date', $dateCompl)->where('id_user', $uID);
-    $sqlBloq = Dates::where('date', $dateCompl)->where('id_coach', $cID);
+    $sqlCoach = Dates::where('date', $dateCompl)->where('user_id', $cID);
+    $sqlUser = Dates::where('date', $dateCompl)->where('customer_id', $uID);
+    $sqlBloq = Dates::where('date', $dateCompl)->where('user_id', $cID);
 
     if ($ID && $ID != 'undefined') {
       $sqlCoach->where('id', '!=', $ID);

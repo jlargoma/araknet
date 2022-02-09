@@ -168,7 +168,7 @@
 								<?php 
 									$clientsCoutas =DB::table('charges')
 					                                ->distinct()
-					                                ->select('id_user')
+					                                ->select('customer_id')
 					                                ->whereIn('type_rate', [1,2,3,4])
 													->whereYear('date_payment', '=' ,$aux->copy()->format('Y'))
 													->whereMonth('date_payment', '=' ,$aux->copy()->format('m'))
@@ -176,7 +176,7 @@
 
 									$clientsNotCoutas =DB::table('charges')
 					                                ->distinct()
-					                                ->select('id_user')
+					                                ->select('customer_id')
 					                                ->whereNotIn('type_rate', [1,2,3,4])
 													->whereYear('date_payment', '=' ,$aux->copy()->format('Y'))
 													->whereMonth('date_payment', '=' ,$aux->copy()->format('m'))

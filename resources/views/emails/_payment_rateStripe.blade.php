@@ -3,14 +3,14 @@ $tit = $type.' en Araknet';
 ?>
 @include('emails.head')
 
-Hola! <?php echo $user->name ?><br><br><br>
+Hola! <?php echo $customer->name ?><br><br><br>
 
 <p style="color: black">
     Te adjuntamos el enlace para el pago de <?php echo $rate->name ?> en <strong> Araknet</strong>
 </p>
 
 <p style="color: black;font-size: 18px;">
-    - Nombre : <?php echo $user->name ?><br><br>
+    - Nombre : <?php echo $customer->name ?><br><br>
     - Tarifa : <?php echo $rate->name ?><br><br>
     - Fecha  : <?php echo ucfirst($date->copy()->formatLocalized('%d %B %Y')) ?><br><br>
     <?php if($rate->mode): ?>

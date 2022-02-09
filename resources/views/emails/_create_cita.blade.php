@@ -3,7 +3,7 @@ $tit = 'Su cita en Araknet';
 ?>
 @include('emails.head')
 
-Hola! <?php echo $user->name ?><br><br><br>
+Hola! <?php echo $customer->name ?><br><br><br>
 
 <p>
     Tienes una cita en nuestro centro, 

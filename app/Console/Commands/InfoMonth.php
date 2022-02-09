@@ -81,12 +81,12 @@ class InfoMonth extends Command {
     }
 
     foreach ($data['charges'] as $charges) {
-      if (!isset($byRate[$charges->id_rate]))
-        $byRate[$charges->id_rate] = 0;
+      if (!isset($byRate[$charges->rate_id]))
+        $byRate[$charges->rate_id] = 0;
 
-      $byRate[$charges->id_rate] += $charges->import;
-      if (isset($aR_RateType[$charges->id_rate])) {
-        $byRateT[$aR_RateType[$charges->id_rate]] += $charges->import;
+      $byRate[$charges->rate_id] += $charges->import;
+      if (isset($aR_RateType[$charges->rate_id])) {
+        $byRateT[$aR_RateType[$charges->rate_id]] += $charges->import;
       }
     }
 

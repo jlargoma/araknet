@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UsersSuscriptions extends Model
+class CustomersSuscriptions extends Model
 {
         
     use SoftDeletes; //Implementamos 
-    public function user()
+    public function customers()
     {
-        return $this->hasOne('\App\Models\User', 'id', 'id_user');
+        return $this->hasOne('\App\Models\Customers', 'id', 'customer_id');
     }
     public function rate()
     {
-        return $this->hasOne('\App\Models\Rates', 'id', 'id_rate');
+        return $this->hasOne('\App\Models\Rates', 'id', 'rate_id');
     }
 }

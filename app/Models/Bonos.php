@@ -8,7 +8,7 @@ class Bonos extends Model
 {
   public function users()
   {
-    return $this->hasMany('\App\Models\UserBonos','id', 'id_rate');
+    return $this->hasMany('\App\Models\UserBonos','id', 'rate_id');
   }
   
   public function getBonoUser($uID) {

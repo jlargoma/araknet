@@ -1,11 +1,11 @@
 <div class="row">
-  <form action="{{ url('/admin/clientes/update') }}" method="post">
+  <form action="{{ url('/admin/cliente/update') }}" method="post">
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-    <input type="hidden" name="id" value="{{ $user->id }}">
+    <input type="hidden" name="id" value="{{ $customer->id }}">
 
     <div class="col-md-12 col-lg-6 lineRight">
       <h3 class="text-left">Datos del Usuario
-        <button class="btn btn-default add_rate" data-idUser="<?php echo $user->id; ?>">
+        <button class="btn btn-default add_rate" data-idUser="<?php echo $customer->id; ?>">
           <i class="fa fa-usd" aria-hidden="true"></i> Asignar Servicio
         </button>
         @if(isset($encNutr))
@@ -16,35 +16,35 @@
       </h3>
       <div class="row formLine">
         <div class="col-md-7">
-          <input class="field" type="text" id="name" name="name" required value="<?php echo $user->name ?>">
+          <input class="field" type="text" id="name" name="name" required value="<?php echo $customer->name ?>">
           <label>Nombre</label>
         </div>
         <div class="col-md-5">
-          <input class="field" type="text" id="dni" name="dni" value="<?php echo $user->dni ?>">
+          <input class="field" type="text" id="dni" name="dni" value="<?php echo $customer->dni ?>">
           <label>DNI</label>
         </div>
         <div class="col-md-7">
-          <input type="text" id="email" class="field" name="email" required value="<?php echo $user->email ?>">
+          <input type="email" id="email" class="field" name="email" required value="<?php echo $customer->email ?>">
           <label>E-mail</label>
         </div>
         <div class="col-md-5">
-          <input class="field" type="number" id="phone" name="phone" required maxlength="9" value="<?php echo $user->phone ?>">
+          <input class="field" type="number" id="phone" name="phone" required maxlength="9" value="<?php echo $customer->phone ?>">
           <label for="phone">Teléfono</label>
         </div>
         <div class="col-md-12">
-          <input type="text" id="address" class="field" name="address" value="<?php echo $user->address ?>">
+          <input type="text" id="address" class="field" name="address" value="<?php echo $customer->address ?>">
           <label>Dirección</label>
         </div>
         <div class="col-md-6">
-          <input type="text" id="population" class="field" name="population" value="<?php echo $user->population ?>">
+          <input type="text" id="population" class="field" name="population" value="<?php echo $customer->population ?>">
           <label>Población</label>
         </div>
         <div class="col-md-6">
-          <input type="text" id="province" class="field" name="province" value="<?php echo $user->province ?>">
+          <input type="text" id="province" class="field" name="province" value="<?php echo $customer->province ?>">
           <label>Provincia</label>
         </div>
         <div class="col-md-12">
-          <input type="text" id="iban" class="field" name="iban" value="<?php echo $user->iban ?>">
+          <input type="text" id="iban" class="field" name="iban" value="<?php echo $customer->iban ?>">
           <label>Cuenta Corriente Banco</label>
         </div>
       </div>
@@ -57,14 +57,14 @@
           <table class="table formLine2">
             <tr>
               <td>
-                <select  class="field" id="coach_id" name="coach_id" style="width: 100%; cursor: pointer;font-weight:bold;" placeholder="Comercial asignado" >
+                <select  class="field" id="user_id" name="user_id" style="width: 100%; cursor: pointer;font-weight:bold;" placeholder="Comercial asignado" >
                   <option value="">Comercial</option>
                   <?php
-                  foreach ($allCoachs as $k => $v):
-                    $sel = ($user->coach_id == $k) ? 'selected' : '';
+                  foreach ($allUsers as $k => $v):
+                    $sel = ($customer->user_id == $k) ? 'selected' : '';
                     ?>
                     <option value="<?= $k ?>" <?= $sel; ?>>
-                      <?php echo $v ?>
+                      <?php echo $v->n ?>
                     </option>
                     <?php
                   endforeach;
@@ -86,11 +86,11 @@
         <div class="col-md-6 formLine">
           <h2>Datos del Hotspot</h2>
           <div class="col-md-12">
-            <input class="field" type="text" id="hotspot_imac" name="hotspot_imac" required value="<?php echo $user->hotspot_imac ?>">
+            <input class="field" type="text" id="hotspot_imac" name="hotspot_imac"  value="<?php echo $customer->hotspot_imac ?>">
             <label>IMAC</label>
           </div>
           <div class="col-md-12">
-            <input class="field" type="date" id="hotspot_date" name="hotspot_date" value="<?php echo $user->hotspot_date ?>">
+            <input class="field" type="date" id="hotspot_date" name="hotspot_date" value="<?php echo $customer->hotspot_date ?>">
             <label>Activación</label>
           </div>
         </div>
@@ -102,8 +102,8 @@
       <div class="row">
         <div class="col-md-4 mt-1">
           <select name="status" class="form-control">
-            <option value="1" <?php if ($user->status == 1) echo "selected"; ?>>Activo</option>
-            <option value="0" <?php if ($user->status != 1) echo "selected"; ?>>No Activo</option>
+            <option value="1" <?php if ($customer->status == 1) echo "selected"; ?>>Activo</option>
+            <option value="0" <?php if ($customer->status != 1) echo "selected"; ?>>No Activo</option>
           </select>
         </div>
         <div class="col-md-4 mt-1">

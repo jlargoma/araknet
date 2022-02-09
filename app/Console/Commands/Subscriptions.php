@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\UsersSuscriptions;
-use App\Models\UserRates;
+use App\Models\CustomersRates;
 use Log;
 use App\Services\LogsService;
 use Illuminate\Support\Facades\DB;
@@ -48,7 +48,7 @@ class Subscriptions extends Command {
       $lst = UsersSuscriptions::select('users_suscriptions.*')
               ->join('users', function($join)
                 {
-                  $join->on('users.id', '=', 'id_user');
+                  $join->on('users.id', '=', 'customer_id');
                   $join->on('users.status', '=', DB::raw("1"));
                 })->get();
       $year = date('Y');
@@ -58,16 +58,16 @@ class Subscriptions extends Command {
      
       $creadas = $existentes = [];
       foreach ($lst as $s){
-        $uID = $s->id_user;
-        $rID = $s->id_rate;
-        $cID = $s->id_coach;
-        $uRate = UserRates::where('id_user',$uID)
+        $uID = $s->customer_id;
+        $rID = $s->rate_id;
+        $cID = $s->user_id;
+        $uRate = CustomersRates::where('customer_id',$uID)
                 ->where('rate_year',$year)->where('rate_month',$month)
-                ->where('id_rate', $rID)->withTrashed()->first();
+                ->where('rate_id', $rID)->withTrashed()->first();
         if (!$uRate){
-          $uRate = new UserRates();
-          $uRate->id_user = $uID;
-          $uRate->id_rate = $rID;
+          $uRate = new CustomersRates();
+          $uRate->customer_id = $uID;
+          $uRate->rate_id = $rID;
           $uRate->coach_id = $cID;
           $uRate->price   = $s->price;
           $uRate->tarifa  = $s->tarifa;

@@ -11,11 +11,11 @@
   <div class="row mt-1em">
     <div class="col-xs-1 col-md-4  push-20"></div>
     <div class="col-xs-3 col-md-2 push-20">
-      <label for="id_coach">{{$date_type_u}}</label>
-      <select class="js-select2 form-control" id="id_coach" name="id_coach" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." >
+      <label for="user_id">{{$date_type_u}}</label>
+      <select class="js-select2 form-control" id="user_id" name="user_id" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." >
         <option></option>
         <?php foreach ($coachs as $key => $coach): ?>
-          <option value="<?php echo $coach->id; ?>" <?php if (isset($id_coach) && $id_coach == $coach->id) echo 'selected' ?>>
+          <option value="<?php echo $coach->id; ?>" <?php if (isset($user_id) && $user_id == $coach->id) echo 'selected' ?>>
             <?php echo $coach->name; ?>
           </option>
         <?php endforeach ?>

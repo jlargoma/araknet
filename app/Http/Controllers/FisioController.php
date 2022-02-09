@@ -145,9 +145,9 @@ class FisioController extends Controller {
         $sql = Dates::where('date_type', 'fisio')
                 ->whereYear('date', '=', $year);
         if ($type && $type != 0)
-            $sql->where('id_rate', $type);
+            $sql->where('rate_id', $type);
         if ($coach && $coach > 0)
-            $sql->where('id_coach', $coach);
+            $sql->where('user_id', $coach);
 
         $oLst = $sql->orderBy('date')->get();
 
@@ -156,7 +156,7 @@ class FisioController extends Controller {
                 $time = strtotime($item->date);
                 $month = date('n', $time);
                 $date = date('d / H', $time);
-                $uID = $item->id_user;
+                $uID = $item->customer_id;
                 $uIDs[] = $uID;
                 if (!isset($aLst[$uID]))
                     $aLst[$uID] = [];
@@ -206,14 +206,14 @@ class FisioController extends Controller {
 
     public function informe($uID) {
         $year = getYearActive();
-        $user = User::find($uID);
+        $customer = User::find($uID);
         $servic = TypesRate::where('type', 'fisio')->pluck('name', 'id');
         $coachs = User::whereCoachs('fisio')->pluck('name', 'id');
         $lstMonts = lstMonthsSpanish();
         /**************************************************** */
         $aLst = [];
         $oLst = Dates::where('date_type', 'fisio')
-                ->where('id_user', $uID)
+                ->where('customer_id', $uID)
                 ->whereYear('date', '=', $year)
                 ->orderBy('date')->get();
 
@@ -223,14 +223,14 @@ class FisioController extends Controller {
                 $month = date('n', $time);
                 $date = date('d', $time);
                 $hour = date('H', $time);
-                $uID = $i->id_user;
+                $uID = $i->customer_id;
                 $tm  = isset($lstMonts[$month]) ? $lstMonts[$month] : '';
                 $aLst[] = [
                     'id'   => $i->id,
                     'hour' => $hour . ':00',
                     'date' => $date .' '.$tm,
                     'rate' => isset($servic[$i->id_type_rate]) ? $servic[$i->id_type_rate] : '',
-                    'coach'=> isset($coachs[$i->id_coach]) ? $coachs[$i->id_coach] : '',
+                    'coach'=> isset($coachs[$i->user_id]) ? $coachs[$i->user_id] : '',
                     'charged' => $i->charged,
                 ];
                 
@@ -238,10 +238,10 @@ class FisioController extends Controller {
         }
         
         $lstRates = [];
-        $userRates = UserRates::where('id_user', $user->id)
+        $CustomersRates = CustomersRates::where('customer_id', $customer->id)
                         ->whereYear('created_at', "=", $year)->get();
-        if($userRates){
-            foreach ($userRates as $i){
+        if($CustomersRates){
+            foreach ($CustomersRates as $i){
                 $lstRates[] = $i->rate->name;
             }
             $lstRates = array_unique($lstRates);
@@ -249,7 +249,7 @@ class FisioController extends Controller {
         }
         /**************************************************** */
         return view('fisioterapia.informe', [
-            'user' => $user,
+            'user' => $customer,
             'aLst' => $aLst,
             'lstRates' => $lstRates,
             'id' => $uID,

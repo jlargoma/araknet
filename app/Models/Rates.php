@@ -9,7 +9,7 @@ class Rates extends Model
   const noShow = [38,41,37,36];
     public function users()
     {
-        return $this->hasMany('\App\Models\UserRates','id', 'id_rate');
+        return $this->hasMany('\App\Models\CustomersRates','id', 'rate_id');
     }
 
     public function typeRate()

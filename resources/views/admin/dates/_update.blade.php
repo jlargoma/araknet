@@ -25,9 +25,9 @@
 						<input type="hidden" name="id_type_rate" id="id_type_rate" class="form-control" value="<?php echo $date->service->id ?>">
 					</div>
 					<div class="col-xs-12 col-md-6 push-20">
-						<label for="id_user">Usuario</label>
+						<label for="customer_id">Usuario</label>
 						<h3 class="text-center"> <?php echo $date->user->name ?></h3>
-						<input type="hidden" name="id_user" id="id_user" class="form-control" value="<?php echo $date->user->id ?>">
+						<input type="hidden" name="customer_id" id="customer_id" class="form-control" value="<?php echo $date->user->id ?>">
 					</div>
 				</div>
 				<div class=" col-xs-12 form-group push-20">
@@ -49,9 +49,9 @@
         	            </select>
                     </div>
                     <div class="col-xs-12 col-md-6 push-20">
-						<label for="id_user">Coach</label>
+						<label for="customer_id">Coach</label>
 			            <h3 class="text-center"> <?php echo $date->coach->name ?></h3>
-						<input type="hidden" name="id_coach" id="id_coach" class="form-control" value="<?php echo $date->coach->id ?>">
+						<input type="hidden" name="user_id" id="user_id" class="form-control" value="<?php echo $date->coach->id ?>">
 					</div>
 					<div class="col-xs-12 col-md-6 push-20">
 						<label for="type">Accion</label>.
@@ -67,8 +67,8 @@
 			            </select>
 					</div>
 					<div class="col-xs-12 col-md-6 push-20" style="display: none" id="cont-rate">
-						<label for="id_rate">Tarifa</label>
-						<select class=" form-control" id="id_rate" name="id_rate" style="width: 100%;" placeholder="Seleccione tarifa" >
+						<label for="rate_id">Tarifa</label>
+						<select class=" form-control" id="rate_id" name="rate_id" style="width: 100%;" placeholder="Seleccione tarifa" >
 			                <?php foreach (\App\Rates::where('type', $date->service->id)->get() as $key => $rate): ?>
 			                	<option value="<?php echo $rate->id ?>" data-price="<?php echo $rate->price ?>">
 			                		<?php echo $rate->name ?>
@@ -121,9 +121,9 @@
     	}
     });
 
-    $('#id_rate ').change(function(event) {
+    $('#rate_id ').change(function(event) {
 
-    	var price = $('#id_rate option:selected').attr('data-price');
+    	var price = $('#rate_id option:selected').attr('data-price');
     	$('#price-rate').val(price);
     });
 
@@ -138,10 +138,10 @@
                     importe      = $form.find( "input[name='importe']").val(),
                     idDate       = $form.find( "input[name='idDate']" ).val(),
                     id_type_rate = $form.find( "input[name='id_type_rate']" ).val(),
-                    id_user      = $form.find( "input[name='id_user']" ).val(),
+                    customer_id      = $form.find( "input[name='customer_id']" ).val(),
                     date         = $form.find( "input[name='date']" ).val(),
                     hour         = $form.find( "select[name='hour']" ).val(),
-                    id_coach     = $form.find( "select[name='id_coach']" ).val(),
+                    user_id     = $form.find( "select[name='user_id']" ).val(),
                     type         = $form.find( "select[name='type']" ).val(),
                     url          = $form.attr( "action" );
 
@@ -151,13 +151,13 @@
                                             _token: _token,
                                             idDate: idDate,
                                             id_type_rate: id_type_rate,
-                                            id_user: id_user,
+                                            customer_id: customer_id,
                                             date: date,
                                             hour: hour,
-                                            id_coach: id_coach,
+                                            user_id: user_id,
                                             type: type,
                                             importe: importe,
-                                            id_rate: $("select[name='id_rate']").val(),
+                                            rate_id: $("select[name='rate_id']").val(),
                                     } );
                 }else{
                     // Send the data using post
@@ -165,10 +165,10 @@
                                             _token: _token,
                                             idDate: idDate,
                                             id_type_rate: id_type_rate,
-                                            id_user: id_user,
+                                            customer_id: customer_id,
                                             date: date,
                                             hour: hour,
-                                            id_coach: id_coach,
+                                            user_id: user_id,
                                             type: type,
                                             importe: importe,
                                     } );

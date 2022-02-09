@@ -27,13 +27,13 @@
 <?php endif ?>
 <div class="col-xs-12 push-20">
 	<div class="col-md-6 col-xs-6">Nombre: </div>
-	<div class="col-md-6 col-xs-6">{{ $user->name }}</div>
+	<div class="col-md-6 col-xs-6">{{ $customer->name }}</div>
 </div>
 <div class="col-xs-12 push-20">
 	<div class="col-md-6 col-xs-6">Dirección</div>
 	<div class="col-md-6 col-xs-6">
-		@if( $user->direccion != '')
-			{{ $user->direccion }}
+		@if( $customer->direccion != '')
+			{{ $customer->direccion }}
 		@else
 			-------------
 		@endif
@@ -42,8 +42,8 @@
 <div class="col-xs-12 push-20">
 	<div class="col-md-6 col-xs-6">Teléfono</div>
 	<div class="col-md-6 col-xs-6">
-		@if( $user->phone != '')
-			{{ $user->phone }}
+		@if( $customer->phone != '')
+			{{ $customer->phone }}
 		@else
 			-------------
 		@endif
@@ -51,7 +51,7 @@
 </div>
 <div class="col-xs-12 push-20">
 	<div class="col-md-6 col-xs-6">Email</div>
-	<div class="col-md-6 col-xs-6">{{ $user->email }}</div>
+	<div class="col-md-6 col-xs-6">{{ $customer->email }}</div>
 </div>
 <div class="col-xs-12 push-20">
 	<div class="col-md-6 col-xs-6">Tarifa contratada</div>
@@ -87,7 +87,7 @@
 		Mediante tarjeta
 	</div>
 </div>
-<?php if ($user->contractAccepted == 0): ?>
+<?php if ($customer->contractAccepted == 0): ?>
 
 	<div class="col-xs-12">
 		<p class="text-justify font-w800" style="letter-spacing: -1px;">

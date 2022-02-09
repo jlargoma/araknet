@@ -110,43 +110,43 @@
 								<tr>
 									<td><?php echo $usuario->user->name ?></td>
 									<td class="text-center">
-										<?php if (isset($plan[$usuario->id_user][0])): ?>
-											<?php echo Carbon::createFromFormat('Y-m-d H:i:s',$plan[$usuario->id_user][0]->date)->formatLocalized('%d %b') ?>								
+										<?php if (isset($plan[$usuario->customer_id][0])): ?>
+											<?php echo Carbon::createFromFormat('Y-m-d H:i:s',$plan[$usuario->customer_id][0]->date)->formatLocalized('%d %b') ?>								
 										<?php endif ?>								
 									</td>
 									<td class="text-center">
-										<?php if (isset($plan[$usuario->id_user][0])): ?>
-											<?php echo $plan[$usuario->id_user][0]->weight ?>								
+										<?php if (isset($plan[$usuario->customer_id][0])): ?>
+											<?php echo $plan[$usuario->customer_id][0]->weight ?>								
 										<?php endif ?>	
 									</td>
 									<td class="text-center">
-										<?php if (isset($plan[$usuario->id_user][0])): ?>
-											<?php echo $plan[$usuario->id_user][0]->objetive ?>								
+										<?php if (isset($plan[$usuario->customer_id][0])): ?>
+											<?php echo $plan[$usuario->customer_id][0]->objetive ?>								
 										<?php endif ?>	
 									</td>
 									<td class="text-center">
-										<?php if (isset($plan[$usuario->id_user][0])): ?>
-											<?php echo $plan[$usuario->id_user][0]->weight - $plan[$usuario->id_user][max(array_keys($plan[$usuario->id_user]))]->weight ?>								
+										<?php if (isset($plan[$usuario->customer_id][0])): ?>
+											<?php echo $plan[$usuario->customer_id][0]->weight - $plan[$usuario->customer_id][max(array_keys($plan[$usuario->customer_id]))]->weight ?>								
 										<?php endif ?>	
 									</td>
 									
 
 										
-											<?php if (isset($plan[$usuario->id_user])): ?>
-												<?php if ($actualWeek == Carbon::createFromFormat('Y-m-d H:i:s',$plan[$usuario->id_user][max(array_keys($plan[$usuario->id_user]))]->date)->format('W')): ?>
+											<?php if (isset($plan[$usuario->customer_id])): ?>
+												<?php if ($actualWeek == Carbon::createFromFormat('Y-m-d H:i:s',$plan[$usuario->customer_id][max(array_keys($plan[$usuario->customer_id]))]->date)->format('W')): ?>
 													<td>
 														<input 	style="width: 100%"
 															type="text" class="form-control text-center new"
-															data-user="<?php echo $usuario->id_user ?>"
-															data-week="<?php echo max(array_keys($plan[$usuario->id_user])) ?>"
-															value="<?php echo $plan[$usuario->id_user][max(array_keys($plan[$usuario->id_user]))]->weight ?>">
+															data-user="<?php echo $usuario->customer_id ?>"
+															data-week="<?php echo max(array_keys($plan[$usuario->customer_id])) ?>"
+															value="<?php echo $plan[$usuario->customer_id][max(array_keys($plan[$usuario->customer_id]))]->weight ?>">
 													</td>
 												<?php else: ?>
 													<td class="text-center" style="background-color: rgba(243,183,96,0.2);" >
 														<input 	style="width: 100%"
 														type="text" class="form-control text-center new"
-														data-user="<?php echo $usuario->id_user ?>"
-														data-week="<?php echo max(array_keys($plan[$usuario->id_user]))+1 ?>">
+														data-user="<?php echo $usuario->customer_id ?>"
+														data-week="<?php echo max(array_keys($plan[$usuario->customer_id]))+1 ?>">
 												</td>
 												<?php endif ?>
 												
@@ -154,7 +154,7 @@
 												<td class="text-center" style="background-color: rgba(243,183,96,0.2);" >
 													<input 	style="width: 100%"
 														type="text" class="form-control text-center new"
-														data-user="<?php echo $usuario->id_user ?>"
+														data-user="<?php echo $usuario->customer_id ?>"
 														data-week="0">
 												</td>
 											<?php endif ?>
@@ -162,22 +162,22 @@
 										
 									
 									<?php for ($i=1; $i <= 10; $i++):?>
-										<?php if (isset($plan[$usuario->id_user][$i])): ?>
+										<?php if (isset($plan[$usuario->customer_id][$i])): ?>
 											<td class="tex-center">
-												<p style="display: none"><?php echo $plan[$usuario->id_user][$i]->weight ?></p>
+												<p style="display: none"><?php echo $plan[$usuario->customer_id][$i]->weight ?></p>
 												<input style="width: 100%"	
 														type="text" class="form-control text-center editable" 
-														value="<?php echo $plan[$usuario->id_user][$i]->weight ?>"
-														data-id="<?php echo $plan[$usuario->id_user][$i]->id ?>"
-														data-user="<?php echo $usuario->id_user ?>"
-														data-week="<?php echo $plan[$usuario->id_user][$i]->week ?>">
+														value="<?php echo $plan[$usuario->customer_id][$i]->weight ?>"
+														data-id="<?php echo $plan[$usuario->customer_id][$i]->id ?>"
+														data-user="<?php echo $usuario->customer_id ?>"
+														data-week="<?php echo $plan[$usuario->customer_id][$i]->week ?>">
 
 											</td>
 										<?php else: ?>
 											<td class="tex-center">
 												<input style="width: 100%"	
 														type="text" class="form-control text-center new"
-														data-user="<?php echo $usuario->id_user ?>"
+														data-user="<?php echo $usuario->customer_id ?>"
 														data-week="<?php echo $i ?>">
 
 											</td>
