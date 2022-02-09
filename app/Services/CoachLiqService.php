@@ -14,14 +14,13 @@ class CoachLiqService {
     $aLiq = $CommLst = $liqLst = $aLiqTotal = [];
     $months = lstMonthsSpanish();
     unset($months[0]);
-    $sql = User::whereCoachs();
+    $sql = User::whereCoachs(null,true);
     if ($type == 'activos')
       $sql->where('status', 1);
     if ($type == 'desactivados')
       $sql->where('status', 0);
 
     $users = $sql->orderBy('status', 'DESC')->get();
-
     $aux = [];
     for ($i = 1; $i < 13; $i++)
       $aux[$i] = 0;
@@ -36,7 +35,6 @@ class CoachLiqService {
       foreach ($oLiquidations as $liq) {
         if (!isset($aLiq[$liq->id_coach])) {
           $aLiq[$liq->id_coach] = $aux;
-          echo ($liq->id_coach).' -- ';
         }
         $aux2 = intval(substr($liq->date_liquidation, 5, 2));
         $aLiq[$liq->id_coach][$aux2] += ($liq->commision + $liq->salary);

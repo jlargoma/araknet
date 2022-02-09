@@ -51,6 +51,9 @@ class UsersController extends Controller {
       $newUser->phone = $request->input('phone');
       $newUser->dni = $request->input('dni');
       $newUser->address = $request->input('address');
+      $newUser->population = $request->input('population');
+      $newUser->province = $request->input('province');
+      $newUser->iban = $request->input('iban');
       if ($newUser->save()) {
         $email = $newUser->email;
         $sended = Mail::send('emails._create_user_email', ['user' => $newUser], function ($message) use ($email) {
@@ -245,61 +248,23 @@ class UsersController extends Controller {
 
     $userToUpdate->phone = $request->input('phone');
 
-    if ($userToUpdate->role == 'user') {
-      if (!empty($rates)) {
-        $oldRates = UserRates::where('id_user', $userToUpdate->id)
-                ->whereMonth('created_at', '=', date('m'))
-                ->whereYear('created_at', '=', date('Y'))
-                ->get();
+   
 
-        if (count($oldRates) > 0) {
-          foreach ($oldRates as $key => $oldRate) {
-            $oldRate->delete();
-          }
-        }
+    $userToUpdate->iban = $request->input('iban');
+    $userToUpdate->ss = $request->input('ss');
+    $CoachRates = \App\Models\CoachRates::where('id_user', $userToUpdate->id)->first();
 
-        $rateUser = new UserRates();
-        $rateUser->id_user = $userToUpdate->id;
-        $rateUser->id_rate = $rates;
-        $rateUser->save();
-      }
-      /*       * ************************************ */
-      $uCoach = \App\Models\CoachUsers::where('id_user', $id)->first();
-      if (!$uCoach) {
-        $uCoach = new \App\Models\CoachUsers();
-        $uCoach->id_user = $id;
-      }
-      $uCoach->id_coach = intval($request->input('u_coach', 0));
-      $uCoach->save();
-      /*       * ************************************ */
+    if (!$CoachRates) {
+      $CoachRates = new \App\Models\CoachRates();
+      $CoachRates->id_user = $userToUpdate->id;
     }
-
-    if (in_array($userToUpdate->role,['teach','fisio','nutri','empl','teach_nutri','teach_fisio'])) {
-      $userToUpdate->iban = $request->input('iban');
-      $userToUpdate->ss = $request->input('ss');
-      $CoachRates = \App\Models\CoachRates::where('id_user', $userToUpdate->id)->first();
-
-      if (!$CoachRates) {
-        $CoachRates = new \App\Models\CoachRates();
-        $CoachRates->id_user = $userToUpdate->id;
-      }
-      $CoachRates->salary = intval($request->input('salario_base'));
-      $CoachRates->ppc = $request->input('ppc');
-      $CoachRates->pppt = $request->input('pppt');
-      $CoachRates->ppcg = $request->input('ppcg');
-      $CoachRates->comm = $request->input('comm');
-      $CoachRates->save();
-    }
-
-    if ($userToUpdate->save()) {
-      if ($userToUpdate->role == 'admin') {
-
-        return redirect('/admin/usuarios');
-      } 
-
-      return redirect()->back()->with('success', 'Registro actualizado');
-      
-    }
+    $CoachRates->salary = intval($request->input('salario_base'));
+    $CoachRates->ppc = $request->input('ppc');
+    $CoachRates->pppt = $request->input('pppt');
+    $CoachRates->ppcg = $request->input('ppcg');
+    $CoachRates->comm = $request->input('comm');
+    $CoachRates->save();
+    return redirect()->back()->with('success', 'Registro actualizado');
   }
 
   public function disable($id) {

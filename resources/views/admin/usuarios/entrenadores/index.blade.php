@@ -24,7 +24,7 @@
     Listado de Entrenadores
   </h3>
   <div class="row">
-    <div class="col-xs-12 push-20 not-padding">
+    <div class="col-md-8 col-xs-12 push-20 not-padding">
       <button class="btn btn-success" id="btn-sendEmail" type="button">
         <i class="fa fa-envelope"></i> Enviar emails acceso
       </button>
@@ -37,6 +37,14 @@
       <a class="btn btn-info  <?php if ($type == 'desactivados') echo 'active' ?>" href="/admin/entrenadores/desactivados">
         Entrenadores No Activos
       </a>
+    </div>
+    <div class="col-md-4 col-xs-12 push-20 not-padding">
+      <select class="form-control" id="role" name="role" style="width: 100%;">
+        <option>- PERFILES</option>
+        @foreach($uRoles as $k=>$v)
+        <option value="{{$k}}">{{$v}}</option>
+        @endforeach
+      </select>
     </div>
     </div>
     <div class="table-responsive t-entrenadores">

@@ -18,7 +18,6 @@ trait EntrenadoresTraits {
     $data = $CoachLiqService->liqByMonths($year, $type);
     $data['type'] = $type;
     $data['date'] = Carbon::now();
-    
     $auxMonths = [0=>0];
     for($i=1;$i<13;$i++) $auxMonths[$i] = 0;
     //---------------------------------------------------------------//
@@ -40,6 +39,9 @@ trait EntrenadoresTraits {
         $data['aLiqTotal'][$item->to_user] += $item->import;
       }
     }
+    $oUsr = new User();
+    $data['uRoles'] = $oUsr->roles;
+    
     return view('/admin/usuarios/entrenadores/index', $data);
   }
 

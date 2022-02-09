@@ -48,14 +48,9 @@
                 <div class="col-lg-4 col-sm-4 push-20">
                     <div class="form-material">
                         <select class="form-control" id="role" name="role" style="width: 100%;" data-placeholder="Seleccione una role" required>
-                            <option value="user" <?php if ($user->role == "user") echo "selected";?>>Usuario/Cliente</option>
-                            <option value="admin"  <?php if ($user->role == "admin") echo "selected";?>>Administrador</option>
-                            <option value="teach" <?php if ($user->role == "teach") echo "selected";?>>Entrenador</option>
-                            <option value="fisio" <?php if ($user->role == "fisio") echo "selected";?>>Fisioterapia</option>
-                            <option value="nutri" <?php if ($user->role == "nutri") echo "selected";?>>Nutricionista</option>
-                            <option value="teach_nutri" <?php if ($user->role == "teach_nutri") echo "selected";?>>Entrenador / Nutricionista</option>
-                            <option value="teach_fisio" <?php if ($user->role == "teach_fisio") echo "selected";?>>Entrenador / Fisioterapia</option>
-                            <option value="empl" <?php if ($user->role == "empl") echo "selected";?>>Empleado</option>
+                          @foreach($user->roles as $k=>$v)
+                          <option value="{{$k}}" <?php if ($user->role == $k) echo "selected";?>>{{$v}}</option>
+                          @endforeach
                         </select>
                         <label for="role">Role</label>
                     </div>
