@@ -105,7 +105,7 @@ class RatesController extends Controller {
     if ($customerRate->charges){
       return redirect()->back()->withErrors(['Tarifa cobrada.']);
     }
-    $appointment = \App\Models\Dates::where('customer_rate_ids',$customerRate->id)->first();
+    $appointment = \App\Models\Dates::where('customers_rate_id',$customerRate->id)->first();
     if ($appointment){
       return redirect()->back()->withErrors(['Tarifa asociada a una cita.']);
     }

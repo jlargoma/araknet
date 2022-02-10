@@ -13,16 +13,13 @@ $uRole = Auth::user()->role;
       <i class="fa fa-plus-circle"></i><span class="sidebar-mini-hide font-w600">Citas COMERCIAL</span>
     </a>
   </li>
-  <li class="{{ (str_contains($path,'citas-fisioterapia')) ? 'active' : '' }}">
-    <a href="{{ url('/admin/citas-fisioterapia') }}" >
-      <i class="fa fa-calendar-o"></i><span class="sidebar-mini-hide font-w600">Citas INSTALADOR</span>
+  <li class="{{ (str_contains($path,'citas/instalador')) ? 'active' : '' }}">
+    <a href="{{ url('/admin/citas/instalador') }}" >
+      <i class="fa fa-plus-circle"></i><span class="sidebar-mini-hide font-w600">Citas INSTALADOR</span>
     </a>
   </li>
   <li class="{{ $path == 'admin/tarifas' ? 'active' : '' }}">
     <a href="{{url('/admin/tarifas/listado')}}" class="font-w600"><i class="fa fa-thumb-tack"></i> <span class="sidebar-mini-hide font-w600">Servicios</span></a>
-  </li>
-  <li class="{{ $path == 'admin/bonos' ? 'active' : '' }}">
-    <a href="{{url('/admin/bonos/listado')}}" class="font-w600"><i class="fa fa-thumb-tack"></i> <span class="sidebar-mini-hide font-w600">Bonos</span></a>
   </li>
   @if($uRole == "admin")
   <li class="{{ str_contains($path,'admin/entrenadores') ? 'active' : '' }}">

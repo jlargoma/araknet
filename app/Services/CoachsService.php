@@ -19,10 +19,10 @@ class usersService {
       //-------------------------------------------------------/
       //--- BEGIN busca las citas           -------------------/
       if (count($idUR)>0){
-        $dates = Dates::whereIn('customer_rate_ids', array_keys($idUR))
-                ->pluck('user_id','customer_rate_ids');
-        foreach ($dates as $customer_rate_ids=>$user_id){
-            $id_charge = $idUR[$customer_rate_ids];
+        $dates = Dates::whereIn('customers_rate_id', array_keys($idUR))
+                ->pluck('user_id','customers_rate_id');
+        foreach ($dates as $customers_rate_id=>$user_id){
+            $id_charge = $idUR[$customers_rate_id];
             $result[$id_charge] = $user_id;
         }
       }

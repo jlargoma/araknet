@@ -1,17 +1,17 @@
 <div class="box-payment-btn tex-center">
   <h4>Generar Link Notificación</h4>                        
   <div class="my-1">
-      <button type="button" class="btn btn-default btnStripe my-1" data-t="mail">
+      <button type="button" class="btn btn-default btnNotif my-1" data-t="mail">
           <i class="fa fa-envelope"></i> Enviar Mail
       </button>
   </div>
   <div class="my-1">
-      <button type="button" class="btn btn-default btnStripe my-1" data-t="wsp">
+      <button type="button" class="btn btn-default btnNotif my-1" data-t="wsp">
           <i class="fa fa-whatsapp"></i> Enviar WSP 
       </button>
   </div>
   <div class="my-1">
-      <button type="button" class="btn btn-default btnStripe my-1" data-t="copy">
+      <button type="button" class="btn btn-default btnNotif my-1" data-t="copy">
           <i class="fa fa-copy"></i> Copiar link
       </button>
   </div>
@@ -19,13 +19,12 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-    $('.btnStripe').on('click', function(){
+    $('.btnNotif').on('click', function(){
         var type = $(this).data('t');
-        var posting = $.post( '/admin/send/cobro-gral', { 
+        var posting = $.post( '/admin/citas/enviarNotificacion', { 
                             _token: '{{csrf_token()}}',
-                            user_id: $('#user_id').val(),
-                            u_email: $('#NC_email').val(),
-                            u_phone: $('#NC_phone').val(),
+                            c_email: $('#NC_email').val(),
+                            c_phone: $('#NC_phone').val(),
                             idDate: $('#idDate').val(),
                             importe: $('#priceRate').val(),
                             type: type

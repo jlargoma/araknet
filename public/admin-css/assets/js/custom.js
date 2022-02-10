@@ -87,4 +87,16 @@ $(document).ready(function () {
 
     });
     
+     $('.likeOption').on('click', 'button', function (e) {
+        $('.likeOption').find('button').removeClass('active');
+        var value = $(this).data('v');
+        $(this).addClass('active');
+        $('#type_payment').val(value);
+        if (value == "card") {
+            $('#stripeBox').find('.disabled').hide();
+        } else {
+            $('#stripeBox').find('.disabled').show();
+        }
+    });
+    
 });

@@ -117,7 +117,10 @@ class ChargesController extends Controller {
     /*     * ********************************************************* */
     $resp = ['error', 'Error al procesar su cobro'];
     $ChargesService = new ChargesService();
-    $resp = $ChargesService->generatePayment($time, $customer_id, $rID, $tpay, $value, $disc, $user_id);
+    if ($tpay == 'justAsign')
+      $resp = $ChargesService->generateRate($time, $customer_id, $rID, $value, $disc, $user_id);
+    else $resp = $ChargesService->generatePayment($time, $customer_id, $rID, $tpay, $value, $disc, $user_id);
+    
     if ($resp[0] == 'error') {
       return back()->withErrors([$resp[1]]);
     }

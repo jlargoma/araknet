@@ -67,14 +67,6 @@ class User extends Authenticatable {
     return $this->hasMany('\App\Models\Charges', 'customer_id', 'id');
   }
 
-  public function rateCoach() {
-    return $this->hasOne('\App\Models\CoachRates', 'customer_id', 'id');
-  }
-
-  public function userCoach() {
-    return $this->hasOne('\App\Models\CoachUsers', 'customer_id', 'id');
-  }
-
   public function suscriptions() {
     return $this->hasMany('\App\Models\UsersSuscriptions', 'customer_id', 'id');
   }
@@ -100,7 +92,7 @@ class User extends Authenticatable {
     return self::whereIn('role', $roles);
   }
 
-  static function getCoachs($type = null, $includeAdmin = false) {
+  static function getUsers($type = null, $includeAdmin = false) {
     return User::whereBy_role($type, $includeAdmin)
                     ->where('status', 1)->orderBy('status', 'DESC')->get();
   }
@@ -189,18 +181,6 @@ class User extends Authenticatable {
     return $sql->pluck('user_id')->toArray();
   }
 
-  function getPayCard() {
-
-    $paymentMethod = null;
-    try {
-      return $this->paymentMethods()->first();
-    } catch (\Exception $ex) {
-      return null;
-    }
-  }
-
-  public function getPlan() {
-    return $this->getMetaContent('plan');
-  }
+ 
 
 }

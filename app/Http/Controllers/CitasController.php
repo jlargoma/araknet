@@ -21,14 +21,14 @@ class CitasController extends Controller {
 
   use CloneTraits,BlocksTraits;
   function typeControl($type) {
-    if (!in_array($type, ['comercial', 'instals'])) {
+    if (!in_array($type, ['comercial', 'instalador'])) {
       abort(404);
       exit();
     }
 
     if ($type == 'comercial')
       $role = 'commercial';
-    if ($type == 'instal')
+    if ($type == 'instalador')
       $role = 'installer';
 
     return $role;
@@ -59,7 +59,7 @@ class CitasController extends Controller {
     $rslt['type'] = $type;
     if ($type == 'comercial')
       $rslt['title'] = 'Comercial';
-    if ($type == 'instal')
+    if ($type == 'instalador')
       $rslt['title'] = 'Instalador';
     /*     * **************************************** */
     return view('citas.index', $rslt);
@@ -96,7 +96,7 @@ class CitasController extends Controller {
     $rslt['type'] = $type;
     if ($type == 'comercial')
       $rslt['title'] = 'Comercial';
-    if ($type == 'instal')
+    if ($type == 'instalador')
       $rslt['title'] = 'Instalador';
     /*     * **************************************** */
     return view('citas.indexWeek', $rslt);
@@ -115,7 +115,7 @@ class CitasController extends Controller {
     $data['type'] = $type;
     if ($type == 'comercial')
       $data['title'] = 'Comercial';
-    if ($type == 'instal')
+    if ($type == 'instalador')
       $data['title'] = 'Instalador';
     return view('citas.form', $data);
   }
@@ -133,7 +133,7 @@ class CitasController extends Controller {
       $data['type'] = $type;
       if ($type == 'comercial')
         $data['title'] = 'Comercial';
-      if ($type == 'instal')
+      if ($type == 'instalador')
         $data['title'] = 'Instalador';
       return view('citas.form', $data);
     } else {
@@ -197,7 +197,7 @@ class CitasController extends Controller {
     $rslt['type'] = $type;
     if ($type == 'comercial')
       $title = 'Comercial';
-    if ($type == 'instal')
+    if ($type == 'instalador')
       $title = 'Instalador';
 
     $rslt = [
@@ -568,4 +568,86 @@ class CitasController extends Controller {
       $object->delete();
       return redirect()->back();
   }
+  
+  public function sendNotification(Request $request) {
+        $dID = $request->input('idDate');
+        
+        $oDate = \App\Models\Dates::find($dID);
+        if (!$oDate || $oDate->id != $dID) {
+            return response()->json(['error','Cita No encontrada']);
+        }
+        
+        $oUser = $oDate->user;
+        
+        $email = ($request->input('c_email'));
+        $phone = ($request->input('c_phone'));
+        $type = ($request->input('type'));
+        
+        $cRates = $oDate->cRates;
+        if (!$cRates){
+          return ['error', 'Servicio no encontrado'];
+        }
+        $oCustomer = $cRates->customer;
+        if (!$oCustomer){
+          return ['error', 'Cliente no encontrado'];
+        }
+        $oRate = $cRates->rate;
+        $importe = $cRates->price;
+        $data = [$dID,$oCustomer->id,$importe*100,$oRate->id];
+        
+        $icsDetail = 'Tienes una cita con tu ';
+        switch ($oDate->date_type) {
+          case 'commercial':
+            $icsDetail .= 'Agente Comercial ';
+            break;
+          case 'commercial':
+            $icsDetail .= 'Instalador ';
+            break;
+        }
+        $icsDetail .= $oUser->name;
+                
+        switch ($type){
+            case 'mail':
+              
+                /** BEGIN: prepare iCAL * */
+                $calID = str_pad($dID, 7, "0", STR_PAD_LEFT);
+                $invite = new \App\Services\InviteICal($calID);
+                $dateTime = $oDate->date;
+                if ($oDate->customTime) {
+                  $dateTime = explode(' ', $oDate->date);
+                  $dateTime = $dateTime[0] . ' ' . $oDate->customTime;
+                }
+                $dateZone = 'Europe/Madrid';
+                //$dateZone = 'America/Argentina/Buenos_Aires';
+                $dateStart = new \DateTime($dateTime, new \DateTimeZone($dateZone));
+                $dateEnd = new \DateTime($dateTime, new \DateTimeZone($dateZone));
+                $dateEnd->modify('+1 hours');
+                $dateStart->setTimezone(new \DateTimeZone('UTC'));
+                $dateEnd->setTimezone(new \DateTimeZone('UTC'));
+                
+                $invite->setSubject($oRate->name)
+                        ->setDescription($icsDetail)
+                        ->setStart($dateStart)
+                        ->setEnd($dateEnd)
+                        ->setCreated(new \DateTime());
+                $calFile = $invite->save();
+                /** END:  prepare iCAL * */
+      
+                $resp = MailController::sendEmailPayDateByStripe($oDate, $oCustomer, $oRate,$oUser,$importe,$subj="Link de pago de Evolutio",$calFile);
+                if ($resp == 'OK')  return response()->json(['OK', 'Se ha enviado un email con el link de pago']);
+                  return response()->json(['error', $resp]);
+                break;
+            case 'wsp':
+                $msg = 'Hola, te recordamos que '.$icsDetail;
+                return response()->json(['OK',$msg]);
+                break;
+            case 'copy':
+                $msg = 'Hola, te recordamos que '.$icsDetail;
+                return response()->json(['OK',$msg]);
+                break;
+        }
+            
+        return response()->json(['error','error']);
+
+    }
 }

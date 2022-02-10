@@ -13,30 +13,29 @@
           <option></option>
           <?php
           $old = old('rate_id');
-            foreach ($rateFamily as $k=>$v):
-              echo '<optgroup label="'.$v['n'].'">';
-              foreach ($v['l'] as $rate):
-                $sel = ($rate->id == $old) ? 'selected' : '';
-                         
-                $price = $rate->price;
-              
-                ?>
-                
-                <option value="<?php echo $rate->id ?>" 
-                    data-price="<?php echo $price ?>"
-                    orig="<?php echo $rate->price ?>"
-                    {{$sel}}>
-                <?php echo $rate->name ?>
-                </option>
-                <?php
-              endforeach;
-              echo '</optgroup>';
-            endforeach; 
-            ?>
+          foreach ($rateFamily as $k => $v):
+            echo '<optgroup label="' . $v['n'] . '">';
+            foreach ($v['l'] as $rate):
+              $sel = ($rate->id == $old) ? 'selected' : '';
+
+              $price = $rate->price;
+              ?>
+
+              <option value="<?php echo $rate->id ?>" 
+                      data-price="<?php echo $price ?>"
+                      orig="<?php echo $rate->price ?>"
+                      {{$sel}}>
+                        <?php echo $rate->name ?>
+              </option>
+              <?php
+            endforeach;
+            echo '</optgroup>';
+          endforeach;
+          ?>
         </select>
       </div>
 
-       <div class="col-xs-6 col-md-3 push-20">
+      <div class="col-xs-6 col-md-3 push-20">
         <label for="rate_id">Personal</label>
         <select class="form-control" id="user_id" name="user_id" style="width: 100%; cursor: pointer"
                 placeholder="Personal asignado" >
@@ -44,10 +43,10 @@
           <?php
           $old = old('user_id');
           foreach ($users as $v):
-            $sel ='';
+            $sel = '';
             ?>
             <option value="<?php echo $v->id ?>">
-            <?php echo $v->name ?>
+              <?php echo $v->name ?>
             </option>
             <?php
           endforeach;
@@ -72,34 +71,28 @@
       </div>
     </div>
     <div class="text-center" id="showTartifa"></div>
-    
+    <div class="box-payment-card">
+      <h4>PAGAR AHORA</h4>
       <div class="row">
-          <div class="col-md-6 col-xs-12 push-20">
-            <div class="box-payment-card">
-            <h4>PAGAR AHORA</h4>
-            <div class="row">
-              <div class="col-xs-9">
-              <?php $old = old('type_payment', 'card'); ?>
-              <select class="likeBtn" name="type_payment" id="type_payment" multiple>
-                <option value="card" <?php if ($old == 'card') echo 'selected'; ?>>Tarjeta</option>
-                <option value="cash" <?php if ($old == 'cash') echo 'selected'; ?>>Efectivo</option>
-                <option value="banco" <?php if ($old == 'banco') echo 'selected'; ?>>Banco</option>
-              </select>
-              </div>
-              <div class="col-xs-3">
-                <button class="btn btn-lg btn-success" type="submit" id="submitFormPayment" style="margin-left: -1em;">
-                  PAGAR
-                </button>
-              </div>
-            </div>
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-6 push-20">
-          </div>
-        <input type="hidden" id="importeCobrar">
+        <div class="col-xs-9 likeOption">
+          <?php $old = old('type_payment', 'card'); ?>
+          <input type="hidden" name="type_payment" id="type_payment" value="<?php echo $old; ?>">
+          <button  data-v="card"  type="button" <?php if ($old == 'card') echo 'class="active"'; ?>>Tarjeta</button>
+          <button  data-v="cash"  type="button" <?php if ($old == 'cash') echo 'class="active"'; ?>>Efectivo</button>
+          <button  data-v="banco"  type="button" <?php if ($old == 'banco') echo 'class="active"'; ?>>Banco</button>
+          <button  data-v="justAsign" type="button"  <?php if ($old == 'justAsign') echo 'class="active"'; ?>>Sólo asignar</button>
+        </div>
+        <div class="col-xs-3">
+          <button class="btn btn-lg btn-success" type="submit" id="submitFormPayment" style="margin-left: -1em;">
+            GUARDAR
+          </button>
+        </div>
       </div>
+    </div>
+</div>
+<input type="hidden" id="importeCobrar">
 
-  </form>
+</form>
 </div>
 @endsection
 @section('scripts')
@@ -108,37 +101,37 @@
 <script src="{{asset('/admin-css/assets/js/plugins/select2/select2.full.min.js')}}"></script>
 <script type="text/javascript">
 jQuery(function () {
-  App.initHelpers(['datepicker', 'select2']);
+    App.initHelpers(['datepicker', 'select2']);
 });
 $(document).ready(function () {
-  var origPrice = 0;
-  $('#rate_id').change(function (event) {
-    var that = $("#rate_id option:selected");
-    var price = that.data('price');
-    $('#importeFinal').val(price);
-    origPrice = price;
-  });
+    var origPrice = 0;
+    $('#rate_id').change(function (event) {
+        var that = $("#rate_id option:selected");
+        var price = that.data('price');
+        $('#importeFinal').val(price);
+        origPrice = price;
+    });
 
-  $('#discount').change(function (event) {
-    var discount = $(this).val();
-    var percent = discount / 100;
+    $('#discount').change(function (event) {
+        var discount = $(this).val();
+        var percent = discount / 100;
 
-    $('#importeFinal').val(origPrice - (origPrice * percent));
+        $('#importeFinal').val(origPrice - (origPrice * percent));
 
-  });
+    });
 
-  $('.only-number').keydown(function (e) {
-    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-        (e.keyCode >= 35 && e.keyCode <= 40)) {
-      return;
-    }
-    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-      e.preventDefault();
-    }
-  });
+    $('.only-number').keydown(function (e) {
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+          (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+            return;
+        }
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
 
-  
+
 });
 </script>
 @endsection

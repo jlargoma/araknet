@@ -102,5 +102,65 @@ class ChargesService {
     MailsService::sendEmailPayRate($dataMail, $oCustomer, $oRate);
     return ['OK', $statusPayment, $oCobro->id];
   }
+  
+   
+  /**
+   * 
+   * @param type $time
+   * @param type $uID
+   * @param type $rID
+   * @param type $tpay
+   * @param int $value
+   * @param type $disc
+   * @param type $idStripe
+   * @param type $cStripe
+   * @param type $user_id
+   * @return type
+   */
+  function generateRate($time, $customerID, $rID, $value, $disc = 0, $user_id = null) {
+    $month = date('Y-m-d', $time);
+    $oCustomer = Customers::find($customerID);
+    if ($user_id == 'null') $user_id = null;
+    if (!$oCustomer)
+      return ['error', 'Cliente no encontrado'];
+
+    $oRate = Rates::find($rID);
+    if (!$oRate)
+      return ['error', 'Tarifa no encontrada'];
+    if (!$disc)
+      $disc = 0;
+    //BEGIN PAYMENTS MONTH
+    for ($i = 0; $i < $oRate->mode; $i++) {
+
+
+      $oUserRate = CustomersRates::where('customer_id', $oCustomer->id)
+              ->where('rate_id', $oRate->id)
+              ->where('rate_month', date('n', $time))
+              ->where('rate_year', date('Y', $time))
+              ->first();
+      if ($oUserRate) {
+        $oUserRate->user_id = $user_id;
+        $oUserRate->save();
+      } else { //si no tenia asignada la tarifa del mes
+        $oUserRate = new CustomersRates();
+        $oUserRate->customer_id = $oCustomer->id;
+        $oUserRate->rate_id = $oRate->id;
+        $oUserRate->rate_year = date('Y', $time);
+        $oUserRate->rate_month = date('n', $time);
+        $oUserRate->user_id = $user_id;
+        $oUserRate->price = $value;
+        $oUserRate->save();
+      }
+      /*       * *********************************************** */
+      //Next month
+      $time = strtotime($month . ' +1 month');
+      $month = date('Y-m-d', $time);
+      $value = 0; //solo se factura el primer mes
+      $disc = 0; //solo se factura el primer mes
+    }
+    //END PAYMENTS MONTH
+    $statusPayment = 'Servicio agregado correctamente.';
+    return ['OK', $statusPayment,null];
+  }
 
 }

@@ -231,38 +231,37 @@ ul.selectDate li.active {
   font-weight: bold;
 }
 
-select.likeBtn{
-  height: 44px;
-  border: none;
-  overflow: hidden;
-  display: block;
-  background-color: transparent;
-}
-select.likeBtn::-moz-focus-inner {
-  border: 0;
-}
-select.likeBtn:focus,
-select.likeBtn:checked {
-  outline: none;
+.likeOption{
+    height: 44px;
+    border: none;
+    overflow: hidden;
+    display: block;
+    background-color: transparent;
 }
 
-select.likeBtn option{
-  font-size: 1.2em;
-  text-align: center;
-  margin-right: 20px;
-  display: inline-block;
-  cursor: pointer;
-  font-weight: bold;
-  color: rgb(0, 114, 191);
-  padding: 10px;
-  border: 1px solid rgb(0, 114, 191);
-  border-radius: 5px;
+
+.likeOption button{
+    font-size: 1.2em;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+    color: rgb(0, 114, 191);
+    padding: 8px;
+    border: 1px solid rgb(0, 114, 191);
+    border-radius: 5px;
 }
-select.likeBtn option:disabled {
-  background-color: #c7c7c7;
-  color: #FFF;
-  border-color: #c7c7c7;
-  cursor: not-allowed;
+.likeOption button:hover,
+.likeOption button.active {
+      background-color: #5c90d2 !important;
+    font-weight: bold;
+    color: #FFF;
+}
+.likeOption button:disabled {
+    background-color: #c7c7c7;
+    color: #FFF;
+    border-color: #c7c7c7;
+    cursor: not-allowed;
 }
 
 div#card-element,

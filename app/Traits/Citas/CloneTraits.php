@@ -65,7 +65,7 @@ trait CloneTraits {
       $urClone->price = $customerRate->price;
       $urClone->user_id = $customerRate->user_id;
       $urClone->save();
-      $customer_rate_ids = $urClone->id;
+      $customers_rate_id = $urClone->id;
 
       $clone = new Dates();
       $clone->date = $d;
@@ -73,7 +73,7 @@ trait CloneTraits {
       $clone->customer_id = $oDate->customer_id;
       $clone->user_id = $oDate->user_id;
       $clone->date_type = $oDate->date_type;
-      $clone->customers_rate_id = $customer_rate_ids;
+      $clone->customers_rate_id = $customers_rate_id;
       $clone->save();
     }
 

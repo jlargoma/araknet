@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
   Route::get('/citas/delete/{id}', 'CitasController@delete');
   Route::get('/citas/bloqueo-horarios/{type}', 'CitasController@blockDates');
   Route::post('/citas/bloqueo-horarios', 'CitasController@blockDatesSave');
+  Route::post('/citas/enviarNotificacion', 'CitasController@sendNotification');
+  
   Route::get('/citas/{type?}/create/{date?}/{time?}', 'CitasController@create');
   Route::post('/citas/create', 'CitasController@save');
   Route::get('/citas/{type?}/informe-nutricion/{id}', 'CitasController@informe');

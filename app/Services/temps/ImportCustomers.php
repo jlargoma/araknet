@@ -126,7 +126,7 @@ class ImportCustomers {
     function updChargesDate(){
       $allDates = \App\Models\Dates::all();
       foreach ($allDates as $i){
-        if (!$i->customer_rate_ids){
+        if (!$i->customers_rate_id){
           $uRate = \App\Models\CustomersRates::where('id_appointment',$i->id)->first();
           if ($uRate){
             $uRate->charge_id = $i->charge_id;
@@ -144,7 +144,7 @@ class ImportCustomers {
             $uRate->save();
           }
           
-          $i->customer_rate_ids = $uRate->id;
+          $i->customers_rate_id = $uRate->id;
           $i->save();
         }
       }

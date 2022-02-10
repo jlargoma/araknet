@@ -6,11 +6,12 @@
     <div class="box-payment-card">
       <h4>PAGAR AHORA</h4>
       <div class="row">
-        <div class="col-md-9">
-          <select class="likeBtn" name="type_payment" id="type_payment" multiple>
-            <option value="cash">Efectivo</option>
-            <option value="banco">Banco</option>
-          </select>
+        <div class="col-xs-9 likeOption">
+              <?php $old = old('type_payment', 'card'); ?>
+              <input type="hidden" name="type_payment" id="type_payment" value="<?php echo $old; ?>">
+              <button  data-v="card"  type="button" <?php if ($old == 'card') echo 'class="active"'; ?>>Tarjeta</button>
+              <button  data-v="cash"  type="button" <?php if ($old == 'cash') echo 'class="active"'; ?>>Efectivo</button>
+              <button  data-v="banco"  type="button" <?php if ($old == 'banco') echo 'class="active"'; ?>>Banco</button>
         </div>
         <div class="col-md-3">
           <button class="btn btn-lg btn-success sendForm" type="button" data-id="chargeDate">
@@ -25,7 +26,7 @@
     </div>
   </div>
   <div class="col-xs-12 col-md-6 push-20">
-    @include('admin.blocks.stripe-buttons')
+    @include('admin.blocks.notif-buttons')
   </div>
 </form>
 <script type="text/javascript">

@@ -85,7 +85,7 @@ class CoachLiqService {
     $oTurnos = Dates::where('user_id', $id)
             ->whereMonth('date', '=', $month)
             ->whereYear('date', '=', $year)
-            ->join('users_rates', 'users_rates.id', '=', 'customer_rate_ids')
+            ->join('users_rates', 'users_rates.id', '=', 'customers_rate_id')
             ->with('user')->with('service')->with('uRates')
             ->orderBy('date')
             ->get();
