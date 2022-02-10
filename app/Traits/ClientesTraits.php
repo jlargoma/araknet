@@ -101,7 +101,7 @@ trait ClientesTraits {
         'cRates' => $cRates,
         'detail' => $detail,
         'months' => $months,
-//        'aCoachs' => $aCoachs,
+//        'ausers' => $ausers,
         'total_pending' => array_sum($arrayPaymentMonthByUser),
     ]);
   }
@@ -271,7 +271,7 @@ trait ClientesTraits {
 
     $subscrLst = $customer->suscriptions;
     //----------------------//
-    $aUsers = User::whereCoachs('teach')->orderBy('name')->pluck('name', 'id')->toArray();
+    $aUsers = User::whereBy_role('teach')->orderBy('name')->pluck('name', 'id')->toArray();
     $allUsers = User::getUsersWithRoles();
     //----------------------//
     // CONSENTIMIENTOS
@@ -368,7 +368,7 @@ trait ClientesTraits {
 
     return view('admin.usuarios.clientes._rate_charge', [
         'customer' => $oCustomer,
-        'coachs' => User::getCoachs(),
+        'users' => User::getusers(),
         'rates' => Rates::orderBy('status', 'desc')->orderBy('name', 'asc')->get(),
         'rateFamily' => $rateFamily,
     ]);

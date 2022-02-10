@@ -10,11 +10,11 @@
         dateForm = $(this).data('date');
         timeForm = $(this).data('time');
         if (isM){
-            var urlForm = '/admin/citas-fisioterapia/create/'+dateForm+'/'+timeForm;
+            var urlForm = '/admin/citas/'+citaType+'/create/'+dateForm+'/'+timeForm;
             if (typeCalend == 'week') urlForm += '?weekly';
             window.location.href = urlForm;
         } else {
-        $('#ifrModal').attr('src','/admin/citas-fisioterapia/create/'+dateForm+'/'+timeForm);
+        $('#ifrModal').attr('src','/admin/citas/'+citaType+'/create/'+dateForm+'/'+timeForm);
         $('#modalIfrm').modal();
         }
     });
@@ -22,11 +22,11 @@
         event.preventDefault();
         var id = $(this).data('id');
         if (isM){
-            var urlForm = '/admin/citas-fisioterapia/edit/' + id;
+            var urlForm = '/admin/citas/'+citaType+'/edit/' + id;
             if (typeCalend == 'week') urlForm += '?weekly';
             window.location.href = urlForm;
         } else {
-        $('#ifrModal').attr('src','/admin/citas-fisioterapia/edit/'+id);
+        $('#ifrModal').attr('src','/admin/citas/'+citaType+'/edit/'+id);
         $('#modalIfrm').modal();
         }
     });
@@ -41,19 +41,19 @@
         event.preventDefault();
         var val = $(this).data('val');
         var type = $('#servSelect').val();
-        var coach = $('#coachsFilter').val();
-        location.assign("/admin/citas-fisioterapia/"+val+"/"+coach+"/"+type);
+        var coach = $('#usersFilter').val();
+        location.assign("/admin/citas/"+citaType+"/"+val+"/"+coach+"/"+type);
     });
-    $('.coachsFilter').on('click','li',function(event){
+    $('.usersFilter').on('click','li',function(event){
         event.preventDefault();
         var coach = $(this).data('val');
         var month = $('#selectMonth').val();
         var type = $('#servSelect').val();
         var week = $('#selectWeek').val();
         if (typeCalend == 'week'){
-            location.assign("/admin/citas-fisioterapia-week/" + week + "/" + coach + "/" + type);
+            location.assign("/admin/citas-week/"+citaType+"/" + week + "/" + coach + "/" + type);
         } else {
-            location.assign("/admin/citas-fisioterapia/" + month + "/" + coach + "/" + type);
+            location.assign("/admin/citas/"+citaType+"/" + month + "/" + coach + "/" + type);
         }
         
     });
@@ -61,37 +61,14 @@
         event.preventDefault();
         var type = $('#servSelect').val();
         var month = $('#selectMonth').val();
-        var coach = $('#coachsFilter').val();
+        var coach = $('#usersFilter').val();
         var week = $('#selectWeek').val();
         if (typeCalend == 'week'){
-            location.assign("/admin/citas-fisioterapia-week/" + week + "/" + coach + "/" + type);
+            location.assign("/admin/citas-week/"+citaType+"/" + week + "/" + coach + "/" + type);
         } else {
-            location.assign("/admin/citas-fisioterapia/" + month + "/" + coach + "/" + type);
+            location.assign("/admin/citas/"+citaType+"/" + month + "/" + coach + "/" + type);
         }
     });
-
-//    $('#modal_newUser').on('submit','#form-new',function(event){
-//        event.preventDefault();
-//       // Get some values from elements on the page:
-//        var $form = $( this );
-//        var url       = $form.attr( "action" );
-//        // Send the data using post
-//        var posting = $.post( url, $form.serialize() ).done(function( data ) {
-//            if (data == 'OK'){
-//                if (isM){
-//                    window.location.href = '/admin/citas-fisioterapia/create/'+dateForm+'/'+timeForm;
-//                } else {
-//           
-//                $('#content-add-date').load('/admin/citas-fisioterapia/create/'+dateForm+'/'+timeForm);
-//                $('#modal_newUser').modal('hide');
-//                $('#modal-add-date').modal();
-//                 }
-//            } else {
-//                alert(data);
-//            }
-//        });
-//    //    
-//    });
 
   $('.btn-horarios').click(function (e) {
     e.preventDefault();
@@ -99,7 +76,7 @@
   });
   $('.btn-bloqueo').click(function (e) {
     e.preventDefault();
-    $('#ifrModal').attr('src','/admin/citas/bloqueo-horarios/fisio');
+    $('#ifrModal').attr('src','/admin/citas/bloqueo-horarios/'+citaType);
   });
   $('#search_cust').on('keyup',function(){
     var s = $(this).val();
@@ -160,8 +137,8 @@
     function goToWeek(week) {
         var type = $('#servSelect').val();
         var month = $('#selectMonth').val();
-        var coach = $('#coachsFilter').val();
-        location.assign("/admin/citas-fisioterapia-week/" + week + "/" + coach + "/" + type);
+        var coach = $('#usersFilter').val();
+        location.assign("/admin/citas-week/"+citaType+"/" + week + "/" + coach + "/" + type);
     }
     
     

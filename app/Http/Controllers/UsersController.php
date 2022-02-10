@@ -81,15 +81,15 @@ dd();
       }
     }
 
-    $aCoachs = [];
+    $ausers = [];
     $uCoach = null;
     if ($role == 'user') {
-      $aCoachs = User::whereCoachs('teach')->orderBy('name')->pluck('name', 'id')->toArray();
+      $ausers = User::whereBy_role('teach')->orderBy('name')->pluck('name', 'id')->toArray();
     }
     return view('/admin/usuarios/nueva', [
         'rates' => \App\Models\Rates::orderBy('status', 'desc')->orderBy('name', 'asc')->get(),
         'role' => $role,
-        'aCoachs' => $aCoachs,
+        'ausers' => $ausers,
         'uCoach' => $uCoach,
     ]);
   }

@@ -83,7 +83,7 @@ use \Carbon\Carbon; ?>
         <select id="f_coach" class="form-control">
           <option></option>
           <?php
-          foreach ($aCoachs as $id => $name):
+          foreach ($ausers as $id => $name):
             $sel = ($f_coach == $id) ? 'selected' : '';
             ?>
             <option value="{{$id}}" <?php echo $sel; ?>>{{$name}}</option>

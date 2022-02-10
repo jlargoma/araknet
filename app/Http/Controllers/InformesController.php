@@ -78,8 +78,8 @@ class InformesController extends Controller {
         $charges = $sql_charges->orderBy('date_payment')->get();
         $extrasCharges = $sql_CashBox->orderBy('date')->get();
         //------------------------------------------------------------//
-        $CoachsService = new \App\Services\CoachsService();
-        $aCargesCoachs = $CoachsService->getCoachsCharge($sql_charges->pluck('id'));
+        $usersService = new \App\Services\usersService();
+        $aCargesusers = $usersService->getusersCharge($sql_charges->pluck('id'));
         //------------------------------------------------------------//
 
         $bank = 0;
@@ -121,7 +121,7 @@ class InformesController extends Controller {
             'charges' => $charges,
             'extrasCharges' => $extrasCharges,
             'cash' => $cash,
-            'aCargesCoachs' => $aCargesCoachs,
+            'aCargesusers' => $aCargesusers,
             'card' => $card,
             'bank' => $bank,
             'clients' => $clients,
@@ -240,7 +240,7 @@ class InformesController extends Controller {
         /*****************************************************************/
         $data['f_coach']= $f_coach;
         $data['aTRates']= \App\Models\Rates::getRatesTypeRates();
-        $data['aCoachs']= User::getCoachs()->pluck('name','id');
+        $data['ausers']= User::getusers()->pluck('name','id');
         return view('admin.informes.informeClientesMes',$data);
     }
     
@@ -306,7 +306,7 @@ class InformesController extends Controller {
         
         
         $uResult = [];
-        $tCoachs = [];
+        $tusers = [];
         $uRates = \App\Models\CustomersRates::select(
                 'users_rates.*','charges.type_payment',
                 'charges.import','charges.discount')
@@ -327,9 +327,9 @@ class InformesController extends Controller {
                 isset($aRrt[$uR->rate_id]) ? $aRrt[$uR->rate_id] : null
             ];
 
-            if (!isset($tCoachs[$uR->coach_id])) $tCoachs[$uR->coach_id] = 0;
+            if (!isset($tusers[$uR->coach_id])) $tusers[$uR->coach_id] = 0;
             
-            $tCoachs[$uR->coach_id] += $uR->import;
+            $tusers[$uR->coach_id] += $uR->import;
           }
         }
         
@@ -338,7 +338,7 @@ class InformesController extends Controller {
 
         $aCustomers = User::whereIn('id',array_keys($uResult))
                 ->pluck('name','id')->toArray();
-        $aCoachs = User::whereIn('id', array_keys($tCoachs))
+        $ausers = User::whereIn('id', array_keys($tusers))
                 ->pluck('name','id')->toArray();
        
                 
@@ -352,8 +352,8 @@ class InformesController extends Controller {
         $data['aRType']  =  $aRType;
         $data['uResult'] =  $uResult;
         $data['aCust']   =  $aCustomers;
-        $data['aCoachs'] =  $aCoachs;
-        $data['tCoachs'] =  $tCoachs;
+        $data['ausers'] =  $ausers;
+        $data['tusers'] =  $tusers;
         return view('admin.informes.informeCobrosMes',$data);
     }
     

@@ -34,16 +34,16 @@
 <div class="content content-full bg-white">
 	<div class="row">
             <div class="col-md-12">
-                <input type="hidden" id="coachsFilter" value="{{$coach}}">
+                <input type="hidden" id="usersFilter" value="{{$coach}}">
                 <input type="hidden" id="selectMonth" value="{{$month}}">
                 
                 <div class="row">
                 <div class="col-xs-10">
-                <ul class="coachsFilter">
+                <ul class="usersFilter">
                    <li data-val="0" class="select_0 <?php echo ($coach == 0) ? 'active' : ''?>">
                        TODOS
                     </li>
-                @foreach($coachs as $item)
+                @foreach($users as $item)
                 <li data-val="{{$item->id}}" class="select_<?php echo $item->id ?> <?php echo ($coach == $item->id) ? 'active' : ''?>">
                     {{$item->name}}
                 </li>
@@ -77,7 +77,7 @@
 
 <style>
   @foreach($tColors as $k=>$v)
-    ul.coachsFilter li.select_{{$k}} {
+    ul.usersFilter li.select_{{$k}} {
             background-color: {{$v}};
             color: #FFF;
         }
@@ -105,7 +105,7 @@ $('.addDate').click(function(event){
     $('#modalIfrm').modal();
 });
 
-$('.coachsFilter').on('click','li',function(event){
+$('.usersFilter').on('click','li',function(event){
     event.preventDefault();
     var coach = $(this).data('val');
     var type = $('#servSelect').val();
@@ -114,7 +114,7 @@ $('.coachsFilter').on('click','li',function(event){
 $('#servSelect').on('change',function(event){
     event.preventDefault();
     var type = $('#servSelect').val();
-    var coach = $('#coachsFilter').val();
+    var coach = $('#usersFilter').val();
     location.assign("/admin/citas/listado/"+coach+"/"+type);
 });
 

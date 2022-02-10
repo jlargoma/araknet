@@ -79,7 +79,7 @@ class User extends Authenticatable {
     return $this->hasMany('\App\Models\UsersSuscriptions', 'customer_id', 'id');
   }
 
-  static function whereCoachs($type = null, $includeAdmin = false) {
+  static function whereBy_role($type = null, $includeAdmin = false) {
 
     if (is_null($type)){
       $roles = ['partners', 'commercial', 'installer', 'invertor'];
@@ -91,17 +91,22 @@ class User extends Authenticatable {
       $roles[] = 'admin';
       $roles[] = 'subadmin';
     }
+    
+    foreach($roles as $k=>$v){
+      if ($v == 'comercial') $roles[$k]='commercial';
+      if ($v == 'instal') $roles[$k]='installer';
+    }
 
     return self::whereIn('role', $roles);
   }
 
   static function getCoachs($type = null, $includeAdmin = false) {
-    return User::whereCoachs($type, $includeAdmin)
+    return User::whereBy_role($type, $includeAdmin)
                     ->where('status', 1)->orderBy('status', 'DESC')->get();
   }
   
   static function getUsersWithRoles($type = null) {
-    $lst =  User::whereCoachs($type, false)
+    $lst =  User::whereBy_role($type, false)
                     ->where('status', 1)->orderBy('name')->get();
     $allUsers = [];
     if ($lst){

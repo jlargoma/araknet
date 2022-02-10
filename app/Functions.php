@@ -114,7 +114,7 @@ function rates_codes() {
 
 function assetV($uri) {
     $uri_asset = asset($uri);
-    $v = config('app.version', 'v1.0.6');
+    $v = time();//config('app.version', 'v1.0.6');
     return $uri_asset . '?' . $v;
 }
 

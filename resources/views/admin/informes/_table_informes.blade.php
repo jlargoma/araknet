@@ -87,9 +87,9 @@
             <td class="text-center">
                 <?php 
                 $coach = '--';
-                if (isset($aCargesCoachs[$charge->id])){
-                  $aux = $aCargesCoachs[$charge->id];
-                  $coach = isset($aCoachs[$aux]) ? $aCoachs[$aux]: '--'; 
+                if (isset($aCargesusers[$charge->id])){
+                  $aux = $aCargesusers[$charge->id];
+                  $coach = isset($ausers[$aux]) ? $ausers[$aux]: '--'; 
                 }
                 echo $coach;
                 ?>

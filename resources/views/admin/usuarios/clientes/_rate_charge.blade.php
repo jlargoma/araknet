@@ -43,7 +43,7 @@
           <option value="null">--</option>
           <?php
           $old = old('user_id');
-          foreach ($coachs as $v):
+          foreach ($users as $v):
             $sel ='';
             ?>
             <option value="<?php echo $v->id ?>">

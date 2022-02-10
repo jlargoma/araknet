@@ -4,22 +4,18 @@
 <link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/select2/select2-bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css') }}">
 <link rel="stylesheet" href="{{ assetV('css/custom.css') }}">
-<?php 
-$date_type_u = "Fisioterapeuta";
-$date_type = 'fisio'
-?>
 <a class="back" href="<?php echo $urlBack; ?>">X</a>
 @if($blocked)<!-- es un bloqueo -->
   @if($isGroup)
-    @include('calendars.editGroup')
+    @include('citas.calendars.editGroup')
   @else
-    @include('calendars.editBlock')
+    @include('citas.calendars.editBlock')
   @endif
 @else
-  @include('calendars.editDate')
+  @include('citas.calendars.editDate')
 @endif
 @if($id<1) 
-  @include('calendars.blockDate')
+  @include('citas.calendars.blockDate')
 @endif
 <div class="modal fade in" id="modalCliente" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
   <div class="modal-dialog modal-lg">
@@ -99,7 +95,7 @@ jQuery(function () {
         @else
             $('#newUser').click(function (e) {
                 e.preventDefault();
-                $('#u_name').show();
+                $('#c_name').show();
                 $('#div_user').hide();
                 $('#customer_id').val('0');
                 $('#tit_user').text('Nuevo Cliente');
@@ -110,20 +106,20 @@ jQuery(function () {
                 $('#customer_id').val('0').attr('disabled',true);
                 $('#NC_email').val('').attr('disabled',true);
                 $('#NC_phone').val('').attr('disabled',true);
-                $('#u_name').val('').attr('disabled',true);
+                $('#c_name').val('').attr('disabled',true);
               } else {
                 $('#customer_id').val('0').attr('disabled',false);
                 $('#NC_email').val('').attr('disabled',false);
                 $('#NC_phone').val('').attr('disabled',false);
-                $('#u_name').val('').attr('disabled',false);
+                $('#c_name').val('').attr('disabled',false);
               }
             });
         @endif
 
-        $('.btn-user').click(function (e) {
+        $('.btn-customer').click(function (e) {
           e.preventDefault();
-          var id = $(this).attr('data-idUser');
-          $('#ifrCliente').attr('src','/admin/usuarios/informe/' + id);
+          var id = $(this).attr('data-idCustomer');
+          $('#ifrCliente').attr('src','/admin/cliente/informe/' + id);
           $('#modalCliente').modal('show');
         });
         
@@ -143,35 +139,16 @@ jQuery(function () {
         //    
         });
         
-        $('.ecografo').click(function (e) {
+        $('.toggleIcon').click(function (e) {
           e.preventDefault();
           var that = $(this);
           var id = that.data('id');
-          
           var data = {
               id: id,
+              ico: that.data('ico'),
               _token: '{{csrf_token()}}'
             };
-            var posting = $.post( '/admin/toggleEcogr', data ).done(function( data ) {
-                if (data == 'OK'){
-                  if (that.hasClass('active')) that.removeClass('active');
-                  else that.addClass('active');
-                } else {
-                    alert(data);
-                }
-            });
-          }
-        );
-        $('.indiba').click(function (e) {
-          e.preventDefault();
-          var that = $(this);
-          var id = that.data('id');
-          
-          var data = {
-              id: id,
-              _token: '{{csrf_token()}}'
-            };
-            var posting = $.post( '/admin/toggleIndiba', data ).done(function( data ) {
+            var posting = $.post( '/admin/citas/toggleIcon', data ).done(function( data ) {
                 if (data == 'OK'){
                   if (that.hasClass('active')) that.removeClass('active');
                   else that.addClass('active');
@@ -226,7 +203,7 @@ jQuery(function () {
       width: 100px;
       margin: 0 auto;
     }
-    .ecografo,.indiba {
+    .toggleIcon {
       border: 1px solid;
       padding: 8px;
       margin: 12px 3px 0;
@@ -234,14 +211,14 @@ jQuery(function () {
       cursor: pointer;
       float: left;
     }
-    .ecografo.active,.indiba.active {
+    .toggleIcon.active {
         box-shadow: 1px 1px 5px 0px #768fea;
     }
 
-    .ecografo .grey,.indiba .grey{display: block;}
-    .ecografo .blue,.indiba .blue{display: none;}
-    .ecografo.active .grey,.indiba.active .grey{display: none;}
-    .ecografo.active .blue,.indiba.active .blue{display: block;}
+    .toggleIcon .grey{display: block;}
+    .toggleIcon .blue{display: none;}
+    .toggleIcon.active .grey{display: none;}
+    .toggleIcon.active .blue{display: block;}
     
   @media (max-width: 780px) {  
     a.back {

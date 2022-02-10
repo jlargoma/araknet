@@ -35,10 +35,10 @@
         event.preventDefault();
         var val = $(this).data('val');
         var type = $('#servSelect').val();
-        var coach = $('#coachsFilter').val();
+        var coach = $('#$users.Filter').val();
         location.assign("/admin/citas/" + val + "/" + coach + "/" + type);
       });
-      $('.coachsFilter').on('click', 'li', function (event) {
+      $('.$users.Filter').on('click', 'li', function (event) {
         event.preventDefault();
         var coach = $(this).data('val');
         var month = $('#selectMonth').val();
@@ -54,7 +54,7 @@
         event.preventDefault();
         var type = $('#servSelect').val();
         var month = $('#selectMonth').val();
-        var coach = $('#coachsFilter').val();
+        var coach = $('#$users.Filter').val();
         var week = $('#selectWeek').val();
         if (typeCalend == 'week'){
             location.assign("/admin/citas-week/" + week + "/" + coach + "/" + type);
@@ -149,7 +149,7 @@
     function goToWeek(week) {
         var type = $('#servSelect').val();
         var month = $('#selectMonth').val();
-        var coach = $('#coachsFilter').val();
+        var coach = $('#$users.Filter').val();
         location.assign("/admin/citas-week/" + week + "/" + coach + "/" + type);
     }
     

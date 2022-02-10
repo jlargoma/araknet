@@ -37,10 +37,10 @@ $(document).ready(function () {
         event.preventDefault();
         var val = $(this).data('val');
         var type = $('#servSelect').val();
-        var coach = $('#coachsFilter').val();
+        var coach = $('#$users.Filter').val();
         location.assign("/admin/citas-pt/" + val + "/" + coach + "/" + type);
     });
-    $('.coachsFilter').on('click', 'li', function (event) {
+    $('.$users.Filter').on('click', 'li', function (event) {
         event.preventDefault();
         var coach = $(this).data('val');
         var month = $('#selectMonth').val();
@@ -51,7 +51,7 @@ $(document).ready(function () {
         event.preventDefault();
         var type = $('#servSelect').val();
         var month = $('#selectMonth').val();
-        var coach = $('#coachsFilter').val();
+        var coach = $('#$users.Filter').val();
         location.assign("/admin/citas-pt/" + month + "/" + coach + "/" + type);
     });
 
@@ -141,7 +141,7 @@ $(document).ready(function () {
     function goToWeek(week) {
         var type = $('#servSelect').val();
         var month = $('#selectMonth').val();
-        var coach = $('#coachsFilter').val();
+        var coach = $('#$users.Filter').val();
         location.assign("/admin/citas-pt-week/" + week + "/" + coach + "/" + type);
     }
     

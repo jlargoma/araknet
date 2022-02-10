@@ -28,9 +28,6 @@
     @include('admin.blocks.stripe-buttons')
   </div>
 </form>
-    
-@include('calendars.shareBonos')
-
 <script type="text/javascript">
 $(document).ready(function () {
     $('#type_payment').change(function (e) {
@@ -43,11 +40,6 @@ $(document).ready(function () {
             $('#stripeBox').show();
         }
 
-    });
-    $('.sharedBono').on('click',function(e){
-      e.preventDefault();
-      $('#content-sharedBono').empty().load('/admin/bonos/sharedBono/{{$oUser->id}}/{{$id_serv}}');
-      $('#modal-shareBonos').modal();
     });
 });
 </script>

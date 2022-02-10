@@ -10,22 +10,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($oUsers as $u)
+            @foreach($oCustomers as $c)
             <tr>
-                <td class="text-left showInform" data-id="{{$u->id}}">{{$u->name}}</td>
-                <td>{{$u->phone}}</td>
+                <td class="text-left showInform" data-id="{{$c->id}}">{{$c->name}}</td>
+                <td>{{$c->phone}}</td>
                 <?php 
                 foreach($aMonths as $k=>$v){
                     echo '<td>';
-                    if (!isset($aLst[$u->id])){
+                    if (!isset($aLst[$c->id])){
                         echo '--</td>';
                         continue;
                     }
-                    if (!isset($aLst[$u->id][$k])){
+                    if (!isset($aLst[$c->id][$k])){
                         echo '--</td>';
                         continue;
                     }
-                    foreach ($aLst[$u->id][$k] as $item){
+                    foreach ($aLst[$c->id][$k] as $item){
                         echo $item.'</br>';
                     }
                     echo '</td>';

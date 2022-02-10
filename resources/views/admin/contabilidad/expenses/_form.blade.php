@@ -22,7 +22,7 @@ if(isset($page)){
       <label for="user">Coach / Fisio / Nutri</label>
       <select class="form-control" id="to_user" name="to_user" style="width: 100%;">
         <option value="-1">--</option>
-         @foreach($oCoachs as $u)
+         @foreach($ousers as $u)
         <option value="{{$u->id}}">{{$u->name}}</option>
         @endforeach
       </select>

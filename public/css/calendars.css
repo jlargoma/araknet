@@ -80,14 +80,14 @@
 .table-calendar .addDate:hover {background-color: #5c90d2; color: #FFF;}
 
 ul.selectType,
-ul.coachsFilter {
+ul.usersFilter {
   padding: 0;
   width: 100%;
   margin: 1em auto;
   text-align: center;
 }
 ul.selectType li,
-ul.coachsFilter li {
+ul.usersFilter li {
   list-style: none;
   display: inline-block;
   padding: 11px;
@@ -98,13 +98,13 @@ ul.coachsFilter li {
 }
 
 ul.selectType li.select_0,
-ul.coachsFilter li.select_0 {
+ul.usersFilter li.select_0 {
   background-color: grey;
   color: #FFF;
 }
 ul.selectType li:hover,
-ul.coachsFilter li:hover,
-ul.coachsFilter li.active,
+ul.usersFilter li:hover,
+ul.usersFilter li.active,
 ul.selectType li.active {
   /*box-shadow: inset 2px 1px 3px 1px #353535;*/
   border-bottom: 5px solid #45c37b;
@@ -159,10 +159,10 @@ span.dateAvail{
     width: 14px;
 }
 
-.coachsFilter li{
+.usersFilter li{
   position: relative;
 }
-.coachsFilter li .counter{
+.usersFilter li .counter{
     position: absolute;
     top: -11px;
     right: -6px;
@@ -182,11 +182,11 @@ span.dateAvail{
 @media only screen and (max-width: 426px){
 
 
-  ul.selectType, ul.coachsFilter,ul.selectDate {
+  ul.selectType, ul.usersFilter,ul.selectDate {
     width: 1400px;
     text-align: left;
   }
-  ul.selectType li, ul.coachsFilter li {
+  ul.selectType li, ul.usersFilter li {
     margin: 0;
     padding: 6px 9px;
   }

@@ -66,7 +66,7 @@ use \Carbon\Carbon; ?>
               <tr>
                 <td class="text-left">{{$cname}}</td>
                 <td class="text-center">
-                   <?php echo isset($aCoachs[$coach]) ? $aCoachs[$coach] : '-'; ?>
+                   <?php echo isset($ausers[$coach]) ? $ausers[$coach] : '-'; ?>
                 </td>
                 <td class="text-center">
                    <?php echo isset($aRType[$rType]) ? $aRType[$rType] : '-'; ?>
@@ -105,9 +105,9 @@ use \Carbon\Carbon; ?>
               </thead>
               <tbody>
               <?php $total = 0; ?>
-              @foreach($tCoachs as $cID=>$import)
+              @foreach($tusers as $cID=>$import)
               <?php 
-                $cname = isset($aCoachs[$cID]) ? $aCoachs[$cID] : '-';
+                $cname = isset($ausers[$cID]) ? $ausers[$cID] : '-';
               ?>
               <tr>
                 <td class="text-left">{{$cname}}</td>

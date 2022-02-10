@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Dates;
 use App\Models\Rates;
 use App\Models\CustomersRates;
-use App\Models\CoachTimes;
+use App\Models\UsersTimes;
 use Illuminate\Support\Facades\Mail;
 
 class DatesController extends Controller {
@@ -153,9 +153,9 @@ class DatesController extends Controller {
       }
     }
     /* -------------------------------------------------------------------- */
-    $coachTimes = CoachTimes::where('user_id', $user_id)->first();
-    if ($coachTimes) {
-      $t_control = json_decode($coachTimes->times, true);
+    $UsersTimes = UsersTimes::where('user_id', $user_id)->first();
+    if ($UsersTimes) {
+      $t_control = json_decode($UsersTimes->times, true);
       $aux_d = $oCarbon->format('w');
       $aux_h = $oCarbon->format('H');
       if (isset($t_control[$aux_d])) {
@@ -334,16 +334,16 @@ class DatesController extends Controller {
   }
 
   function blockDates($type) {
-    $coachs = \App\Services\CitasService::getCoachs($type);
+    $users = \App\Services\CitasService::getusers($type);
     $cNames = [];
-    if ($coachs) {
-      foreach ($coachs as $item) {
+    if ($users) {
+      foreach ($users as $item) {
         $cNames[$item->id] = $item->name;
       }
     }
 
     return view('calendars.blockDates', [
-        'coachs' => $cNames,
+        'users' => $cNames,
         'type' => $type
     ]);
   }

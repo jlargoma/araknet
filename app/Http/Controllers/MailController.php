@@ -102,9 +102,9 @@ class MailController extends Controller
 		return (!$sended) ? true : false;
 	}
         
-    public static function sendEmailPayDateByStripe($oDate, $oUser, $oRate,$oCoach,$importe,$subj=null,$calFile=null,$urlEntrevista=null)
+    public static function sendEmailPayDateByStripe($oDate, $oCustomer, $oRate,$oCoach,$importe,$subj=null,$calFile=null)
 	{
-            $email    = $oUser->email;
+            $email    = $oCustomer->email;
             $dateTime = strtotime($oDate->date);
             $day = date('d',$dateTime).' de '.getMonthSpanish(date('n',$dateTime),false);
             $hour = $oDate->getHour();
@@ -113,14 +113,14 @@ class MailController extends Controller
             try{
               if (!$subj) $subj = 'Solicitud de pago Araknet';
               $sended = Mail::send('emails.cita_upd', [
-                      'user'    => $oUser,
+                      'customer'=> $oCustomer,
                       'obj'     => $oDate,
                       'rate'    => $oRate,
                       'importe' => $importe,
                       'oCoach'  => $oCoach,
                       'hour'    => $hour,
                       'day'     => $day,
-                      'urlEntr' => $urlEntrevista,
+                      'urlEntr' => null,
               ], function ($message) use ($email,$subj,$calFile) {
                       $message->subject($subj);
                       $message->from(config('mail.from.address'), config('mail.from.name'));
@@ -136,9 +136,9 @@ class MailController extends Controller
             }
             return 'OK';
 	}
-    public static function sendEmailCita($oDate, $oUser, $oRate,$oCoach,$importe,$subj=null,$calFile=null)
+    public static function sendEmailCita($oDate, $oCustomer, $oRate,$oCoach,$importe,$subj=null,$calFile=null)
 	{
-            $email    = $oUser->email;
+            $email    = $oCustomer->email;
             $dateTime = strtotime($oDate->date);
             $day = date('d',$dateTime).' de '.getMonthSpanish(date('n',$dateTime),false);
             $hour = $oDate->getHour();
@@ -149,7 +149,7 @@ class MailController extends Controller
               if (!$subj)  $subj = 'Recordatorio de su Cita de Araknet';
               
               $sended = Mail::send('emails._remember_citaStripe', [
-                      'user'    => $oUser,
+                      'customer'    => $oCustomer,
                       'obj'     => $oDate,
                       'rate'    => $oRate,
                       'importe' => $importe,

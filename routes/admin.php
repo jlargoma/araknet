@@ -40,45 +40,25 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
   Route::post('/clientes/remove-contrato', 'CustomerController@rmContracts');
 
   /* Citas */
-  Route::post('/citas/checkDisp', 'DatesController@checkDateDisp');
-  Route::get('/citas/duplicar/{id}', 'DatesController@cloneDates');
-  Route::post('/citas/duplicar/{id}', 'DatesController@cloneDatesSave');
-  Route::get('/citas/bloqueo-horarios/{type}', 'DatesController@blockDates');
-  Route::post('/citas/bloqueo-horarios', 'DatesController@blockDatesSave');
-
-  Route::get('/citas/create/createSchedules', 'DatesController@createSchedules');
-  Route::get('/citas/delete/{id}', 'DatesController@delete');
-  Route::post('/citas/create', 'DatesController@create');
-  Route::post('/citas/createAdvanced', 'DatesController@createAdvanced');
-  Route::post('/citas/chargeAdvanced', 'DatesController@chargeAdvanced');
-  Route::get('/citas/charge', 'DatesController@chargeDate');
-  Route::get('/clientes/cobro-cita/{id}', 'DatesController@openChargeDate');
-  /* Citas fisioterapia */
-  Route::get('/citas-fisioterapia/listado/{coach?}/{type?}', 'FisioController@listado');
-  Route::get('/citas-fisioterapia/create/{date?}/{time?}', 'FisioController@create');
-  Route::get('/citas-fisioterapia/informe/{id}', 'FisioController@informe');
-  Route::get('/citas-fisioterapia/edit/{id}', 'FisioController@edit');
-  Route::get('/citas-fisioterapia/{month?}/{coach?}/{type?}', 'FisioController@index');
-  Route::get('/citas-fisioterapia-week/{week?}/{coach?}/{type?}', 'FisioController@indexWeek');
-  Route::post('/toggleEcogr', 'FisioController@toggleEcogr');
-  Route::post('/toggleIndiba', 'FisioController@toggleIndiba');
-  /* Citas Nutrición */
-  Route::get('/citas/listado/{coach?}/{type?}', 'NutriController@listado');
-  Route::get('/citas/create/{date?}/{time?}', 'NutriController@create');
-  Route::get('/citas/informe-nutricion/{id}', 'NutriController@informe');
-  Route::post('/nutricion/nutri/upload', 'NutriController@uploadFile');
-  Route::get('/citas/edit/{id}', 'NutriController@edit');
-  Route::get('/citas/{month?}/{coach?}/{type?}', 'NutriController@index');
-  Route::get('/citas-week/{week?}/{coach?}/{type?}', 'NutriController@indexWeek');
+  Route::post('/citas/checkDisp', 'CitasController@checkDateDisp');
+  Route::post('/citas/toggleIcon', 'CitasController@toggleIcon');
+  Route::post('/citas/chargeAdvanced', 'CitasController@chargeAdvanced');
+  Route::get('/citas/duplicar/{id}', 'CitasController@cloneDates');
+  Route::post('/citas/duplicar/{id}', 'CitasController@cloneDatesSave');
+  Route::get('/citas/delete/{id}', 'CitasController@delete');
+  Route::get('/citas/bloqueo-horarios/{type}', 'CitasController@blockDates');
+  Route::post('/citas/bloqueo-horarios', 'CitasController@blockDatesSave');
+  Route::get('/citas/{type?}/create/{date?}/{time?}', 'CitasController@create');
+  Route::post('/citas/create', 'CitasController@save');
+  Route::get('/citas/{type?}/informe-nutricion/{id}', 'CitasController@informe');
+  Route::get('/citas/{type?}/edit/{id}', 'CitasController@edit');
+  Route::get('/citas/{type?}/{month?}/{coach?}/{rate?}', 'CitasController@index');
+  Route::get('/citas-listado/{type?}/{coach?}/{rate?}', 'CitasController@listado');
+  Route::get('/citas-week/{type?}/{week?}/{coach?}/{rate?}', 'CitasController@indexWeek');
   Route::get('/ver-encuesta/{token}/{control}', 'CustomerController@seeEncuestaNutri');
   Route::post('/clearEncuesta', 'CustomerController@clearEncuestaNutri');
   Route::post('/sendEncuesta', 'CustomerController@sendEncuestaNutri');
-  /* Citas personalTrainer */
-  Route::get('/citas-pt/listado/{coach?}/{type?}', 'PTController@listado');
-  Route::get('/citas-pt/create/{date?}/{time?}', 'PTController@create');
-  Route::get('/citas-pt/edit/{id}', 'PTController@edit');
-  Route::get('/citas-pt/{month?}/{coach?}/{type?}', 'PTController@index');
-  Route::get('/citas-pt-week/{week?}/{coach?}/{type?}', 'PTController@indexWeek');
+
 
   //Facturas
   Route::get('/facturas/ver/{id}', 'InvoicesController@view')->name('invoice.view');

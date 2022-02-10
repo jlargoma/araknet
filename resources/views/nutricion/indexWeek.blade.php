@@ -12,18 +12,18 @@
 <div class="content content-full bg-white">
   <div class="row">
     <div class="col-md-12">
-      <input type="hidden" id="coachsFilter" value="{{$coach}}">
+      <input type="hidden" id="usersFilter" value="{{$coach}}">
       <input type="hidden" id="selectWeek" value="{{$week}}">
       <input type="hidden" id="currentWeek" value="{{date('W')}}">
       <input type="hidden" id="typeCalend" value="week">
       <div class="row">
         <div class="col-md-10">
           <div class="mbl-tabs">
-            <ul class="coachsFilter">
+            <ul class="usersFilter">
               <li data-val="0" class="select_0 <?php echo ($coach == 0) ? 'active' : '' ?>">
                 TODOS
               </li>
-              @foreach($coachs as $item)
+              @foreach($users as $item)
               <li data-val="{{$item->id}}" class="select_<?php echo $item->id ?> <?php echo ($coach == $item->id) ? 'active' : '' ?>">
                 {{$item->name}} <span class="counter">0</span>
               </li>
@@ -75,7 +75,7 @@
 
 <style>
     @foreach($tColors as $k=>$v)
-    ul.coachsFilter li.select_{{$k}} {
+    ul.usersFilter li.select_{{$k}} {
             background-color: {{$v}};
             color: #FFF;
         }

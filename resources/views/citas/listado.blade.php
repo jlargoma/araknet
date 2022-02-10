@@ -1,12 +1,12 @@
 @extends('layouts.admin-master')
 
-@section('title') Citas Fisioterapia Araknet HTS @endsection
-@section('headerTitle') Citas Fisioterapia @endsection
+@section('title') Citas {{$title}} Araknet HTS @endsection
+@section('headerTitle') Citas {{$title}} @endsection
 @section('headerButtoms')
 <button type="button" class="btn btn-success addDate" data-date="{{time()}}" data-time="8">
     <i class="fa fa-plus-circle"></i></button>
-    <a href="/admin/citas-fisioterapia/" class="btn btn-success" style="float: right; margin-left: 3px;">Calendario</a>
-    <a href="/admin/citas-fisioterapia-week/" class="btn btn-success" style="float: right; margin-left: 3px;">Semana</a>
+    <a href="/admin/citas/{{$type}}/" class="btn btn-success" style="float: right; margin-left: 3px;">Calendario</a>
+    <a href="/admin/citas-week/{{$type}}" class="btn btn-success" style="float: right; margin-left: 3px;">Semana</a>
 
 @endsection
 @section('externalScripts')
@@ -34,17 +34,17 @@
 <div class="content content-full bg-white">
 	<div class="row">
             <div class="col-md-12">
-                <input type="hidden" id="coachsFilter" value="{{$coach}}">
+                <input type="hidden" id="usersFilter" value="{{$userID}}">
                 <input type="hidden" id="selectMonth" value="{{$month}}">
                 
                 <div class="row">
                 <div class="col-xs-10">
-                <ul class="coachsFilter">
-                   <li data-val="0" class="select_0 <?php echo ($coach == 0) ? 'active' : ''?>">
+                <ul class="usersFilter">
+                   <li data-val="0" class="select_0 <?php echo ($userID == 0) ? 'active' : ''?>">
                        TODOS
                     </li>
-                @foreach($coachs as $item)
-                <li data-val="{{$item->id}}" class="select_<?php echo $item->id ?> <?php echo ($coach == $item->id) ? 'active' : ''?>">
+                @foreach($users as $item)
+                <li data-val="{{$item->id}}" class="select_<?php echo $item->id ?> <?php echo ($userID == $item->id) ? 'active' : ''?>">
                     {{$item->name}}
                 </li>
                 @endforeach
@@ -56,7 +56,7 @@
                         <?php
                         if ($types){
                             foreach ($types as $k=>$v){
-                                $selected = ($type == $k) ? 'selected' : '';
+                                $selected = ($rate == $k) ? 'selected' : '';
                                 echo '<option value="'.$k.'" '.$selected.'>'.$v.'</optiono>';
                             }
                         }
@@ -65,11 +65,11 @@
                     
                 </div>
                 </div>
-                 @include('fisioterapia.tabla')
+                 @include('citas.tabla')
             </div>
 	</div>
 </div>
-    @include('fisioterapia.modals')
+    @include('citas.modals')
 @endsection
 
 @section('scripts')
@@ -78,7 +78,7 @@
 <style>
 
    @foreach($tColors as $k=>$v)
-    ul.coachsFilter li.select_{{$k}} {
+    ul.usersFilter li.select_{{$k}} {
             background-color: {{$v}};
             color: #FFF;
         }
@@ -102,21 +102,21 @@ $('.addDate').click(function(event){
     event.preventDefault();
     dateForm = $(this).data('date');
     timeForm = $(this).data('time');
-    $('#ifrModal').attr('src','/admin/citas-fisioterapia/create/'+dateForm+'/'+timeForm);
+    $('#ifrModal').attr('src','/admin/citas/create/'+dateForm+'/'+timeForm);
     $('#modalIfrm').modal();
 });
 
-$('.coachsFilter').on('click','li',function(event){
+$('.usersFilter').on('click','li',function(event){
     event.preventDefault();
     var coach = $(this).data('val');
     var type = $('#servSelect').val();
-    location.assign("/admin/citas-fisioterapia/listado/"+coach+"/"+type);
+    location.assign("/admin/citas-listado/{{$type}}/"+coach+"/"+type);
 });
 $('#servSelect').on('change',function(event){
     event.preventDefault();
     var type = $('#servSelect').val();
-    var coach = $('#coachsFilter').val();
-    location.assign("/admin/citas-fisioterapia/listado/"+coach+"/"+type);
+    var coach = $('#usersFilter').val();
+    location.assign("/admin/citas-listado/{{$type}}/"+coach+"/"+type);
 });
 
 $('#modal_newUser').on('submit','#form-new',function(event){
@@ -127,7 +127,7 @@ $('#modal_newUser').on('submit','#form-new',function(event){
     // Send the data using post
     var posting = $.post( url, $form.serialize() ).done(function( data ) {
         if (data == 'OK'){
-            $('#content-add-date').load('/admin/citas-fisioterapia/create/'+dateForm+'/'+timeForm);
+            $('#content-add-date').load('/admin/citas/{{$type}}/create/'+dateForm+'/'+timeForm);
             $('#modal_newUser').modal('hide');
             $('#modal-add-date').modal();
         } else {
@@ -139,7 +139,7 @@ $('#modal_newUser').on('submit','#form-new',function(event){
 $('.js-dataTable-citas').on('click','.showInform',function(event){
     event.preventDefault();
     var id = $(this).data('id');
-    $('#ifrCliente').attr('src','/admin/usuarios/informe/' + id);
+    $('#ifrCliente').attr('src','/admin/cliente/informe/' + id);
     $('#modalCliente').modal();
 });
 

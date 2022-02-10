@@ -5,9 +5,9 @@ namespace App\Services;
 use App\Models\CustomersRates;
 use App\Models\Dates;
 
-class CoachsService {
+class usersService {
 
-  function getCoachsCharge($chargesID){
+  function getusersCharge($chargesID){
     $result = [];
     $lst = CustomersRates::whereIn('charge_id', $chargesID)->get();
     if ($lst){

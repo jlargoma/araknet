@@ -149,8 +149,8 @@ class ExpensesController extends Controller {
         'yearMonths' => $yearMonths,
         'tYear' => $yearMonths[$year],
         'typePayment' => Expenses::getTypeCobro(),
-        'oCoachs' => User::getCoachs(),
-        'lstUsr'  => User::getCoachs()->pluck('name','id')->toArray()
+        'ousers' => User::getusers(),
+        'lstUsr'  => User::getusers()->pluck('name','id')->toArray()
     ]);
   }
 
@@ -261,7 +261,7 @@ class ExpensesController extends Controller {
     $totalMounth = 0;
     $typePayment = Expenses::getTypeCobro();
     
-    $lstUsr = User::getCoachs()->pluck('name','id')->toArray();
+    $lstUsr = User::getusers()->pluck('name','id')->toArray();
     if ($gastos) {
       $respo_list = array();
       foreach ($gastos as $item) {
@@ -325,7 +325,7 @@ class ExpensesController extends Controller {
     } else {
       $sCoachLiq = new \App\Services\CoachLiqService();
       $data = $sCoachLiq->liqByCoachMonths($year);
-      include_once app_path().'/Blocks/PyG_Coachs.php';
+      include_once app_path().'/Blocks/PyG_users.php';
     }
   }
 

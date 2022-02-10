@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use App\Models\CoachTimes;
+use App\Models\UsersTimes;
 use App\Models\Rates;
 
 trait EntrenadoresTraits {
@@ -86,7 +86,7 @@ trait EntrenadoresTraits {
   public function horarios($id = null) {
 
 
-    $aUsers = User::whereCoachs()->orderBy('name')->pluck('name', 'id')->toArray();
+    $aUsers = User::whereBy_role()->orderBy('name')->pluck('name', 'id')->toArray();
     //---------------------------------------------------------------//
     $days = listDaysSpanish(false);
     $horarios = [];
@@ -95,9 +95,9 @@ trait EntrenadoresTraits {
       $horarios[$k] = $aux;
     }
     //---------------------------------------------------------------//
-    $coachTimes = CoachTimes::where('user_id', $id)->first();
-    if ($coachTimes) {
-      $t = json_decode($coachTimes->horarios, true);
+    $UsersTimes = UsersTimes::where('user_id', $id)->first();
+    if ($UsersTimes) {
+      $t = json_decode($UsersTimes->horarios, true);
       if ($t) {
         foreach ($days as $k => $v) {
           if (isset($t[$k])) {
@@ -163,14 +163,14 @@ trait EntrenadoresTraits {
     }
     //---------------------------------------------------------------//
 
-    $coachTimes = CoachTimes::where('user_id', $uID)->first();
-    if (!$coachTimes) {
-      $coachTimes = new CoachTimes();
-      $coachTimes->user_id = $uID;
+    $UsersTimes = UsersTimes::where('user_id', $uID)->first();
+    if (!$UsersTimes) {
+      $UsersTimes = new UsersTimes();
+      $UsersTimes->user_id = $uID;
     }
-    $coachTimes->horarios = json_encode($horarios);
-    $coachTimes->times = json_encode($h2);
-    $coachTimes->save();
+    $UsersTimes->horarios = json_encode($horarios);
+    $UsersTimes->times = json_encode($h2);
+    $UsersTimes->save();
     return redirect()->back()->with(['success' => 'Horario actualizado']);
   }
 

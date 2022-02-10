@@ -156,12 +156,12 @@ class NutriController extends Controller {
         $lstMonts = lstMonthsSpanish();
 
         /**************************************************** */
-        $coachs = User::whereCoachs('nutri')->where('status', 1)->get();
+        $users = User::whereBy_role('nutri')->where('status', 1)->get();
         $tColors = [];
-        if ($coachs) {
+        if ($users) {
             $auxColors = colors();
             $i = 0;
-            foreach ($coachs as $item) {
+            foreach ($users as $item) {
                 if (!isset($auxColors[$i]))
                     $i = 0;
                 $tColors[$item->id] = $auxColors[$i];
@@ -180,7 +180,7 @@ class NutriController extends Controller {
             'type' => $type,
             'types' => $servic,
             'tColors' => $tColors,
-            'coachs' => $coachs,
+            'users' => $users,
             'coach' => $coach,
             'oUsers' => $oUsers,
         ];
@@ -192,7 +192,7 @@ class NutriController extends Controller {
         $year = getYearActive();
         $customer = User::find($uID);
         $servic = TypesRate::where('type', 'nutri')->pluck('name', 'id');
-        $coachs = User::whereCoachs('nutri')->pluck('name', 'id');
+        $users = User::whereBy_role('nutri')->pluck('name', 'id');
         $lstMonts = lstMonthsSpanish();
         /**************************************************** */
         $aLst = [];
@@ -214,7 +214,7 @@ class NutriController extends Controller {
                     'hour' => $hour . ':00',
                     'date' => $date .' '.$tm,
                     'rate' => isset($servic[$i->id_type_rate]) ? $servic[$i->id_type_rate] : '',
-                    'coach'=> isset($coachs[$i->user_id]) ? $coachs[$i->user_id] : '',
+                    'coach'=> isset($users[$i->user_id]) ? $users[$i->user_id] : '',
                     'charged' => $i->charged,
                 ];
                 

@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use App\Models\Dates;
 use App\Models\User;
 use App\Models\Rates;
-use App\Models\CoachTimes;
+use App\Models\UsersTimes;
 use App\Models\TypesRate;
 use App\Services\CitasService;
 
@@ -78,26 +78,6 @@ class FisioController extends Controller {
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request) {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -111,28 +91,6 @@ class FisioController extends Controller {
         return $this->create();
       }
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id) {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) {
-        //
-    }
-
     public function listado($coach = 0, $type = 0) {
 
         $year = getYearActive();
@@ -172,12 +130,12 @@ class FisioController extends Controller {
         $lstMonts = lstMonthsSpanish();
 
         /**************************************************** */
-        $coachs = User::whereCoachs('fisio')->where('status', 1)->get();
+        $users = User::whereBy_role('fisio')->where('status', 1)->get();
         $tColors = [];
-        if ($coachs) {
+        if ($users) {
             $auxColors = colors();
             $i = 0;
-            foreach ($coachs as $item) {
+            foreach ($users as $item) {
                 if (!isset($auxColors[$i]))
                     $i = 0;
                 $tColors[$item->id] = $auxColors[$i];
@@ -196,7 +154,7 @@ class FisioController extends Controller {
             'type' => $type,
             'types' => $servic,
             'tColors' => $tColors,
-            'coachs' => $coachs,
+            'users' => $users,
             'coach' => $coach,
             'oUsers' => $oUsers,
         ];
@@ -208,7 +166,7 @@ class FisioController extends Controller {
         $year = getYearActive();
         $customer = User::find($uID);
         $servic = TypesRate::where('type', 'fisio')->pluck('name', 'id');
-        $coachs = User::whereCoachs('fisio')->pluck('name', 'id');
+        $users = User::whereBy_role('fisio')->pluck('name', 'id');
         $lstMonts = lstMonthsSpanish();
         /**************************************************** */
         $aLst = [];
@@ -230,7 +188,7 @@ class FisioController extends Controller {
                     'hour' => $hour . ':00',
                     'date' => $date .' '.$tm,
                     'rate' => isset($servic[$i->id_type_rate]) ? $servic[$i->id_type_rate] : '',
-                    'coach'=> isset($coachs[$i->user_id]) ? $coachs[$i->user_id] : '',
+                    'coach'=> isset($users[$i->user_id]) ? $users[$i->user_id] : '',
                     'charged' => $i->charged,
                 ];
                 
@@ -257,24 +215,6 @@ class FisioController extends Controller {
         ]);
     }
 
-    public function uploadFile(Request $request) {
-
-        $directory = storage_path() . "/Nutricion/" . $request->nombre;
-
-        if (!file_exists($directory)) {
-            mkdir($directory, 0777, true);
-        }
-
-        $directory = storage_path() . "/Nutricion/" . $request->nombre . "/";
-        // echo $storage_path . basename( $_FILES['uploadedfile']['name']);
-        $directory = $directory . basename($_FILES['uploadedfile']['name']);
-        if (move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $directory)) {
-            return redirect()->action('FisioController@index');
-        } else {
-            return redirect()->action('FisioController@index');
-        }
-    }
-    
     public function toggleEcogr(Request $request) {
 
       $id =  $request->input('id');

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rates extends Model
 {
-  const noShow = [38,41,37,36];
+  const noShow = [];
     public function users()
     {
         return $this->hasMany('\App\Models\CustomersRates','id', 'rate_id');

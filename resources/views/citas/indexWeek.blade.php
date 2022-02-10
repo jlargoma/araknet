@@ -1,30 +1,30 @@
 @extends('layouts.admin-master')
 
-@section('title') Citas Fisioterapia Araknet HTS @endsection
-@section('headerTitle') Citas Fisioterapia @endsection
+@section('title') Citas {{$title}} Araknet HTS @endsection
+@section('headerTitle') Citas {{$title}} @endsection
 @section('headerButtoms')
 <button type="button" class="btn btn-success addDate" data-date="{{time()}}" data-time="8">
     <i class="fa fa-plus-circle"></i></button>
-    <a href="/admin/citas-fisioterapia/listado/" class="btn btn-success" style="float: right; margin-left: 3px;">Listado</a>
-    <a href="/admin/citas-fisioterapia/" class="btn btn-success" style="float: right; margin-left: 3px;">Calendario</a>
+    <a href="/admin/citas-listado/{{$type}}" class="btn btn-success" style="float: right; margin-left: 3px;">Listado</a>
+    <a href="/admin/citas/{{$type}}" class="btn btn-success" style="float: right; margin-left: 3px;">Calendario</a>
 @endsection
 @section('content')
 <div class="content content-full bg-white">
 	<div class="row">
             <div class="col-md-12">
-                <input type="hidden" id="coachsFilter" value="{{$coach}}">
+                <input type="hidden" id="usersFilter" value="{{$user}}">
                 <input type="hidden" id="selectWeek" value="{{$week}}">
                 <input type="hidden" id="currentWeek" value="{{date('W')}}">
                 <input type="hidden" id="typeCalend" value="week">
                 <div class="row">
                     <div class="col-md-10">
                       <div class="mbl-tabs">
-                    <ul class="coachsFilter">
-                       <li data-val="0" class="select_0 <?php echo ($coach == 0) ? 'active' : ''?>">
+                    <ul class="usersFilter">
+                       <li data-val="0" class="select_0 <?php echo ($user == 0) ? 'active' : ''?>">
                            TODOS
                         </li>
-                    @foreach($coachs as $item)
-                    <li data-val="{{$item->id}}" class="select_<?php echo $item->id ?> <?php echo ($coach == $item->id) ? 'active' : ''?>">
+                    @foreach($users as $item)
+                    <li data-val="{{$item->id}}" class="select_<?php echo $item->id ?> <?php echo ($user == $item->id) ? 'active' : ''?>">
                         {{$item->name}}<span class="counter">0</span>
                     </li>
                     @endforeach
@@ -63,11 +63,11 @@
                 </div>
                 </div>
                 
-                @include('calendars.calendar')
+                @include('citas.calendars.calendar')
             </div>
 	</div>
 </div>
-    @include('fisioterapia.modals')
+    @include('citas.modals')
 @endsection
 
 @section('scripts')
@@ -76,13 +76,13 @@
 <style>
 
     @foreach($tColors as $k=>$v)
-    ul.coachsFilter li.select_{{$k}} {
+    ul.usersFilter li.select_{{$k}} {
             background-color: {{$v}};
             color: #FFF;
         }
     .eventType_{{$k}} cust {background-color: {{$v}};}
     .eventType_{{$k}}.blocked span {background-color: {{$v}};}
-    .coach_{{$k}} {background-color: {{$v}};}
+    .user_{{$k}} {background-color: {{$v}};}
     
     @endforeach
     .time.not{
@@ -100,8 +100,9 @@
     var details = {!!$detail!!};
   @endif
    var typeCalend = 'week';
-   var countByCoah = <?php echo json_encode($countByCoah) ?>;
+   var citaType = '{{$type}}';
+   var countByUser = <?php echo json_encode($countByUser) ?>;
 </script>
-<script src="{{assetv('/js/calendar/fisio.js')}}"></script>
+<script src="{{assetv('/js/calendar/citas.js')}}"></script>
 <script src="{{assetv('/admin-css/assets/js/toltip.js')}}"></script>
 @endsection

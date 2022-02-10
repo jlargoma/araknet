@@ -415,4 +415,12 @@ class CustomerController extends Controller {
     ];
   }
 
+  
+  public function getMail($id) {
+    $oObjet = Customers::find($id);
+    if ($oObjet) {
+      return [$oObjet->email, $oObjet->phone];
+    }
+    return ['', ''];
+  }
 }

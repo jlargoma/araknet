@@ -12,7 +12,7 @@
     <?php 
     if (!isset($aRates[$r->rate_id])){ continue;}
     $aux =  $aRates[$r->rate_id] ; 
-    $coach = isset($aCoachs[$r->user_id]) ? $aCoachs[$r->user_id] : '--';
+    $coach = isset($ausers[$r->user_id]) ? $ausers[$r->user_id] : '--';
     ?>
     <tr>
       <td>{{$aux->name}}</td>
@@ -56,7 +56,7 @@
         <select class="form-control" name="rate_idCoach" id="rate_idCoach" disabled>
           <option value=""> -- </option>
           <?php
-          foreach ($aCoachs as $k => $v) {
+          foreach ($ausers as $k => $v) {
             echo '<option value="' . $k . '">' . $v . '</option>';
           }
           ?>

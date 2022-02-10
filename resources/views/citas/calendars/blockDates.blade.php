@@ -16,7 +16,7 @@
           <label for="user_id">Usuario</label>
           <select class="js-select2 form-control" id="user_id" name="user_id" style="width: 100%; cursor: pointer" data-placeholder="Seleccione coach.." >
             <option></option>
-            <?php foreach ($coachs as $key => $coach): ?>
+            <?php foreach ($users as $key => $coach): ?>
               <option value="<?php echo $key; ?>">
                 <?php echo $coach; ?>
               </option>

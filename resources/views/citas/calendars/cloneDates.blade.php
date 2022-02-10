@@ -8,14 +8,14 @@ function printEvents($lst,$h){
       echo '<span '
       . 'data-id="'.$item['id'].'" '
       . 'data-name="--" '
-      . 'class="eventType_'.$item['coach'].' events blocked">'
+      . 'class="eventType_'.$item['user'].' events blocked">'
       .$h. '</span>';
     } else {
       $payment = ($item['charged'] != 1) ? '<span class="no-pay"></span>' : '';
       echo '<span '
       . 'data-id="'.$item['id'].'" '
       . 'data-name="'. strtolower($item['name']).'" '
-      . 'class="eventType_'.$item['coach'].' events">';
+      . 'class="eventType_'.$item['user'].' events">';
       echo ($first) ? $h. '</span>' : ' *</span>';
     }
     $first = false;
@@ -39,8 +39,8 @@ function printEvents($lst,$h){
       <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
   <div class="row">
       <div class="col-md-8">
-      <h3>Repetir la cita de {{$uRate->user->name}}</h3>
-      <p>{{$uRate->rate->name}}, el día {{dateMin($obj->date)}} a las {{$obj->getHour()}}</p>
+      <h3>Repetir la cita de {{$cRate->customer->name}}</h3>
+      <p>{{$cRate->customer->name}}, el día {{dateMin($obj->date)}} a las {{$obj->getHour()}}</p>
       </div>
       <div class="col-md-4">
         <button type="button" class="btn btn-success" id="cloneDates">Crear</button>

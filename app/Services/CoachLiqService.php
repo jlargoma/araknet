@@ -14,7 +14,7 @@ class CoachLiqService {
     $aLiq = $CommLst = $liqLst = $aLiqTotal = [];
     $months = lstMonthsSpanish();
     unset($months[0]);
-    $sql = User::whereCoachs(null,true);
+    $sql = User::whereBy_role(null,true);
     if ($type == 'activos')
       $sql->where('status', 1);
     if ($type == 'desactivados')

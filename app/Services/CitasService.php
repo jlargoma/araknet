@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Dates;
 use App\Models\Rates;
 use App\Models\User;
+use App\Models\Customers;
 
 class CitasService {
 
@@ -12,7 +13,7 @@ class CitasService {
     $oDate = Dates::find($id);
     if ($oDate) {
       $date = explode(' ', $oDate->date);
-      $uRates = $oDate->uRates;
+      $customerRates = $oDate->cRates;
       $id_serv = $oDate->rate_id;
       $card    = null;
       $price   = $oDate->price;
@@ -20,26 +21,16 @@ class CitasService {
       $email   = null;
       $phone   = null;
       $charge  = null;
-      $oUser  = null;
-      if ($uRates){
-        $price   = $uRates->price;
-        $id_serv = $uRates->rate_id;
-        $oUser = $uRates->user;
-        if ($oUser){
-          $customer_id = $oUser->id;
-          $email = $oUser->email;
-          $phone = $oUser->phone;
-          $charge = $uRates->charges;
-          
-          $paymentMethod = $oUser->getPayCard();
-          if ($paymentMethod) {
-            $aux = $paymentMethod->toArray();
-            $card['brand'] = $aux['card']['brand'];
-            $card['exp_month'] = $aux['card']['exp_month'];
-            $card['exp_year'] = $aux['card']['exp_year'];
-            $card['last4'] = $aux['card']['last4'];
-          }
-      
+      $oCostumer  = null;
+      if ($customerRates){
+        $price   = $customerRates->price;
+        $id_serv = $customerRates->rate_id;
+        $oCostumer = $customerRates->customer;
+        if ($oCostumer){
+          $customer_id = $oCostumer->id;
+          $email = $oCostumer->email;
+          $phone = $oCostumer->phone;
+          $charge = $customerRates->charges;
         }
       }
       $oServicios = Rates::getByTypeRate($oDate->date_type);
@@ -60,9 +51,9 @@ class CitasService {
           'type' => $oDate->date_type,
           'charge' => $charge,
           'services' => $oServicios,
-          'oUser' => $oUser,
-          'users' => User::where('role', 'user')->where('status', 1)->orderBy('name', 'ASC')->get(),
-          'coachs' => self::getCoachs($oDate->date_type),
+          'oCostumer' => $oCostumer,
+          'allCustomers' => Customers::where('status', 1)->orderBy('name', 'ASC')->get(),
+          'users' => self::getUsers($oDate->date_type),
           'blocked' => $oDate->blocked,
           'isGroup' => $oDate->is_group,
           'urlBack' => self::get_urlBack($oDate->date_type,$date[0]),
@@ -92,30 +83,30 @@ class CitasService {
       'price' => 0,
       'type' => $type,
       'services' => Rates::getByTypeRate($type),
-      'users' => User::where('role', 'user')->where('status', 1)->orderBy('name', 'ASC')->get(),
-      'coachs' => self::getCoachs($type),
+      'allCustomers' => Customers::where('status', 1)->orderBy('name', 'ASC')->get(),
+      'users' => self::getUsers($type),
       'blocked' => false,
       'urlBack' => self::get_urlBack($type,date('Y-m-d', $date)),
      ];
   }
   
-  static function get_calendars($start,$finish,$serv,$coach,$type,$lstDays=null) {
+  static function get_calendars($start,$finish,$serv,$user,$type,$lstDays=null) {
         
     $times = [];    
     /**************************************************** */
     $servLst = Rates::getByTypeRate($type)->pluck('name', 'id');
     /**************************************************** */
-    $coachs = self::getCoachs($type);
+    $users = self::getUsers($type);
     $tColors = [];
-    $cNames = [];
-    if ($coachs) {
+    $uNames = [];
+    if ($users) {
         $auxColors = colors();
         $i = 0;
-        foreach ($coachs as $item) {
+        foreach ($users as $item) {
             if (!isset($auxColors[$i]))
                 $i = 0;
             $tColors[$item->id] = $auxColors[$i];
-            $cNames[$item->id] = $item->name;
+            $uNames[$item->id] = $item->name;
             $i++;
         }
     }
@@ -127,11 +118,11 @@ class CitasService {
             ->where('date', '<=', date('Y-m-d', $finish));
     if ($serv && $serv != 0)
         $sql->where('rate_id', $serv);
-    if ($coach && $coach > 0){
-      $sql->where('user_id', $coach);
-      $coachTimes = \App\Models\CoachTimes::where('user_id',$coach)->first(); 
-      if ($coachTimes){
-          $times = json_decode($coachTimes->times,true);
+    if ($user && $user > 0){
+      $sql->where('user_id', $user);
+      $UsersTimes = \App\Models\UsersTimes::where('user_id',$user)->first(); 
+      if ($UsersTimes){
+          $times = json_decode($UsersTimes->times,true);
           if (!is_array($times)) $times = [];
       }
     }
@@ -149,8 +140,8 @@ class CitasService {
     $days = listDaysSpanish();
     $months = lstMonthsSpanish();
     $sValora = new ValoracionService();
-    $daysCoatch = [];
-    $countByCoah = [];
+    $daysUser = [];
+    $countByUser = [];
     if ($oLst) {
         foreach ($oLst as $item) {
             $time = strtotime($item->date);
@@ -167,19 +158,19 @@ class CitasService {
             
             if (!isset($aLst[$time])){
                 $aLst[$time] = [];
-                $daysCoatch[$time] = [];
+                $daysUser[$time] = [];
             }
             if (!isset($aLst[$time][$hour])){
               $aLst[$time][$hour] = [];
-              $daysCoatch[$time][$hour] = [];
+              $daysUser[$time][$hour] = [];
             }
-            $daysCoatch[$time][$hour][$item->user_id] = 1;
+            $daysUser[$time][$hour][$item->user_id] = 1;
             if ($item->blocked){
               $aLst[$time][$hour][] = [
                 'id' => $item->id,
                 'charged' => ($item->is_group) ? 3 : 2,
                 'type' => $item->rate_id,
-                'coach' => $item->user_id,
+                'user' => $item->user_id,
                 'h'=>$hTime,
                 'name' => ($item->is_group) ? 'grupo' : 'bloqueo',
                 'ecogr' => false
@@ -188,31 +179,29 @@ class CitasService {
                   'n' => ($item->is_group) ? 'Cita Grupal' : 'bloqueo',
                   'p'=> '',
                   's'=> ($item->service) ? $item->service->name : '-',
-                  'cn' => isset($cNames[$item->user_id]) ? $cNames[$item->user_id] : '-',
+                  'cn' => isset($uNames[$item->user_id]) ? $uNames[$item->user_id] : '-',
                   'mc'=>'', //Metodo pago
                   'dc'=>'', // fecha pago
                   'd'=>$dTime, // fecha 
               ];
               if (($item->is_group)){
-                if (!isset($countByCoah[$item->user_id])){
-                  $countByCoah[$item->user_id] = 1;
+                if (!isset($countByUser[$item->user_id])){
+                  $countByUser[$item->user_id] = 1;
                 } else {
-                  $countByCoah[$item->user_id]++;
+                  $countByUser[$item->user_id]++;
                 }
               }
               continue;
             }
 
-            $u_name = '';
-            $uRates = $item->uRates;
+            $customer_name = '';
+            $customerRates = $item->cRates;
             $charge = null;
-            if ($uRates){
-              $u_name = ($uRates->user) ? $uRates->user->name : null;
-              $charge = $uRates->charges;
+            if ($customerRates){
+              $customer_name = ($customerRates->customer) ? $customerRates->customer->name : null;
+              $charge = $customerRates->charges;
             }
-            if ($type == 'pt' && !$sValora->isRate($uRates->rate_id))
-              $charged = 1;
-            else $charged = ($charge) ? 1 : 0;
+            $charged = ($charge) ? 1 : 0;
             //------------------------------------
             $halfTime = false;
             if ($item->customTime){
@@ -224,18 +213,18 @@ class CitasService {
                 'id' => $item->id,
                 'charged' => $charged,
                 'type' => $item->rate_id,
-                'coach' => $item->user_id,
-                'name' => $u_name,
+                'user' => $item->user_id,
+                'name' => $customer_name,
                 'halfTime'=>$halfTime,
                 'h'=>$hTime,
                 'ecogr' => (in_array($item->id,$ecogrs)),
                 'indiba' => (in_array($item->id,$indiba)),
             ];
             $detail[$item->id] = [
-                'n' => $u_name,
-                'p'=>($uRates) ? moneda($uRates->price): '--',
+                'n' => $customer_name,
+                'p'=>($customerRates) ? moneda($customerRates->price): '--',
                 's'=> ($item->service) ? $item->service->name : '-',
-                'cn' => isset($cNames[$item->user_id]) ? $cNames[$item->user_id] : '-',
+                'cn' => isset($uNames[$item->user_id]) ? $uNames[$item->user_id] : '-',
                 'mc'=>'', //Metodo pago
                 'dc'=>'', // fecha pago
                 'd'=>$dTime, // fecha 
@@ -246,10 +235,10 @@ class CitasService {
               $detail[$item->id]['dc'] = dateMin($charge->date_payment);
             }
             
-            if (!isset($countByCoah[$item->user_id])){
-              $countByCoah[$item->user_id] = 1;
+            if (!isset($countByUser[$item->user_id])){
+              $countByUser[$item->user_id] = 1;
             } else {
-              $countByCoah[$item->user_id]++;
+              $countByUser[$item->user_id]++;
             }
         }
     }
@@ -278,7 +267,7 @@ class CitasService {
       $detail = null;
     }
     if ($type == 'pt') $avails = [];
-    else $avails = self::timeAvails($daysCoatch,$coachs,$lstDays,$coach);
+    else $avails = self::timeAvails($daysUser,$users,$lstDays,$user);
     
     return  [
         'servLst' => $servLst,
@@ -287,26 +276,25 @@ class CitasService {
         'aMonths'=> $aMonths,
         'year'   => $year,
         'tColors'=> $tColors,
-        'coachs' => $coachs,
-        'coach'  => $coach,
+        'users' => $users,
+        'user'  => $user,
         'times'  => $times,
         'detail' => $detail,
         'avails' => $avails,
-        'countByCoah' => $countByCoah,
+        'countByUser' => $countByUser,
     ];
   }
   
-  static function getCoachs($type) {
-    if ($type == 'pt') $type = 'teach';
-    return User::whereCoachs($type)->where('status', 1)->get();
+  static function getUsers($type) {
+    return User::whereBy_role($type)->where('status', 1)->get();
   }
   
-  static function timeAvails($daysCoatch,$coachs,$lstDays,$coachID=null){
+  static function timeAvails($daysUser,$users,$lstDays,$userID=null){
     $tCoach = [];
-    if ($coachID){
-      $tCoach[$coachID]=1;
+    if ($userID){
+      $tCoach[$userID]=1;
     } else {
-      foreach ($coachs as $i)  $tCoach[$i->id]=1;
+      foreach ($users as $i)  $tCoach[$i->id]=1;
     } 
     
     $disponibles = [];
@@ -318,9 +306,9 @@ class CitasService {
       $disponibles[$i] = $aux;
     }
 
-    $coachTimes = \App\Models\CoachTimes::whereIn('user_id', array_keys($tCoach))->pluck('times','user_id'); 
-    if ($coachTimes){
-      foreach ($coachTimes as $idCoach => $t){
+    $UsersTimes = \App\Models\UsersTimes::whereIn('user_id', array_keys($tCoach))->pluck('times','user_id'); 
+    if ($UsersTimes){
+      foreach ($UsersTimes as $idCoach => $t){
         $times = json_decode($t,true);
         if (is_array($times)){
           foreach ($times as $d=>$hs){
@@ -350,8 +338,8 @@ class CitasService {
               $aux[$h] = $aux2;
             }
             /////////////////////
-            if (isset($daysCoatch[$time])){
-              foreach ($daysCoatch[$time] as $h=>$item){
+            if (isset($daysUser[$time])){
+              foreach ($daysUser[$time] as $h=>$item){
                 $aux4 = isset($aux[$h]) ? $aux[$h] : [];
                 foreach ($item as $cID=>$u){
                   $aux3 = array_search($cID, $aux4);

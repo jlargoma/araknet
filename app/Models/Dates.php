@@ -16,14 +16,14 @@ class Dates extends Model
         return $this->hasOne('\App\Models\Rates', 'id', 'rate_id');
     }
 
-    public function coach()
+    public function user()
     {
         return $this->hasOne('\App\Models\User', 'id', 'user_id');
     }
 
-    public function uRates()
+    public function cRates()
     {
-        return $this->hasOne('\App\Models\CustomersRates', 'id', 'customer_rate_ids');
+        return $this->hasOne('\App\Models\CustomersRates', 'id', 'customers_rate_id');
     }
     public function getHour()
     {
@@ -37,9 +37,9 @@ class Dates extends Model
       $dateTime = strtotime($this->date);
       return date('H:i',$dateTime);
     }
-    public function user()
+    public function costumer()
     {
-        return $this->hasOne('\App\Models\User', 'id', 'customer_id');
+        return $this->hasOne('\App\Models\Costumers', 'id', 'customer_id');
     }
     
     

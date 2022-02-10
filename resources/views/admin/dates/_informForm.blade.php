@@ -55,7 +55,7 @@
 				                		</option>
 				                	<?php endforeach ?>
 				                <?php else: ?>
-				                	<?php foreach ($coachs as $key => $coach): ?>
+				                	<?php foreach ($users as $key => $coach): ?>
 				                		<option value="<?php echo $coach->id; ?>">
 				                			<?php echo $coach->name; ?>
 				                		</option>

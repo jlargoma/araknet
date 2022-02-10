@@ -53,7 +53,7 @@ class Salary extends Command {
       
       $sCoachLiqService = new CoachLiqService();
       $e_noSalary = $i_loaders = $i_already = [];
-      $customers = User::whereCoachs()->select('id')
+      $customers = User::whereBy_role()->select('id')
               ->where('status', 1)->pluck('id');
       
       foreach ($customers as $uID) {

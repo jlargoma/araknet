@@ -23,14 +23,14 @@ function printEvents($lst){
       case 2:
         echo '<div '
           . 'data-id="'.$item['id'].'"  data-name=""  '
-          . 'class="eventType_'.$item['coach'].' events blocked">'
+          . 'class="eventType_'.$item['user'].' events blocked">'
           .$item['h'].'<span></span><toltip/>'
           . '</div>';
         break;
       case 3:
         echo '<div '
           . 'data-id="'.$item['id'].'" data-name="" '
-          . 'class="eventType_'.$item['coach'].' events group">'
+          . 'class="eventType_'.$item['user'].' events group">'
           .$item['h'].'<cust>  GRUPO '.$ecogrf.$indiba.'</cust><toltip/>'
           . '</div>';
         break;
@@ -40,7 +40,7 @@ function printEvents($lst){
         echo '<div '
         . 'data-id="'.$item['id'].'" '
         . 'data-name="'. strtolower($item['name']).'" '
-        . 'class="eventType_'.$item['coach'].' events">'
+        . 'class="eventType_'.$item['user'].' events">'
           .$hour.'<cust>'.str_limit($item['name'],10).$ecogrf.$indiba.'</cust>'
             .'<toltip/>'
         . '</div>';
@@ -75,7 +75,7 @@ $cWeek = (date('W',$days[0]['time']) == $thisWeek) ? 'id="cweek"' : '';
                 if (isset($avails[$d['time']]) && isset($avails[$d['time']][$i]) && count($avails[$d['time']][$i])){
                   $avail = '';
                   foreach ($avails[$d['time']][$i] as $cID)
-                    $avail .='<span class="dateAvail coach_'.$cID.'"></span>';
+                    $avail .='<span class="dateAvail user_'.$cID.'"></span>';
                 }
                   
                 ?>
