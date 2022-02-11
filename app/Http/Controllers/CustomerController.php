@@ -19,7 +19,7 @@ class CustomerController extends Controller {
   use ValoracionTraits,ClientesTraits;
   
   public function newCustomer(Request $request) {
-    return view('admin.usuarios.clientes.forms.new');
+    return view('admin.clientes.forms.new');
   }
   
   public function saveCustomer(Request $request) {

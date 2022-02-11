@@ -6,8 +6,8 @@ use Illuminate\Console\Command;
 use Log;
 use App\Services\LogsService;
 use App\Models\User;
-use App\Models\CoachRates;
-use App\Models\CoachLiquidation;
+use App\Models\UsersRates;
+use App\Models\UsersLiquidation;
 use App\Services\CoachLiqService;
 
 class Salary extends Command {
@@ -57,14 +57,14 @@ class Salary extends Command {
               ->where('status', 1)->pluck('id');
       
       foreach ($customers as $uID) {
-        $taxCoach = CoachRates::where('customer_id', $uID)->first();
+        $taxCoach = UsersRates::where('customer_id', $uID)->first();
         if ($taxCoach) {
-            $oLiq = CoachLiquidation::where('user_id', $uID)
+            $oLiq = UsersLiquidation::where('user_id', $uID)
               ->whereYear('date_liquidation', '=', $year)
               ->whereMonth('date_liquidation', '=', $month)
               ->first();
             if (!$oLiq){
-              $oLiq = new CoachLiquidation();
+              $oLiq = new UsersLiquidation();
               $oLiq->date_liquidation = "$year-$month-01";
               $oLiq->user_id = $uID;
               $oLiq->salary = $taxCoach->salary;

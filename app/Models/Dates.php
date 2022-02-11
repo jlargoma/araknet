@@ -37,9 +37,9 @@ class Dates extends Model
       $dateTime = strtotime($this->date);
       return date('H:i',$dateTime);
     }
-    public function costumer()
+    public function customer()
     {
-        return $this->hasOne('\App\Models\Costumers', 'id', 'customer_id');
+        return $this->hasOne('\App\Models\Customers', 'id', 'customer_id');
     }
     
     

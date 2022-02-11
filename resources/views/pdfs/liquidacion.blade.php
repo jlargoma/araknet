@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Liquidación de <?php echo $mes ?> de {{ $customer->name }}</title>
+        <title>Liquidación de <?php echo $mes ?> de {{ $user->name }}</title>
         <!-- Latest compiled and minified CSS & JS -->
         <style type="text/css">
             body{max-width: 800px; margin-top: 25px;}
@@ -56,7 +56,7 @@
     </head>
     <body>
         <h1 >Liquidación <?php echo $mes ?></h1>
-        <h2 ><?php echo strtoupper($customer->name) ?></h2>
+        <h2 ><?php echo strtoupper($user->name) ?></h2>
             <table class="table">
                 <thead>
                     <tr>

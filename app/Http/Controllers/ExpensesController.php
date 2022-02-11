@@ -7,9 +7,9 @@ use App\Http\Requests;
 use \Carbon\Carbon;
 use DB;
 use App\Models\Expenses;
-use App\Models\CoachLiquidation;
+use App\Models\UsersLiquidation;
 use App\Models\User;
-use App\Services\CoachLiqService;
+use App\Services\UsersLiqService;
 
 class ExpensesController extends Controller {
 
@@ -105,11 +105,11 @@ class ExpensesController extends Controller {
 
 
     //---------------------------------------------------------//
-    $sCoachLiq = new \App\Services\CoachLiqService();
+    $sUserLiq = new \App\Services\UsersLiqService();
     for($i=0;$i<3;$i++){
       $auxYear = $year-$i;
-      $aCoachLiq = $sCoachLiq->liqByMonths($auxYear);
-      foreach ($aCoachLiq['aLiq'] as $liq){
+      $aUserLiq = $sUserLiq->liqByMonths($auxYear);
+      foreach ($aUserLiq['aLiq'] as $liq){
         foreach ($liq as $month=>$t){
           $yearMonths[$auxYear][$month] += $t;
           if ($i == 0){
@@ -299,7 +299,7 @@ class ExpensesController extends Controller {
   
   function byType($type){
     $year = getYearActive();
-    if ($type != 'pt'){
+    if ($type != 'users'){
       $gTypeGroup = Expenses::getTypesGroup();
       $aTypeLst = Expenses::getTypes();
       if (!isset($gTypeGroup['names'][$type])){
@@ -323,8 +323,10 @@ class ExpensesController extends Controller {
 //      dd($gTypeGroup);
       include_once app_path().'/Blocks/PyG_Expenses.php';
     } else {
-      $sCoachLiq = new \App\Services\CoachLiqService();
-      $data = $sCoachLiq->liqByCoachMonths($year);
+      $sUserLiq = new \App\Services\UsersLiqService();
+      $data = $sUserLiq->liqByUserMonths($year);
+      $oUser = new \App\Models\User();
+      $roles = $oUser->roles;
       include_once app_path().'/Blocks/PyG_users.php';
     }
   }

@@ -110,11 +110,11 @@ if (isset($b_aux[$status])) $b_aux[$status] = 'btn-success';
       <i class="fa fa-5x fa-circle-o-notch fa-spin"></i><br><span class="font-s36">CARGANDO</span>
     </div>
     <div class="col-md-12" id="containerTableResult" style="display: none;">
-      @include('/admin/usuarios/clientes/table')
+      @include('/admin/clientes/table')
     </div>
   </div>
 </div>
-@include('/admin/usuarios/clientes/modals')
+@include('/admin/clientes/modals')
 @endsection
 
 
@@ -129,5 +129,5 @@ if (isset($b_aux[$status])) $b_aux[$status] = 'btn-success';
   <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
 <script src="{{ asset('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
 
-@include('/admin/usuarios/clientes/scripts')
+@include('/admin/clientes/scripts')
 @endsection

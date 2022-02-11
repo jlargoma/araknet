@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\CoachLiquidation;
+use App\Models\UsersLiquidation;
 use App\Models\User;
-use App\Models\CoachRates;
+use App\Models\UsersRates;
 use App\Models\Dates;
 
-class CoachLiqService {
+class UsersLiqService {
 
   function liqByMonths($year, $type = null) {
 
@@ -20,17 +20,17 @@ class CoachLiqService {
     if ($type == 'desactivados')
       $sql->where('status', 0);
 
-    $customers = $sql->orderBy('status', 'DESC')->get();
+    $lstUsers = $sql->orderBy('status', 'DESC')->get();
     $aux = [];
     for ($i = 1; $i < 13; $i++)
       $aux[$i] = 0;
 
-    foreach ($customers as $u) {
+    foreach ($lstUsers as $u) {
       $aLiq[$u->id] = $aux;
     }
     //---------------------------------------------------------------//
     // Get Saved liquidations
-    $oLiquidations = CoachLiquidation::whereYear('date_liquidation', '=', $year)->get();
+    $oLiquidations = UsersLiquidation::whereYear('date_liquidation', '=', $year)->get();
     if ($oLiquidations) {
       foreach ($oLiquidations as $liq) {
         if (!isset($aLiq[$liq->user_id])) {
@@ -43,14 +43,14 @@ class CoachLiqService {
 
     //---------------------------------------------------------------//
     // Calculate total
-    foreach ($customers as $u) {
+    foreach ($lstUsers as $u) {
       $aLiqTotal[$u->id] = array_sum($aLiq[$u->id]);
     }
 
     return [
         'months' => $months,
         'year' => $year,
-        'users' => $customers,
+        'lstUsers' => $lstUsers,
         'aLiq' => $aLiq,
         'aLiqTotal' => $aLiqTotal,
     ];
@@ -60,7 +60,7 @@ class CoachLiqService {
     $lstMonts = lstMonthsSpanish();
     $typePT = 2;
 
-    $taxCoach = CoachRates::where('customer_id', $id)->first();
+    $taxCoach = UsersRates::where('user_id', $id)->first();
 
     $ppc = $salary = $comm = $pppt = $ppcg = 0;
     if ($taxCoach) {
@@ -72,7 +72,7 @@ class CoachLiqService {
     }
     //---------------------------------------------------------------//
 
-    $oLiq = CoachLiquidation::where('user_id', $id)
+    $oLiq = UsersLiquidation::where('user_id', $id)
             ->whereYear('date_liquidation', '=', $year)
             ->whereMonth('date_liquidation', '=', $month)
             ->first();
@@ -82,15 +82,13 @@ class CoachLiqService {
     }
     //---------------------------------------------------------------//
     /** @ToDo ver si es sólo citas o todos los cobros */
-    $oTurnos = Dates::where('user_id', $id)
+    $oTurnos = Dates::where('appointment.user_id', $id)
             ->whereMonth('date', '=', $month)
             ->whereYear('date', '=', $year)
-            ->join('users_rates', 'users_rates.id', '=', 'customers_rate_id')
-            ->with('user')->with('service')->with('uRates')
+            ->join('customers_rates', 'customers_rates.id', '=', 'customers_rate_id')
+            ->with('customer')->with('service')->with('cRates')
             ->orderBy('date')
             ->get();
-//            ->whereNotNull('users_rates.charge_id')
-
     $totalClase = array();
     $pagosClase = array();
     $classLst = [];
@@ -105,10 +103,10 @@ class CoachLiqService {
         }
 
         $import = 0;
-        if ($item->uRates && $item->uRates->charges)
-          $import = $item->uRates->charges->import;
+        if ($item->cRates && $item->cRates->charges)
+          $import = $item->cRates->charges->import;
         else{
-          if ($item->uRates) $import = $item->uRates->price;
+          if ($item->cRates) $import = $item->cRates->price;
         }
 
         $totalClase[$key] += $import * $comm;
@@ -123,7 +121,7 @@ class CoachLiqService {
         $time = strtotime($item->date);
         $className = date('d', $time) . ' de ' . $lstMonts[date('n', $time)];
         $className .= ' a las ' . date('h a', $time);
-        $className .= ' (cliente : ' . $item->user->name . ')';
+        $className .= ' (cliente : ' . $item->customer->name . ')';
         $pagosClase[$key][] = $className;
       }
     }
@@ -198,14 +196,14 @@ class CoachLiqService {
 
     
 //---------------------------------------------------------------//
-  function liqByCoachMonths($year) {
+  function liqByUserMonths($year) {
 
     $aux = ['username'=>'Usuario no encontrado','role'=>''];
     for ($i = 1; $i < 13; $i++)  $aux[$i] = 0;
     $aLiq = [];
     //---------------------------------------------------------------//
     // Get Saved liquidations
-    $oLiquidations = CoachLiquidation::whereYear('date_liquidation', '=', $year)->get();
+    $oLiquidations = UsersLiquidation::whereYear('date_liquidation', '=', $year)->get();
     if ($oLiquidations) {
       foreach ($oLiquidations as $liq) {
         if (!isset($aLiq[$liq->user_id])) {

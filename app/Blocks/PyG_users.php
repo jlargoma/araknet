@@ -19,32 +19,7 @@
       <tr>
         <td class="t-left"><b><?php echo $d['username']; ?></b></td>
         <td > 
-          <?php
-          switch ($d['role']) {
-            case 'admin';
-            case 'administrativo';
-              echo 'Admin';
-              break;
-            case 'teach';
-              echo 'P.T.';
-              break;
-            case 'nutri';
-              echo 'Nutri';
-              break;
-            case 'fisio';
-              echo 'Fisio';
-              break;
-            case 'teach_nutri';
-              echo 'P.T. / Nutri';
-              break;
-            case 'teach_fisio';
-              echo 'P.T. / Fisio';
-              break;
-            case 'empl';
-              echo 'Empleado';
-              break;
-          }
-          ?>
+          <?php showIsset($d['role'], $roles) ?>
         </td>
         <td >
         <?php

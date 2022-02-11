@@ -7,7 +7,7 @@ use \Carbon\Carbon;
 use DB;
 use App\Models\Expenses;
 use App\Models\Charges;
-use App\Services\CoachLiqService;
+use App\Services\UsersLiqService;
 use App\Models\User;
 
 class PyGController extends Controller {
@@ -67,33 +67,7 @@ class PyGController extends Controller {
       $rateGr = isset($aRates[$c->rate_id]) ? $aRates[$c->rate_id] : 3;
       $crLst[$rateGr][$m] += $c->import;
     }
-    //--------------------------------------------------------------------//
-    $oBonos = Charges::whereYear('date_payment', '=', $year)
-              ->where('bono_id','>',0)->get();
-    $oRateTypes['bono'] = 'BONOS SUELTOS';
-    $crLst['bono'] = $months_empty;
-    foreach ($oBonos as $c){
-      $m = intval(substr($c->date_payment,5,7));
-      $rateType = isset($lstBonos[$c->bono_id]) ? $lstBonos[$c->bono_id] : null;
-      
-      if (isset($crLst[$rateType])){
-        $crLst[$rateType][$m] += $c->import;
-      } else {
-        $crLst['bono'][$m] += $c->import;
-      }
-      
-      switch ($c->type_payment){
-        case 'cash':
-          $pay_method['c'][$m] += $c->import;
-          break;
-        case 'card':
-          $pay_method['v'][$m] += $c->import;
-          break;
-        case 'banco':
-          $pay_method['b'][$m] += $c->import;
-          break;
-      }
-    }
+
     //--------------------------------------------------------------------//
     $aux = $months_empty;
     foreach ($crLst as $k=>$v){
@@ -142,18 +116,18 @@ class PyGController extends Controller {
       }
     }
     //---------------------------------------------------------//
-    $ggMonth['pt'] = $months_empty;
-    $gTypeGroup['names']['pt'] = 'SUELDOS Y SALARIOS';
-    $CoachLiqService = new \App\Services\CoachLiqService();
+    $ggMonth['users'] = $months_empty;
+    $gTypeGroup['names']['users'] = 'SUELDOS Y SALARIOS';
+    $UsersLiqService = new \App\Services\UsersLiqService();
     for($i=0;$i<3;$i++){
       $auxYear = $year-$i;
-      $sCoachLiq = $CoachLiqService->liqByMonths($auxYear);
+      $sCoachLiq = $UsersLiqService->liqByMonths($auxYear);
       
       foreach ($sCoachLiq['aLiq'] as $liq){
         foreach ($liq as $m=>$t){
           $expensesYear[$auxYear]  += $t;
           if ($i == 0){
-            $ggMonth['pt'][$m] += $t;
+            $ggMonth['users'][$m] += $t;
             $aux[$m] += $t;
             $aux[0] += $t;
           }
@@ -165,7 +139,7 @@ class PyGController extends Controller {
     
     /***************************************/
     $oUser = new User();
-    $subscs = \App\Models\UsersSuscriptions::count();
+    $subscs = \App\Models\CustomersSuscriptions::count();
     $uActivs = User::where('status',1)->count();
     /***************************************/
         

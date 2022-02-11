@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Carbon\Carbon;
 use DB;
 use \App\Models\User;
+use App\Models\Customers;
 use App\Models\Charges;
 
 class InformesController extends Controller {
@@ -29,27 +30,21 @@ class InformesController extends Controller {
      * @param type $type_payment
      * @return type
      */
-    private function getCharges($year,$month,$day,$search=null,$type_payment=null,$rate=null,$f_coach=null) {
+    private function getCharges($year,$month,$day,$search=null,$type_payment=null,$rate=null,$f_user=null) {
         $sql_charges = Charges::where('import', '!=', 0);
-        $sql_CashBox = \App\Models\CashBox::where('import', '!=', 0)
-                ->where('type', 'INGRESO');
-        
         if ($search){
             $search = trim($search);
             $cliIDs = User::where('name', 'LIKE', "%" . $search . "%")->pluck('id');
             $sql_charges->whereIn('customer_id',$cliIDs);
-            $sql_CashBox->where('concept', 'LIKE', "%" . $search . "%");
         }
         
         if ($day == "all") {
             $starDate = "$year-$month-01";
             $endDate = date("Y-m-t", strtotime($starDate));
             $sql_charges->where('date_payment', '>=', $starDate)->where('date_payment', '<=', $endDate);
-            $sql_CashBox->where('date', '>=', $starDate)->where('date', '<=', $endDate);
         } else {
             $starDate = "$year-$month-$day";
             $sql_charges->where('date_payment', '=', $starDate);
-            $sql_CashBox->where('date', '=', $starDate);
         }
 
         if ($type_payment && $type_payment != 'all'){
@@ -68,17 +63,13 @@ class InformesController extends Controller {
           }
         }
         //------------------------------------------------------------//
-        if($f_coach){
-          $uR_IDs = \App\Models\CustomersRates::where('coach_id',$f_coach)->pluck('charge_id');
+        if($f_user){
+          $uR_IDs = \App\Models\CustomersRates::where('user_id',$f_user)->pluck('charge_id');
           $sql_charges->whereIn('id', $uR_IDs);
         }
         //------------------------------------------------------------//
-        
-        
         $charges = $sql_charges->orderBy('date_payment')->get();
-        $extrasCharges = $sql_CashBox->orderBy('date')->get();
-        //------------------------------------------------------------//
-        $usersService = new \App\Services\usersService();
+        $usersService = new \App\Services\UsersService();
         $aCargesusers = $usersService->getusersCharge($sql_charges->pluck('id'));
         //------------------------------------------------------------//
 
@@ -104,13 +95,6 @@ class InformesController extends Controller {
             }
         }
 
-        /* EXTRAS OF CASH (VENDING... CURSOS... ) */
-
-        if ($extrasCharges) {
-            foreach ($extrasCharges as $index => $charge) {
-                $cash += $charge->import;
-            }
-        }
         $endDay =  date("t", strtotime($starDate));
         $aUsers =  User::whereIn('id', $clients)->get()
                         ->pluck('name', 'id')->toArray();
@@ -119,7 +103,6 @@ class InformesController extends Controller {
         
         return [
             'charges' => $charges,
-            'extrasCharges' => $extrasCharges,
             'cash' => $cash,
             'aCargesusers' => $aCargesusers,
             'card' => $card,
@@ -202,7 +185,7 @@ class InformesController extends Controller {
     }
     
     
-    public function informeClienteMes(Request $request,$month=null,$day=null,$f_rate=null,$f_method=null,$f_coach=null) {
+    public function informeClienteMes(Request $request,$month=null,$day=null,$f_rate=null,$f_method=null,$f_user=null) {
 
         $year = getYearActive();
         if (!$month)
@@ -210,7 +193,7 @@ class InformesController extends Controller {
         if (!$day)
             $day = 'all';
 
-        $data = $this->getCharges($year,$month,$day,null,$f_method,$f_rate,$f_coach);
+        $data = $this->getCharges($year,$month,$day,null,$f_method,$f_rate,$f_user);
         $lstMonthsSpanish = lstMonthsSpanish();
         unset($lstMonthsSpanish[0]);
         $data['months'] =  $lstMonthsSpanish;
@@ -238,7 +221,7 @@ class InformesController extends Controller {
         $data['filt_rate']= $f_rate;
         $data['filt_method']= $f_method;
         /*****************************************************************/
-        $data['f_coach']= $f_coach;
+        $data['f_user']= $f_user;
         $data['aTRates']= \App\Models\Rates::getRatesTypeRates();
         $data['ausers']= User::getusers()->pluck('name','id');
         return view('admin.informes.informeClientesMes',$data);
@@ -308,7 +291,7 @@ class InformesController extends Controller {
         $uResult = [];
         $tusers = [];
         $uRates = \App\Models\CustomersRates::select(
-                'users_rates.*','charges.type_payment',
+                'customers_rates.*','charges.type_payment',
                 'charges.import','charges.discount')
                 ->where('rate_year',$year)
                 ->where('rate_month',$month)
@@ -320,23 +303,23 @@ class InformesController extends Controller {
 
             $uResult[$uR->customer_id][] = [
                 $uR->rate_id,
-                $uR->coach_id,
+                $uR->user_id,
                 $uR->type_payment,
                 $uR->import,
                 $uR->discount,
                 isset($aRrt[$uR->rate_id]) ? $aRrt[$uR->rate_id] : null
             ];
 
-            if (!isset($tusers[$uR->coach_id])) $tusers[$uR->coach_id] = 0;
+            if (!isset($tusers[$uR->user_id])) $tusers[$uR->user_id] = 0;
             
-            $tusers[$uR->coach_id] += $uR->import;
+            $tusers[$uR->user_id] += $uR->import;
           }
         }
         
         
         
 
-        $aCustomers = User::whereIn('id',array_keys($uResult))
+        $aCustomers = Customers::whereIn('id',array_keys($uResult))
                 ->pluck('name','id')->toArray();
         $ausers = User::whereIn('id', array_keys($tusers))
                 ->pluck('name','id')->toArray();

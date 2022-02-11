@@ -46,7 +46,7 @@ use \Carbon\Carbon; ?>
             <thead>
               <tr>
                 <th class="text-left bg-complete font-w800">Cliente</th>
-                <th class="text-center bg-complete font-w800">Coach</th>
+                <th class="text-center bg-complete font-w800">Usuario</th>
                 <th class="text-center bg-complete font-w800">Precio</th>
                 <th class="text-center bg-complete font-w800">Tarifa</th>
               </tr>
@@ -59,14 +59,14 @@ use \Carbon\Carbon; ?>
               ?>
               @foreach($lst as $item)
               <?php 
-                $coach = $item[1];
+                $user = $item[1];
                 $import = $item[3];
                 $rType = $item[5];
               ?>
               <tr>
                 <td class="text-left">{{$cname}}</td>
                 <td class="text-center">
-                   <?php echo isset($ausers[$coach]) ? $ausers[$coach] : '-'; ?>
+                   <?php echo isset($ausers[$user]) ? $ausers[$user] : '-'; ?>
                 </td>
                 <td class="text-center">
                    <?php echo isset($aRType[$rType]) ? $aRType[$rType] : '-'; ?>
@@ -99,7 +99,7 @@ use \Carbon\Carbon; ?>
             <table class="table table-striped table-header-bg">
               <thead>
                 <tr>
-                  <th class="text-left bg-complete font-w800 static">Coach</th>
+                  <th class="text-left bg-complete font-w800 static">Usuario</th>
                   <th class="text-center bg-complete font-w800">Total</th>
                 </tr>
               </thead>

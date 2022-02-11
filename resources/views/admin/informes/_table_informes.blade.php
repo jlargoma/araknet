@@ -10,33 +10,10 @@
             <th class="text-center">Importe</th>
             <th class="text-center">MES</th>
             <th class="text-center">Forma pago</th>
-            <th class="text-center">ENTRENADOR/FISIO</th>
+            <th class="text-center">Usuario</th>
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($extrasCharges as $charge): ?>
-        <tr>
-            <td class="text-center sorting_disabled"></td>
-            <td class="text-center"><b>{{dateMin($charge->date)}}</b></td>
-            <td class="text-center">
-		        <b><?php  echo (!empty($charge->comment)) ?strtoupper($charge->comment) : strtoupper($charge->concept) ?></b>
-            </td>
-            <td class="text-center">
-                <b><?php  echo strtoupper($charge->concept) ?></b>
-            </td>
-            <td class="text-center">
-                
-            </td>
-            <td class="text-center">
-                <b><?php  echo $charge->import; ?> €</b>
-            </td>
-            <td class="text-center">
-                <b>METALICO</b>
-            </td>
-            <td class="text-center">
-            </td>
-        </tr>
-        <?php endforeach ?>
 		<?php foreach ($charges as $charge): ?>
         <tr>
             <td class="text-center sorting_disabled">{{$charge->id}}</td>
@@ -86,12 +63,12 @@
             </td>
             <td class="text-center">
                 <?php 
-                $coach = '--';
+                $user = '--';
                 if (isset($aCargesusers[$charge->id])){
                   $aux = $aCargesusers[$charge->id];
-                  $coach = isset($ausers[$aux]) ? $ausers[$aux]: '--'; 
+                  $user = isset($ausers[$aux]) ? $ausers[$aux]: '--'; 
                 }
-                echo $coach;
+                echo $user;
                 ?>
             </td>
         </tr>

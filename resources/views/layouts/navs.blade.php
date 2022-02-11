@@ -22,14 +22,9 @@ $uRole = Auth::user()->role;
     <a href="{{url('/admin/tarifas/listado')}}" class="font-w600"><i class="fa fa-thumb-tack"></i> <span class="sidebar-mini-hide font-w600">Servicios</span></a>
   </li>
   @if($uRole == "admin")
-  <li class="{{ str_contains($path,'admin/entrenadores') ? 'active' : '' }}">
-    <a href="{{ url('/admin/entrenadores/activos') }}" >
+  <li class="{{ str_contains($path,'admin/usuario') ? 'active' : '' }}">
+    <a href="{{ url('/admin/usuario/activos') }}" >
       <i class="fa fa-hand-rock-o"></i><span class="sidebar-mini-hide font-w600">COMISIONES E INSTALACIONES</span>
-    </a>
-  </li>
-  <li class="{{ $path == 'admin/usuarios' ? 'active' : '' }}">
-    <a href="{{ url('/admin/usuarios') }}" >
-      <i class="fa fa-users"></i><span class="sidebar-mini-hide font-w600">Usuarios</span>
     </a>
   </li>
   <li class="{{ $path == 'admin/ingresos' ? 'active' : '' }}">

@@ -75,7 +75,7 @@ trait ClientesTraits {
       $monthAux = date('m', $next);
       $yearAux = date('Y', $next);
     }
-
+    
     if (count($detail) > 0) {
       $aux = '';
       foreach ($detail as $item) {
@@ -91,7 +91,7 @@ trait ClientesTraits {
     } else {
       $detail = null;
     }
-    return view('/admin/usuarios/clientes/index', [
+    return view('/admin/clientes/index', [
         'customers' => $customers,
         'month' => $month,
         'year' => $year,
@@ -120,7 +120,8 @@ trait ClientesTraits {
     $payments = $noPay = 0;
     $uLstRates = [];
     if ($cRates) {
-      /*       * ****************************** */
+     
+      /* ------------------------------------------- */
       $aDates = Dates::whereIn('customers_rate_id', $cRates->pluck('id'))
                       ->pluck('date', 'customers_rate_id')->toArray();
 
@@ -188,7 +189,7 @@ trait ClientesTraits {
     $oCustomer = $cRates->customer;
     $oRates = $cRates->rate;
     
-    return view('/admin/usuarios/clientes/cobro', [
+    return view('/admin/clientes/cobro', [
         'rate' => $oRates,
         'customer' => $oCustomer,
         'importe' => ($cRates->price == null) ? $oRates->price : $cRates->price,
@@ -259,7 +260,6 @@ trait ClientesTraits {
         $totalUser[$i] = $resp[1];
         $totalUserNPay[$i] = $resp[2];
         $detail[] = $resp[3];
-        $uLstRates[$i]['bonos'] = [];
       }
     }
 
@@ -325,7 +325,7 @@ trait ClientesTraits {
     $btnEncuesta = $code . '/' . getKeyControl($code);
 
     /*     * ***************************** */
-    return view('/admin/usuarios/clientes/informe', [
+    return view('/admin/clientes/informe', [
         'aRates' => $aRates,
         'atypeRates' => $typeRates,
         'rNames' => $rNames,
@@ -366,7 +366,7 @@ trait ClientesTraits {
     $oCustomer = Customers::find($request->customer_id);
     $rateFamily = \App\Models\Rates::getTypeRatesGroups(false);
 
-    return view('admin.usuarios.clientes._rate_charge', [
+    return view('admin.clientes._rate_charge', [
         'customer' => $oCustomer,
         'users' => User::getusers(),
         'rates' => Rates::orderBy('status', 'desc')->orderBy('name', 'asc')->get(),

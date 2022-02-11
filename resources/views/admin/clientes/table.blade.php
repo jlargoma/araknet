@@ -64,9 +64,9 @@
                     if ($auxMonth>12) $auxMonth = 1;
                     $textAux = '';
                     $auxPend = 0;
-                    if (isset($uRates[$i][$customer->id])):
+                    if (isset($cRates[$i][$customer->id])):
                       if ($pending == null) $pending = false;
-                      foreach ($uRates[$i][$customer->id] as $rate):
+                      foreach ($cRates[$i][$customer->id] as $rate):
                         foreach ($rate as $r):
                           if($r['paid']):
                             $auxPay[$i] += $r['price'];

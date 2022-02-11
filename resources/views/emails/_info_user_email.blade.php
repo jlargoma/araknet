@@ -2,11 +2,11 @@
 $tit = 'Acceso a Control de asistencia ';
 ?>
 @include('emails.head')
-Hola! <?php echo $customer->name ?><br><br><br>
+Hola! <?php echo $user->name ?><br><br><br>
 
 <p>Te adjuntamos tu usuario y contraseña:</p>
-<b>Usuario:</b> <?php echo $customer->email; ?><br>
-<b>Password:</b> <?php echo $customer->email; ?><br><br>
+<b>Usuario:</b> <?php echo $user->email; ?><br>
+<b>Password:</b> <?php echo $user->email; ?><br><br>
 
 <b> 
     Para entrar en tu sección, al final del mes se te enviara la liquidación , no olvides registrar los clientes que vienen a clase y asignarte como monitor de esa clase.

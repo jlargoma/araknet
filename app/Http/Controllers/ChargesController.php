@@ -33,7 +33,7 @@ class ChargesController extends Controller {
         'taxes' => Rates::all(),
         'rate' => Rates::find($charge->rate_id),
         'date' => $date,
-        'customer' => $charge->user,
+        'customer' => $charge->customer,
         'importe' => $charge->import,
         'charge' => $charge,
         'user_id' => $user_id,

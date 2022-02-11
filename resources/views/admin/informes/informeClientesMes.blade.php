@@ -79,12 +79,12 @@ use \Carbon\Carbon; ?>
         </select>
       </div>
       <div class="col-md-3 col-xs-6">
-        <label>ENTRENADOR/FISIO</label>
-        <select id="f_coach" class="form-control">
+        <label>Usuario</label>
+        <select id="f_user" class="form-control">
           <option></option>
           <?php
           foreach ($ausers as $id => $name):
-            $sel = ($f_coach == $id) ? 'selected' : '';
+            $sel = ($f_user == $id) ? 'selected' : '';
             ?>
             <option value="{{$id}}" <?php echo $sel; ?>>{{$name}}</option>
             <?php
@@ -106,15 +106,15 @@ use \Carbon\Carbon; ?>
 @endsection
 @section('scripts')
 <script type="text/javascript">
-  $('#date, #month, #day,#f_rate,#f_method,#f_coach').change(function (event) {
+  $('#date, #month, #day,#f_rate,#f_method,#f_user').change(function (event) {
 
     var year = $('#date').val();
     var month = $('#month').val();
     var day = $('#day').val();
     var f_rate = $('#f_rate').val();
     var f_method = $('#f_method').val();
-    var f_coach = $('#f_coach').val();
-    window.location = '/admin/informes/cliente-mes/' + month + '/' + day + '/' + f_rate + '/' + f_method + '/' + f_coach;
+    var f_user = $('#f_user').val();
+    window.location = '/admin/informes/cliente-mes/' + month + '/' + day + '/' + f_rate + '/' + f_method + '/' + f_user;
   });
 
   $('#searchInform').keydown(function (evt) {

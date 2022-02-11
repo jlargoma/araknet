@@ -12,19 +12,19 @@
 </div>
 <div class="tab-content box">
   <div id="datos" class="tab-pane fade <?php if ($tab == 'datos') echo 'in active'; ?>">
-      @include('admin.usuarios.clientes.forms.data')
+      @include('admin.clientes.forms.data')
   </div>
   <div id="history" class="tab-pane fade <?php if ($tab == 'history') echo 'in active'; ?>">
-        @include('admin.usuarios.clientes.forms.history')
+        @include('admin.clientes.forms.history')
   </div>
   <div id="notes" class="tab-pane fade <?php if ($tab == 'notes') echo 'in active'; ?>">
-        @include('admin.usuarios.clientes.forms.notes')
+        @include('admin.clientes.forms.notes')
   </div>
   <div id="consent" class="tab-pane fade <?php if ($tab == 'consent') echo 'in active'; ?>">
-        @include('admin.usuarios.clientes.forms.contracts')
+        @include('admin.clientes.forms.contracts')
   </div>
   <div id="invoice" class="tab-pane fade <?php if ($tab == 'invoice') echo 'in active'; ?>">
-        @include('admin.usuarios.clientes.forms.invoice')
+        @include('admin.clientes.forms.invoice')
   </div>
 </div>
 <div class="row">

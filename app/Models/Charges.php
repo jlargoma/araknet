@@ -25,11 +25,9 @@ class Charges extends Model
     static function getSumYear($year)
     {
       
-      $rates = self::join('users_rates', 'charge_id', 'charges.id')
+      $rates = self::join('customers_rates', 'charge_id', 'charges.id')
                 ->where('rate_year',$year)
                 ->sum('import');
-      $bono = self::whereYear('date_payment', '=', $year)
-              ->where('bono_id','>',0)->sum('import');
-      return ($rates+$bono);
+      return $rates;
     }
 }
