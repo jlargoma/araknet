@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-4">
                       {{convertDateToShow_text(date('Y-m-d',$dateTime),true)}}
-                      <button class="btn editNote" data-id="{{$v->id}}" data-note="{{$v->note}}" data-coach="{{$v->user_id}}">Editar</button>
+                      <button class="btn editNote" data-id="{{$v->id}}" data-note="{{$v->note}}" data-uid="{{$v->user_id}}">Editar</button>
                     </div>
                   </div>
                   <p>{{$v->note}}</p>
@@ -33,12 +33,12 @@
     <div class="col-md-4 col-xs-12">
         <form  action="{{ url('/admin/cliente/notes') }}" method="post">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-            <input type="hidden" name="uid" value="{{ $customer->id }}">
+            <input type="hidden" name="c_id" value="{{ $customer->id }}">
             <input type="hidden" name="id" id="noteID" value="">
             <div class="form-simple">
                 <label for="name">Usuario</label>
-                <select class="form-control" name="coach" id="coach_note">
-                  <option>Personal</option>
+                <select class="form-control" name="uid" id="user_note" required="">
+                  <option value="">Personal</option>
                   @foreach($allUsers as $id=>$c)
                   <option value="{{$id}}" @if($id == $u_current) selected @endif>{{$c->n}}</option>
                   @endforeach

@@ -107,7 +107,7 @@
             e.preventDefault();
             $('#noteID').val($(this).data('id'));
             $('#note').val($(this).data('note'));
-            $('#coach_note').val($(this).data('coach'));
+            $('#user_note').val($(this).data('uid'));
             $('#delNote').show();
             $('#newNote').show();
         });
@@ -167,9 +167,29 @@
         
         
         /**************************************************/
-        $('.sendConsent').on('click', function () {
+        $('.goContracts').on('click', function () {
           var type = $(this).closest('tr').data('id');
-          var posting = $.post('/admin/cliente/send-consent', {
+          var posting = $.post('/admin/cliente/link-contrato', {
+            _token: '{{csrf_token()}}',
+            customer_id: {{$customer->id}},
+            type: type
+          });
+          posting.done(function (data) {
+            if (data[0] == 'OK') {
+              window.open(data[1], '_blank').focus();
+            } else {
+              window.show_notif('error', data[1]);
+            }
+          });
+          posting.fail(function (data) {
+            window.show_notif('error', 'UPs, algo salió mal');
+          });
+          
+          
+        });
+        $('.sendContract').on('click', function () {
+          var type = $(this).closest('tr').data('id');
+          var posting = $.post('/admin/cliente/enviar-contrato', {
             _token: '{{csrf_token()}}',
             customer_id: {{$customer->id}},
             type: type
@@ -240,6 +260,8 @@
          var href =$(this).attr('href');
          window.history.pushState("", "", newURL+href.slice(1));
        });
+       
+       /*----------------------------------------------------*/
     });
 
   @if($detail)

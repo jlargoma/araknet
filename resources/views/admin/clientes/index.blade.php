@@ -22,9 +22,35 @@
     padding: 6px;
     display: inline-block;
     cursor: pointer;
+    margin-right: 2px;
   }
 
-  .openUser{cursor: pointer}
+ .openUser b {
+    white-space: nowrap;
+}
+.openUser {
+    cursor: pointer;
+    max-width: 110px;
+    overflow: auto;
+    display: block;
+   } 
+    .openUser::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.openUser {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+
+}
+th.text-center.sorting_disabled {
+    width: 0px !important;
+}
+td.text-center.tc4 {
+    white-space: nowrap;
+}
   .no-pay{
     color: #c54b4b;
     font-weight: bold;

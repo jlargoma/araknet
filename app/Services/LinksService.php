@@ -27,4 +27,19 @@ class LinksService {
     foreach ($data as $k=>$v) $data[$k] = desencriptID($v);
     return $data;
   }
+
+  
+  static function getLinkEncuesta($uID){
+    $code = encriptID($uID).'-'.encriptID(time()*rand());
+    $keys = $code.'/'.getKeyControl($code);
+    $link = URL::to('/encNutri/').'/'.$keys;
+    return $link;
+  }
+  static function getLinkNutriFile($uID){
+    $code = encriptID($uID).'-'.encriptID(time()*rand());
+    $keys = $code.'/'.getKeyControl($code);
+    $link = URL::to('/archivo-nutricion/').'/'.$keys;
+    return $link;
+  }
+  
 }

@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
   Route::post('/cliente/del-note', 'CustomerController@delNotes');
   Route::post('/cliente/sign', 'CustomerController@addSign');
   Route::get('/cliente/sign/{file?}', 'CustomerController@getSign');
-  Route::post('/cliente/enviar-contrato', 'CustomerController@sendConsent');
+  Route::post('/cliente/enviar-contrato', 'CustomerController@sendContract');
   Route::get('/cliente/ver_contrato/{id}/{type}', 'CustomerController@seeConsent');
   Route::get('/cliente/downl-consent/{id}/{type}', 'CustomerController@downlConsent');
   Route::get('/cliente/informe/{id}/{tab?}', 'CustomerController@informe');
@@ -37,7 +37,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
   Route::get('/cliente/nuevo', 'CustomerController@newCustomer');
   Route::post('/cliente/nuevo', 'CustomerController@saveCustomer');
   Route::get('/see-contrato/{id}/{type}', 'CustomerController@seeContracts');
-  Route::post('/clientes/remove-contrato', 'CustomerController@rmContracts');
+  Route::post('/cliente/remove-contrato', 'CustomerController@rmContracts');
+  Route::post('/cliente/link-contrato', 'CustomerController@getLinkContracts');
 
   /* Citas */
   Route::post('/citas/checkDisp', 'CitasController@checkDateDisp');

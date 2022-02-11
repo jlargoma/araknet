@@ -75,7 +75,7 @@
       <h4>PAGAR AHORA</h4>
       <div class="row">
         <div class="col-xs-9 likeOption">
-          <?php $old = old('type_payment', 'card'); ?>
+          <?php $old = old('type_payment', 'justAsign'); ?>
           <input type="hidden" name="type_payment" id="type_payment" value="<?php echo $old; ?>">
           <button  data-v="card"  type="button" <?php if ($old == 'card') echo 'class="active"'; ?>>Tarjeta</button>
           <button  data-v="cash"  type="button" <?php if ($old == 'cash') echo 'class="active"'; ?>>Efectivo</button>

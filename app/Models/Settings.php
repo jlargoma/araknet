@@ -38,6 +38,8 @@ class Settings extends Model {
     $lst = [
         'pago_cuota_mes' => 'Abono de cuota mes en curso',
         'recordatorio_pago' => 'Recordatorio de pago el dia 5 a las 00:01',
+        'contracts_mails' => 'Firmar contratos',
+        'contracts_cesion-antena' => 'CONTRATO DE CESION ANTENA',
     ];
     return $lst;
   }

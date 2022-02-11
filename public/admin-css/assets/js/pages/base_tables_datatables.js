@@ -5,7 +5,7 @@
  */
 var BaseTableDatatables = function() {
   
-    var isMobile=false;
+    var isMobile=true;
     // Init full DataTable, for more examples you can check out https://www.datatables.net/
     var initDataTableFull = function() {
         jQuery('.js-dataTable-full').dataTable({
@@ -227,7 +227,7 @@ var BaseTableDatatables = function() {
 
     return {
         init: function() {
-          if (screen.width<481) isMobile = true;
+//          if (screen.width<481) isMobile = true;
           
             // Init Datatables
 //            bsDataTables();

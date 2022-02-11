@@ -1,5 +1,12 @@
 <?php
 
+Route::get('/firmar/{token}/{control}', 'CustomerController@signContract');
+Route::post('/firmar/{token}/{control}', 'CustomerController@signContractSave');
+Route::get('/ver-contrato/{token}/{control}', 'CustomerController@seeContract');
+Route::get('/public-sign/{file?}', 'CustomerController@getSign');
+
+
+/*
 Route::get('/pago-simple/{type}/{token}/{control}', 'CustomerController@pagoSimple');
 Route::get('/copra-de-bonos/{token}/{control}', 'CustomerController@comprarBonos');
 Route::post('/pago', 'CustomerController@pagar');
@@ -24,3 +31,5 @@ Route::get('/cobro-cancelado', 'CustomerController@paymentCancel')->name('custom
 
 Route::get('/encuesta-nutricion/{token}/{control}', 'CustomerController@formEncuestaNutri');
 Route::post('/encuesta-nutricion', 'CustomerController@setEncNutri');
+ * 
+ */

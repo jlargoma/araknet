@@ -1,34 +1,23 @@
-<?php $auxPay = $auxToPay = [0,0,0]; ?>
+<?php $auxPay = $auxToPay = [];
+for($i=1;$i<13;$i++){
+  $auxPay[$i] = 0;
+  $auxToPay[$i] = 0;
+}
+?>
+
 <table class="table table-striped js-dataTable-full-clients table-header-bg">
     <thead>
         <tr>
             <th class="text-center tc0 hidden-xs hidden-sm"></th>
             <th class="text-center tc1">Nombre Cliente<br></th>
-            <th class="text-center tc2">Acciones</th>
-            <th class="text-center tc3">Tel<span class="hidden-xs hidden-sm">éfono</span><br></th>
+            <th class="text-center">&nbsp;</th>
+            <th class="text-center tc3">Total</th>
+            @for($i=1;$i<13;$i++)
             <th class="text-center tc4">
-                <?php
-                $aux = ($month == 1) ? 12 : $month - 1;
-                echo $months[$aux];
-                ?>
-                <label class="text-danger">{{moneda($toPay[0])}}</label>
+                {{$months[$i]}}
+                <label class="text-danger">{{moneda($toPay[$i])}}</label>
             </th>
-            <th class="text-center tc4">
-                <?php
-                $aux = $month;
-                echo $months[$aux];
-                ?>
-                <label class="text-danger">{{moneda($toPay[1])}}</label>
-            </th>
-            <th class="text-center tc4">
-                <?php
-                $aux = ($month == 12) ? 1 : $month + 1;
-                echo $months[$aux];
-                ?>
-                <label class="text-danger">{{moneda($toPay[2])}}</label>
-            </th>
-            <th class="text-center sorting_desc hidden-xs hidden-sm" id="estado-payment">Estado</th>
-            
+            @endfor
         </tr>
     </thead>
     <tbody>
@@ -48,20 +37,12 @@
                         <i class="fa fa-usd" aria-hidden="true"></i>
                     </button>
                 </td>
-                <td class="text-center tc3">
-                    <span class="hidden-xs hidden-sm"><?php echo $customer->phone; ?></span>
-                    <span class="hidden-lg hidden-md">
-                        <a href="tel:<?php echo $customer->phone; ?>">
-                            <i class="fa fa-phone"></i>
-                        </a>
-                    </span>
-                </td>
+                <?php $tCustPay = isset($custPays[$customer->id]) ? $custPays[$customer->id] : 0;?>
+                <td class="text-center tc3 yb">{{moneda($tCustPay)}}</td>
                 <?php 
-                $auxMonth = $month - 2;
                 $pending = null;
-                for ($i = 0; $i < 3; $i++): 
-                    $auxMonth++;
-                    if ($auxMonth>12) $auxMonth = 1;
+                for ($i = 1; $i < 13; $i++):
+                    
                     $textAux = '';
                     $auxPend = 0;
                     if (isset($cRates[$i][$customer->id])):
@@ -82,22 +63,11 @@
                       endforeach;
                     endif;
                         ?>
-                    <td class="text-center tc4 <?php if($i==1) echo 'yb'; ?>" data-order="<?php echo $auxPend; ?>">
+                    <td class="text-center tc4 yb" data-order="<?php echo $auxPend; ?>">
                           
                           <?php echo $textAux; ?>
                     </td>
                 <?php endfor; ?>
-                <td class="text-center hidden-xs hidden-sm" data-order="<?php echo $pending ? 1 : (($pending === false) ? 0:'');?>" >
-                  <?php 
-                  if ($pending === false){
-                    echo '<i class="fa fa-circle text-success" aria-hidden="true"></i>';
-                  }
-                  if ($pending){
-                    echo '<i class="fa fa-circle text-danger" aria-hidden="true"></i>';
-                  }
-                  ?>
-                </td>
-
             </tr>
         <?php endforeach ?>
     </tbody>
@@ -105,7 +75,7 @@
       <tr>
         <td colspan="4"></td>
         <?php 
-          for ($i = 0; $i < 3; $i++): 
+          for ($i = 1; $i < 13; $i++): 
         ?>
         <td>{{$auxPay[$i]}} / {{$auxToPay[$i]}}</td>
         <?php
