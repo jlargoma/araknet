@@ -331,16 +331,16 @@ function arrayDays($start,$end,$format,$val=0,$includeLast = true){
   $intervalo = new DateInterval('P1D');
   $fin = new DateTime($end);
   $periodo = new DatePeriod($inicio, $intervalo, $fin);
-  
+ 
   foreach ($periodo as $fecha) {
-    if ($val == 'w')
+    if ($val === 'w')
       $allDay[$fecha->format($format)] = $fecha->format('w');
     else 
       $allDay[$fecha->format($format)] = $val;
   }
-  
+   
   if ($includeLast){
-    if ($val == 'w')
+    if ($val === 'w')
       $allDay[$fin->format($format)] = $fin->format('w');
     else 
       $allDay[$fin->format($format)] = $val;

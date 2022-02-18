@@ -5,7 +5,7 @@ use \Carbon\Carbon; ?>
 <?php setlocale(LC_TIME, "es_ES"); ?>
 @extends('layouts.admin-master')
 
-@section('title') INFORME DE CUOTAS PAGADAS - Araknet HTS @endsection
+@section('title') INFORME DE HNTs - Araknet HTS @endsection
 
 @section('externalScripts')
 <style>
@@ -19,69 +19,38 @@ use \Carbon\Carbon; ?>
   option.b {
     font-weight: bold;
   }
+  .customerName {
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-months{
+  text-align: center;
+}
+
 </style>
+<script type="text/javascript" src="/admin-css/assets/js/plugins/chartJs/Chart.min.js"></script>
 @endsection
 @section('content')
 <div class="content content-boxed bg-gray-lighter">
-  <h2 class="text-center">INFORME DE CUOTAS PAGADAS AL MES</h2>
-  <div class="text-center">Listado de cobros realizados por fecha</div>
-  <input type="text" id="searchInform" class="form-control" placeholder="Buscar"/>
-  <input type="hidden" id="_token" name="_token" value="<?php echo csrf_token(); ?>">
-  <div class="row mt-1">
-      <div class="col-md-2 col-xs-3">
-        <label>Mes</label>
-        <select id="month" class="form-control">
-          <?php
-          foreach ($months as $k => $v):
-            $s = ($k == $month) ? 'selected' : '';
-            echo '<option value="' . $k . '" ' . $s . '>' . $v . '</option>';
-          endforeach;
-          ?>
-        </select>
-      </div>
-      <div class="col-md-2 col-xs-3">
-        <label>Dia</label>
-        <select id="day" class="form-control">
-          <option value="all">Todos</option>
-          <?php
-          for ($i = 1; $i <= $endDay; $i++):
-            $s = ($i == $day) ? 'selected' : '';
-            echo '<option value="' . $i . '" ' . $s . '>' . $i . '</option>';
-          endfor;
-          ?>
-        </select>
-      </div>
-      <div class="col-md-3 col-xs-6">
-        <label>Servicio</label>
-        <select id="f_rate" class="form-control">
-          <option value="all">Todos</option>
-          <?php
-          foreach ($rateFilter as $k => $v):
-            $s = ($k == $filt_rate) ? 'selected' : '';
-            echo '<option value="' . $k . '" ' . $s . ' class="b">' . $v['n'] . '</option>';
-            foreach ($v['l'] as $k2 => $v2):
-              $aux = "$k-$k2";
-              $s = ($aux == $filt_rate) ? 'selected' : '';
-              echo '<option value="' . $aux . '" ' . $s . '>&nbsp; - ' . $v2 . '</option>';
-            endforeach;
-          endforeach;
-          ?>
-        </select>
-      </div>
-      <div class="col-md-2 col-xs-6">
-        <label>Tipo de Pago</label>
-        <select id="f_method" class="form-control">
-          <option value="all">Todos</option>
-          <option value="banco" <?php if ($filt_method == 'banco') echo 'selected' ?>>BANCO</option>
-          <option value="cash" <?php if ($filt_method == 'cash') echo 'selected' ?>>METALICO</option>
-          <option value="card" <?php if ($filt_method == 'card') echo 'selected' ?>>TARJETA</option>
-          <option value="bono" <?php if ($filt_method == 'bono') echo 'selected' ?>>BONO</option>
-        </select>
-      </div>
-      <div class="col-md-3 col-xs-6">
-        <label>Usuario</label>
-        <select id="f_user" class="form-control">
-          <option></option>
+  <h2 class="text-center">INFORME DE HNTs AL MES</h2>
+  <div class="col-xs-12 btn-months mx-1em">
+    @foreach($months as $k=>$v)
+    <a href="/admin/informes/cliente-mes/{{$k}}/{{$f_user}}" class=" btn btn-success <?php echo ($month == $k) ? 'active' : '' ?>">
+      {{$v}}
+    </a>
+    @endforeach
+  </div>
+  
+  
+  <div class="row my-2 formLine v2">
+    <div class="col-md-6">
+      <label >Cliente</label>
+      <input type="text" id="searchCustomer" class=" field" placeholder="Buscar"/>
+    </div>
+    <div class="col-md-6">
+      <label >Usuario</label>
+        <select id="f_user" class="field">
+          <option value="">Todos</option>
           <?php
           foreach ($ausers as $id => $name):
             $sel = ($f_user == $id) ? 'selected' : '';
@@ -91,43 +60,99 @@ use \Carbon\Carbon; ?>
           endforeach;
           ?>
         </select>
-      </div>
+    </div>
   </div>
   <div class="row" id="content-table-inform">
-    <div class="table-responsive">
-    @include('admin.informes._table_sumary')
-    </div>
-    <div class="table-responsive">
-    @include('admin.informes._table_informes')
-    </div>
+
+    @if($byCustomer)
+    @foreach($byCustomer as $cID=>$data)
+
+    <?php
+    if (isset($aLstCust[$cID])) {
+      $customer = $aLstCust[$cID];
+      ?>
+      <div class="col-lg-4 col-sm-6 col-xs-12 lstHNT" data-cname="{{$customer->name}}">
+        <canvas id="hnt_c{{$cID}}" style="width: 100%; height: 250px;"></canvas>
+        <div class="text-center">
+          <div class="customerName">{{$customer->name}}</div>
+          <span>Activado: {{dateMin($customer->hotspot_date)}}</span>
+        </div>
+      </div>
+      <?php
+    }
+    ?>
+
+    @endforeach
+    @endif
   </div>
 </div>
 
 @endsection
 @section('scripts')
 <script type="text/javascript">
-  $('#date, #month, #day,#f_rate,#f_method,#f_user').change(function (event) {
-
-    var year = $('#date').val();
-    var month = $('#month').val();
-    var day = $('#day').val();
-    var f_rate = $('#f_rate').val();
-    var f_method = $('#f_method').val();
+  $('#f_user').change(function (event) {
     var f_user = $('#f_user').val();
-    window.location = '/admin/informes/cliente-mes/' + month + '/' + day + '/' + f_rate + '/' + f_method + '/' + f_user;
+    window.location = '/admin/informes/cliente-mes/{{$month}}/' + f_user;
   });
 
-  $('#searchInform').keydown(function (evt) {
-    setTimeout(function () {
-      var search = $('#searchInform').val();
-      var token = $('#_token').val();
-      var month = $('#month').val();
-      $.post('/admin/informes/search/' + month, {search: search, _token: token}).done(function
-              (data) {
-        $('#content-table-inform').empty().append(data);
-      });
-    }, 50);
+  $('#searchCustomer').keyup(function (evt) {
+    var name = $(this).val().toUpperCase();
+    console.log(name);
+    $('.lstHNT').each(function(){
+      var  str = $(this).data('cname').toUpperCase();
+      if ( str.includes(name)){
+        $(this).show();
+      } else 
+        $(this).hide();
+    });
   });
+  
+  var daysText = [<?php echo $daysText;?>];
+  
+  
+   @if($byCustomer)
+      @foreach($byCustomer as $cID=>$data)
+    
+    
+       new Chart(document.getElementById("hnt_c{{$cID}}"), {
+        type: 'line',
+        data: {
+            datasets: [{
+                data: [<?php echo implode(',',$data);?>],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }],
+            labels: daysText
+        },
+        options: {
+          title: {
+            display: false,
+          },
+          legend:{
+          display: false,
+          }
+        }
+      });
+       
+        @endforeach
+    @endif
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 </script>
 @endsection

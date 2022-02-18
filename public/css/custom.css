@@ -439,6 +439,15 @@ option.b {
 .lineRight {
     border-right: 3px solid;
 }
+
+.formLine.v2 .field {
+    padding: 7px;
+    background-color: white;
+}
+.formLine.v2 label {
+    top: 7px;
+}
+
 /*-----------------------------------*/
 @media(max-width:991px) {
   .table-fixed th.static{

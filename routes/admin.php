@@ -129,12 +129,12 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
   Route::post('/gastos/import/csv/', 'ExpensesController@importCsv');
 
   /* informes */
-  Route::get('/informes/caja/{month?}/{day?}', 'InformesController@informeCajaMes');
-  Route::get('/informes/cuotas-mes/{month?}/{day?}', 'InformesController@informeCuotaMes');
-  Route::get('/informes/cobros-mes/{month?}/{day?}', 'InformesController@informeCobrosMes');
-  Route::get('/informes/cliente-mes/{month?}/{day?}/{f_rate?}/{f_method?}/{f_coach?}', 'InformesController@informeClienteMes');
-  Route::post('/informes/search/{month?}', 'InformesController@searchClientInform');
-  Route::get('/informes/cierre-diario/{month?}/{day?}', 'InformesController@informeCierreDiario');
+//  Route::get('/informes/caja/{month?}/{day?}', 'InformesController@informeCajaMes');
+//  Route::get('/informes/cuotas-mes/{month?}/{day?}', 'InformesController@informeCuotaMes');
+//  Route::get('/informes/cobros-mes/{month?}/{day?}', 'InformesController@informeCobrosMes');
+  Route::get('/informes/cliente-mes/{month?}/{f_coach?}', 'InformesController@informeClienteMes');
+//  Route::post('/informes/search/{month?}', 'InformesController@searchClientInform');
+//  Route::get('/informes/cierre-diario/{month?}/{day?}', 'InformesController@informeCierreDiario');
 
   /* Facturacion */
   Route::get('/facturacion/usuarios', 'UsersController@usuarios');

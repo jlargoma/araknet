@@ -44,7 +44,7 @@ trait AdminTraits {
       $oObj->iban = $request->input('iban');
       if ($oObj->save()) {
         $email = $oObj->email;
-        $sended = Mail::send('emails._create_customer_email', ['customer' => $oObj], function ($message) use ($email) {
+        $sended = \Illuminate\Support\Facades\Mail::send('emails._create_customer_email', ['customer' => $oObj], function ($message) use ($email) {
                   $message->subject('Inscripción en Araknet');
                   $message->from('info@Araknet.tech', 'Inscripción Araknet');
                   $message->to($email);
@@ -119,6 +119,20 @@ trait AdminTraits {
     return ['', ''];
   }
 
+  
+  public function disable($id) {
+    $oObjt = Customers::find($id);
+    $oObjt->status = 0;
+    if ($oObjt->save()) die('OK');
+    else die('ERROR');
+  }
+
+  public function activate($id) {
+    $oObjt = Customers::find($id);
+    $oObjt->status = 1;
+    if ($oObjt->save()) die('OK');
+    else die('ERROR');
+  }
   
   
 }

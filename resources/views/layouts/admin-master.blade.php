@@ -65,27 +65,6 @@
               Inf. Clientes mes
             </a>
           </li>
-          <li class="text-center">
-            <a href="{{ url('admin/informes/cuotas-mes') }}" class="btn btn-success btn-home">
-              Inf. Cuotas Mes
-            </a>
-          </li>
-          <li class="text-center">
-            <a href="{{ url('admin/informes/caja') }}" class="btn btn-success btn-home">
-              Caja
-            </a>
-          </li>
-          <li class="text-center">
-            <a href="{{ url('admin/informes/cobros-mes') }}" class="btn btn-success btn-home">
-              Cobros Mes
-            </a>
-          </li>
-        <?php else: ?>
-          <li class="text-center">
-            <button id="button-checkCash" class="btn btn-success btn-home" data-toggle="modal" data-target="#checkCash">
-              Caja
-            </button>
-          </li>
         <?php endif; ?>
       </ul>                
 

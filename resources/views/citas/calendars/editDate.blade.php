@@ -28,7 +28,7 @@
       @else
       <input type="hidden" name="customer_id" id="customer_id" value="{{$customer_id}}">
       <label for="customer_id" id="tit_user">Cliente</label>
-      <input class="form-control" value="{{$oCostumer->name}}" disabled=""/>
+      <input class="form-control" value="<?php echo ($oCostumer) ? $oCostumer->name : 'cliente'; ?>" disabled=""/>
       @endif
 
 
