@@ -395,6 +395,11 @@ trait InformesTraits {
     $encNutr = $customer->getMetaContent('nutri_q1');
     $code = encriptID($customer->id) . '-' . encriptID(time() * rand());
     $btnEncuesta = $code . '/' . getKeyControl($code);
+    
+    
+    
+    //---------------------------------------------//
+    
 
     /*     * ***************************** */
     return view('/admin/clientes/informe', [
@@ -425,6 +430,7 @@ trait InformesTraits {
         'encNutr' => $encNutr,
         'btnEncuesta' => $btnEncuesta,
         'lstMetas' => $lstMetas,
+        'hnts' => $this->getHnts($customer->id,$customer->hotspot_date)
     ]);
   }
 
@@ -573,4 +579,26 @@ trait InformesTraits {
     }
   }
   
+  
+  function getHnts($cID,$dateStart){
+    
+    $lastDay = date('Y-m-d');
+    $arrayDays = arrayDays($dateStart, $lastDay, 'Y-m-d', 0);
+    $days = [];
+    foreach ($arrayDays as $d => $v) {
+      $days[] = substr($d, 8, 2);
+    }
+    
+    $cLstHNTs = \App\Models\CustomersHnts::where('customer_id', $cID)
+            ->where('date', '>=', $dateStart)->get();
+    $hnts = $arrayDays;
+    if (count($cLstHNTs) > 0) {
+      foreach ($cLstHNTs as $cHnt) {
+        $hnts[$cHnt->date] = $cHnt->hnt;
+      }
+    }
+    
+    
+    return ['"' . implode('","', $days) . '"',$hnts];
+  }
 }

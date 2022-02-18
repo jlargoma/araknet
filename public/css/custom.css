@@ -232,36 +232,36 @@ ul.selectDate li.active {
 }
 
 .likeOption{
-    height: 44px;
-    border: none;
-    overflow: hidden;
-    display: block;
-    background-color: transparent;
+  height: 44px;
+  border: none;
+  overflow: hidden;
+  display: block;
+  background-color: transparent;
 }
 
 
 .likeOption button{
-    font-size: 1.2em;
-    text-align: center;
-    display: inline-block;
-    cursor: pointer;
-    font-weight: bold;
-    color: rgb(0, 114, 191);
-    padding: 8px;
-    border: 1px solid rgb(0, 114, 191);
-    border-radius: 5px;
+  font-size: 1.2em;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
+  color: rgb(0, 114, 191);
+  padding: 8px;
+  border: 1px solid rgb(0, 114, 191);
+  border-radius: 5px;
 }
 .likeOption button:hover,
 .likeOption button.active {
-      background-color: #5c90d2 !important;
-    font-weight: bold;
-    color: #FFF;
+  background-color: #5c90d2 !important;
+  font-weight: bold;
+  color: #FFF;
 }
 .likeOption button:disabled {
-    background-color: #c7c7c7;
-    color: #FFF;
-    border-color: #c7c7c7;
-    cursor: not-allowed;
+  background-color: #c7c7c7;
+  color: #FFF;
+  border-color: #c7c7c7;
+  cursor: not-allowed;
 }
 
 div#card-element,
@@ -437,15 +437,39 @@ option.b {
 }
 
 .lineRight {
-    border-right: 3px solid;
+  border-right: 3px solid;
 }
 
 .formLine.v2 .field {
-    padding: 7px;
-    background-color: white;
+  padding: 7px;
+  background-color: white;
 }
 .formLine.v2 label {
-    top: 7px;
+  top: 7px;
+}
+
+
+.table-h20 {
+  border: 2px solid #5c90d2;
+  width: auto;
+}
+.table-h20 thead {
+  display: block;
+}
+.table-h20 tbody {
+  display: block;
+  max-height: 25em !important;
+  overflow: auto !important;
+}
+.table-h20 th {
+  background-color: #5c90d2;
+  color: #FFF;
+  font-size: 18px !important;
+}
+.table-h20 th,
+.table-h20 td {
+  width: 110px;
+  text-align: center;
 }
 
 /*-----------------------------------*/

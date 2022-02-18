@@ -4,6 +4,7 @@
 <div class="nav-box">
 <ul class="nav nav-tabs">
   <li <?php if ($tab == 'datos') echo 'class="active"'; ?>><a data-toggle="tab" href="#datos">Datos</a></li>
+  <li <?php if ($tab == 'hnt') echo 'class="active"'; ?>><a data-toggle="tab" href="#hnt">HNTs</a></li>
   <li <?php if ($tab == 'history') echo 'class="active"'; ?>><a data-toggle="tab" href="#history">Historial</a></li>
   <li <?php if ($tab == 'notes') echo 'class="active"'; ?>><a data-toggle="tab" href="#notes">Anotaciones</a></li>
   <li <?php if ($tab == 'consent') echo 'class="active"'; ?>><a data-toggle="tab" href="#consent">Contratos</a></li>
@@ -25,6 +26,9 @@
   </div>
   <div id="invoice" class="tab-pane fade <?php if ($tab == 'invoice') echo 'in active'; ?>">
         @include('admin.clientes.forms.invoice')
+  </div>
+  <div id="hnt" class="tab-pane fade <?php if ($tab == 'hnt') echo 'in active'; ?>">
+        @include('admin.clientes.forms.hnts')
   </div>
 </div>
 <div class="row">
@@ -61,6 +65,7 @@
 </div>
 <script src="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{ asset('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
+<script type="text/javascript" src="/admin-css/assets/js/plugins/chartJs/Chart.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $(".rates-inform").mouseenter(function () {
@@ -261,6 +266,27 @@
          window.history.pushState("", "", newURL+href.slice(1));
        });
        
+       /*----------------------------------------------------*/
+       new Chart(document.getElementById("hnt_customer"), {
+          type: 'line',
+          data: {
+              datasets: [{
+                      data: [<?php echo implode(',', $hnts[1]); ?>],
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                  }],
+              labels: [<?php echo $hnts[0]; ?>]
+          },
+          options: {
+              title: {
+                  display: false,
+              },
+              legend: {
+                  display: false,
+              }
+          }
+      });
        /*----------------------------------------------------*/
     });
 
