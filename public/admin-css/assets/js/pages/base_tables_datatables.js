@@ -5,7 +5,8 @@
  */
 var BaseTableDatatables = function() {
   
-    var isMobile=true;
+    var isMobile=false;
+    var isTable=false;
     // Init full DataTable, for more examples you can check out https://www.datatables.net/
     var initDataTableFull = function() {
         jQuery('.js-dataTable-full').dataTable({
@@ -31,13 +32,38 @@ var BaseTableDatatables = function() {
             fixedColumns:null,
             oLanguage: {sSearch: ""}
         };
-        if (isMobile){
+        if (isTable){
           opt.pageLength = 30;
           opt.scrollX = true;
           opt.scrollCollapse = true;
           opt.fixedColumns = {leftColumns: 2};
         }
         jQuery('.js-dataTable-full-clients').dataTable(opt);
+    };
+    var iniDataTableInformMes = function() {
+        
+        var opt = {
+            initComplete: function() {
+                            $('div.loading').remove();
+                            $('#containerTableResult').show();
+                        },
+            columnDefs: [ { orderable: true, targets: [0,1,2] } ],
+            pageLength: 100,
+            paging:  true,
+            pagingType: "full_numbers",
+            scrollX: false,
+            scrollCollapse: false,
+            fixedColumns:null,
+            oLanguage: {sSearch: ""}
+        };
+        if (isTable){
+          opt.pageLength = 30;
+          opt.scrollX = true;
+          opt.scrollCollapse = true;
+          opt.fixedColumns = {leftColumns: 2};
+        }
+        console.log(opt);
+        jQuery('.dataTable-i1').dataTable(opt);
     };
 
     var initDataTableFullBank = function() {
@@ -227,7 +253,8 @@ var BaseTableDatatables = function() {
 
     return {
         init: function() {
-//          if (screen.width<481) isMobile = true;
+            if (screen.width<481) isMobile = true;
+            if (screen.width<881) isTable = true;
           
             // Init Datatables
 //            bsDataTables();
@@ -235,6 +262,7 @@ var BaseTableDatatables = function() {
 //            initDataTableFull();
 //            initDataTableCitas();
         if(typeof dataTableClient !='undefined') initDataTableFullClient();
+        if(typeof dataTableInformMes !='undefined') iniDataTableInformMes();
 //            initDataTableFullBank();
         }
     };

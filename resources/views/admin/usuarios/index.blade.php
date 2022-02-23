@@ -247,7 +247,7 @@ th.static {
 }
 </style>
 <script src="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
+<script src="{{ assetV('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
 <script src="{{asset('/admin-css/assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('/admin-css/assets/js/plugins/select2/select2.full.min.js')}}"></script>
 <script type="text/javascript">

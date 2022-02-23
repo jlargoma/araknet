@@ -161,7 +161,7 @@
 @endsection
 @section('scripts')
 	<script src="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-	<script src="{{ asset('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
+	<script src="{{ assetV('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 

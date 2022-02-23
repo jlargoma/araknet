@@ -19,6 +19,7 @@ use App\Models\CustomersRates;
 use App\Models\Charges;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
+use App\Models\CustomersHnts;
 
 trait InformesTraits {
 
@@ -62,7 +63,7 @@ trait InformesTraits {
     $date = date('Y-m-d', strtotime($year . '-' . $month . '-01' . ' -1 month'));
     $toPay = $cRates = $uCobros = [];
     $total_pending = 0;
-    
+
     $resp = $this->getRatesByYear($year, $customerIDs, $rPrices, $rNames);
     $cRates = $resp[0];
     $toPay = $resp[2];
@@ -82,6 +83,11 @@ trait InformesTraits {
     } else {
       $detail = null;
     }
+
+
+
+
+
     return view('/admin/clientes/index', [
         'customers' => $customers,
         'month' => $month,
@@ -92,7 +98,7 @@ trait InformesTraits {
         'cRates' => $cRates,
         'detail' => $detail,
         'months' => $months,
-//        'ausers' => $ausers,
+        'aHntsDash' => $this->getHntsDashboard(),
         'total_pending' => array_sum($arrayPaymentMonthByUser),
     ]);
   }
@@ -111,7 +117,7 @@ trait InformesTraits {
     $payments = $noPay = 0;
     $uLstRates = [];
     if ($cRates) {
-     
+
       /* ------------------------------------------- */
       $aDates = Dates::whereIn('customers_rate_id', $cRates->pluck('id'))
                       ->pluck('date', 'customers_rate_id')->toArray();
@@ -172,7 +178,7 @@ trait InformesTraits {
     return [$uLstRates, $payments, $noPay, $detail];
   }
 
-   public function getRatesByYear($year, $customerIDs, $rPrices, $rNames) {
+  public function getRatesByYear($year, $customerIDs, $rPrices, $rNames) {
 
     $detail = [];
     $RateIDs = array_keys($rPrices);
@@ -183,13 +189,13 @@ trait InformesTraits {
             ->get();
 
     $payments = $noPay = $uLstRates = $custPays = [];
-    for ($i=1;$i<13;$i++){
+    for ($i = 1; $i < 13; $i++) {
       $payments[$i] = 0;
       $noPay[$i] = 0;
       $uLstRates[$i] = [];
     }
     if ($cRates) {
-     
+
       /* ------------------------------------------- */
       $aDates = Dates::whereIn('customers_rate_id', $cRates->pluck('id'))
                       ->pluck('date', 'customers_rate_id')->toArray();
@@ -198,7 +204,6 @@ trait InformesTraits {
         $idRate = $v->rate_id;
         $idCust = $v->customer_id;
         $aAux = [];
-
 
         $dateCita = '';
         if (isset($aDates[$v->id])) {
@@ -227,10 +232,10 @@ trait InformesTraits {
           $payments[$v->rate_month] += $auxCharges->import;
           $detail[$v->id]['mc'] = payMethod($auxCharges->type_payment);
           $detail[$v->id]['dc'] = dateMin($auxCharges->date_payment);
-          
-          if (!isset($custPays[$idCust])) $custPays[$idCust] = 0;
+
+          if (!isset($custPays[$idCust]))
+            $custPays[$idCust] = 0;
           $custPays[$idCust] += $auxCharges->import;
-          
         } else {
           $importe = $v->price;
 //          $importe = ($v->price === null) ? $rPrices[$idRate]:$v->price;
@@ -243,7 +248,7 @@ trait InformesTraits {
               'cid' => -1,
           ];
         }
-        
+
         if (!isset($uLstRates[$v->rate_month][$idCust])) {
           $uLstRates[$v->rate_month][$idCust] = [];
         }
@@ -251,12 +256,11 @@ trait InformesTraits {
           $uLstRates[$v->rate_month][$idCust][$idRate] = [];
         }
         $uLstRates[$v->rate_month][$idCust][$idRate] = $aAux;
-        
       }
     }
-    return [$uLstRates, $payments, $noPay, $detail,$custPays];
+    return [$uLstRates, $payments, $noPay, $detail, $custPays];
   }
-  
+
   public function clienteRateCharge($cRateID) {
     $cRates = CustomersRates::find($cRateID);
     if (!$cRates) {
@@ -264,7 +268,7 @@ trait InformesTraits {
     }
     $oCustomer = $cRates->customer;
     $oRates = $cRates->rate;
-    
+
     return view('/admin/clientes/cobro', [
         'rate' => $oRates,
         'customer' => $oCustomer,
@@ -353,11 +357,11 @@ trait InformesTraits {
     // CONTRACTS
     $ContractsService = new \App\Services\ContractsService();
     $lstContracts = $ContractsService->getContracts();
-    foreach ($lstContracts as $kCont => $contract){
-      $fileName = $customer->getMetaContent('file_' .$kCont);
+    foreach ($lstContracts as $kCont => $contract) {
+      $fileName = $customer->getMetaContent('file_' . $kCont);
       if ($fileName) {
         $path = storage_path('/app/' . $fileName);
-        if (File::exists($path)){
+        if (File::exists($path)) {
           $lstContracts[$kCont]['signed'] = true;
         }
       }
@@ -395,11 +399,9 @@ trait InformesTraits {
     $encNutr = $customer->getMetaContent('nutri_q1');
     $code = encriptID($customer->id) . '-' . encriptID(time() * rand());
     $btnEncuesta = $code . '/' . getKeyControl($code);
-    
-    
-    
+
     //---------------------------------------------//
-    
+
 
     /*     * ***************************** */
     return view('/admin/clientes/informe', [
@@ -430,7 +432,7 @@ trait InformesTraits {
         'encNutr' => $encNutr,
         'btnEncuesta' => $btnEncuesta,
         'lstMetas' => $lstMetas,
-        'hnts' => $this->getHnts($customer->id,$customer->hotspot_date)
+        'hnts' => $this->getHnts($customer->id, $customer->hotspot_date)
     ]);
   }
 
@@ -456,7 +458,8 @@ trait InformesTraits {
     $id = $request->input('id');
     $note = $request->input('note');
     $idUser = intVal($request->input('uid'));
-    if (!$idUser) $idUser = Auth::user()->id;
+    if (!$idUser)
+      $idUser = Auth::user()->id;
     $oUser = User::find($idUser);
     $oNote = null;
     if ($id > 0)
@@ -487,49 +490,50 @@ trait InformesTraits {
     return redirect('/admin/cliente/informe/' . $cID . '/notes')->withErrors(['Nota no eliminada']);
   }
 
-
-  function getLinkContracts(Request $request){
-    $cID = $request->input('customer_id',null);
-    $type = $request->input('type',null);
-    if (!$cID){
-      return response()->json(['error','Cliente no encontrado']);
+  function getLinkContracts(Request $request) {
+    $cID = $request->input('customer_id', null);
+    $type = $request->input('type', null);
+    if (!$cID) {
+      return response()->json(['error', 'Cliente no encontrado']);
     }
     $oCustomer = Customers::find($cID);
-    if (!$oCustomer){
-      return response()->json(['error','Cliente no encontrado']);
+    if (!$oCustomer) {
+      return response()->json(['error', 'Cliente no encontrado']);
     }
-    
+
     $email = $oCustomer->email;
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-      return response()->json(['error',$email.' no es un mail válido']);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      return response()->json(['error', $email . ' no es un mail válido']);
     }
-    
-    
+
+
     $ContractsService = new \App\Services\ContractsService();
     $oContracts = $ContractsService->getContract($type);
-    if (!$oContracts) return response()->json(['error','Contrato no encontrado']);
-    
-    $link = $ContractsService->getLinkContracts($cID,$type);
-    if ($link){
-      return response()->json(['OK',$link]);
+    if (!$oContracts)
+      return response()->json(['error', 'Contrato no encontrado']);
+
+    $link = $ContractsService->getLinkContracts($cID, $type);
+    if ($link) {
+      return response()->json(['OK', $link]);
     } else {
-      return response()->json(['error','link no válido']);
+      return response()->json(['error', 'link no válido']);
     }
   }
-  
-  
+
   function seeContracts($cID, $type) {
     $sContract = new \App\Services\ContractsService();
     $contract = $sContract->getContract($type);
-    if (!$contract) return 'Contrato no encontrado'; 
-    
+    if (!$contract)
+      return 'Contrato no encontrado';
+
     $oCustomer = Customers::find($cID);
-    if (!$oCustomer) return 'Cliente no encontrado'; 
+    if (!$oCustomer)
+      return 'Cliente no encontrado';
     // Already Signed  -------------------------------------------
     $fileName = $oCustomer->getMetaContent('file_' . $type);
     $path = storage_path('app/' . $fileName);
     if ($fileName && File::exists($path)) {
-       return response()->file($path, [
+      return response()->file($path, [
                   'Content-Disposition' => str_replace('%name', $contract['title'], "inline; filename=\"%name\"; filename*=utf-8''%name"),
                   'Content-Type' => 'application/pdf'
       ]);
@@ -537,68 +541,112 @@ trait InformesTraits {
       return 'Contrato no firmado';
     }
   }
-  
-  function sendContract(Request $request){
-    $cID = $request->input('customer_id',null);
-    $type = $request->input('type',null);
-    if (!$cID){
-      return response()->json(['error','Cliente no encontrado']);
+
+  function sendContract(Request $request) {
+    $cID = $request->input('customer_id', null);
+    $type = $request->input('type', null);
+    if (!$cID) {
+      return response()->json(['error', 'Cliente no encontrado']);
     }
     $oCustomer = Customers::find($cID);
-    if (!$oCustomer){
-      return response()->json(['error','Cliente no encontrado']);
+    if (!$oCustomer) {
+      return response()->json(['error', 'Cliente no encontrado']);
     }
-    
+
     $email = $oCustomer->email;
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-      return response()->json(['error',$email.' no es un mail válido']);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      return response()->json(['error', $email . ' no es un mail válido']);
     }
-    
-    
+
+
     $ContractsService = new \App\Services\ContractsService();
     $oContracts = $ContractsService->getContract($type);
-    if (!$oContracts) return response()->json(['error','Contrato no encontrado']);
-    
-    $link = $ContractsService->getLinkContracts($cID,$type);
-    if ($link){
-      
-      $dataContent = ['contrato_link'=>$link,'contrato_nombre'=>$oContracts['title']];
+    if (!$oContracts)
+      return response()->json(['error', 'Contrato no encontrado']);
+
+    $link = $ContractsService->getLinkContracts($cID, $type);
+    if ($link) {
+
+      $dataContent = ['contrato_link' => $link, 'contrato_nombre' => $oContracts['title']];
       $dataContent['cliente_nombre'] = $oCustomer->name;
       $dataContent['cliente_correo'] = $oCustomer->email;
       $dataContent['cliente_dni'] = $oCustomer->dni;
       $dataContent['cliente_tel'] = $oCustomer->phone;
       $dataContent['cliente_domicilio'] = $oCustomer->address . ' (' . $oCustomer->province . ')';
-      
+
       $sMails = new \App\Services\MailsService();
-      $sMails->sendMailBasic('contracts_mails','Firma de contrato Araknet',$oCustomer->email, $dataContent);
-      
-      
-      return response()->json(['OK','Solicitud de firma enviada']);
+      $sMails->sendMailBasic('contracts_mails', 'Firma de contrato Araknet', $oCustomer->email, $dataContent);
+
+      return response()->json(['OK', 'Solicitud de firma enviada']);
     } else {
-      return response()->json(['error','link no válido']);
+      return response()->json(['error', 'link no válido']);
     }
   }
-  
-  
-  function getHnts($cID,$dateStart){
-    
+
+  function getHnts($cID, $dateStart) {
+
     $lastDay = date('Y-m-d');
     $arrayDays = arrayDays($dateStart, $lastDay, 'Y-m-d', 0);
     $days = [];
     foreach ($arrayDays as $d => $v) {
       $days[] = substr($d, 8, 2);
     }
-    
+
     $cLstHNTs = \App\Models\CustomersHnts::where('customer_id', $cID)
-            ->where('date', '>=', $dateStart)->get();
+                    ->where('date', '>=', $dateStart)->get();
     $hnts = $arrayDays;
     if (count($cLstHNTs) > 0) {
       foreach ($cLstHNTs as $cHnt) {
         $hnts[$cHnt->date] = $cHnt->hnt;
       }
     }
-    
-    
-    return ['"' . implode('","', $days) . '"',$hnts];
+
+
+    return ['"' . implode('","', $days) . '"', $hnts];
   }
+
+  function getHntsDashboard() {
+
+
+    $sHelium = new \App\Services\HeliumService();
+
+    if (isset($_COOKIE['hBalance'])) {
+      $balance = $_COOKIE['hBalance'];
+    } else {
+      $hAccount = $sHelium->getData_accounts();
+      if ($hAccount) {
+        $hAccount = $sHelium->response->data->balance;
+        setcookie('hBalance', $balance, time() + (180), "/"); // 86400 = 1 day
+      }
+    }
+
+    $todayHnts = CustomersHnts::where('date', date('Y-m-d'))->sum('hnt');
+    $yHnts = CustomersHnts::where('date', date('Y-m-d', strtotime('-1 day')))->sum('hnt');
+    $wHnts = CustomersHnts::where('date', '>=', date('Y-m-d', strtotime('-7 day')))->sum('hnt');
+    $mHnts = CustomersHnts::whereYear('date', '=', date('Y'))->whereMonth('date', '=', date('m'))->sum('hnt');
+    $tHotspots = Customers::whereNotNull('hotspot_imac')->count();
+    if ($tHotspots < 1)
+      $tHotspots = 1;
+
+    $oHnts = CustomersHnts::where('date', '>=', date('Y-m-d', strtotime('-30 day')))->get();
+    $hnt_days = [];
+    if ($oHnts) {
+      foreach ($oHnts as $i) {
+        $d = dateMin($i->date);
+        if (!isset($hnt_days[$d]))
+          $hnt_days[$d] = 0;
+        $hnt_days[$d] += $i->hnt;
+      }
+    }
+    return [
+        'today' => round($todayHnts, 3),
+        'yest' => round($yHnts, 3),
+        'week' => round($wHnts, 3),
+        'month' => round($mHnts, 3),
+        'avg' => round($mHnts / $tHotspots, 3),
+        'hnt_days' => $hnt_days,
+        'balance' => round($balance / 100000000, 3)
+    ];
+  }
+
 }

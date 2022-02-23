@@ -30,7 +30,7 @@ class InformesController extends Controller {
     $firsDay = $year . '-' . str_pad($month, 2, "0", STR_PAD_LEFT) . '-01';
     $lastDay = date("Y-m-t", strtotime($firsDay));
     if ($lastDay > date('Y-m-d'))
-      $lastDay = date('Y-m-d');
+      $lastDay = date('Y-m-d',strtotime('-1 day'));
     $arrayDays = arrayDays($firsDay, $lastDay, 'Y-m-d', 0);
     $days = [];
     foreach ($arrayDays as $d => $v) {
@@ -73,9 +73,11 @@ class InformesController extends Controller {
     $lstMonthsSpanish = lstMonthsSpanish();
     unset($lstMonthsSpanish[0]);
     $data['months'] = $lstMonthsSpanish;
+    $data['cMonth'] = getMonthSpanish($month,false);
 
     /*     * ************************************************************** */
     $data['f_user'] = $f_user;
+    $data['lastDay'] = $lastDay;
     $data['ausers'] = User::getusers()->pluck('name', 'id');
     return view('admin.informes.informeClientesMes', $data);
   }

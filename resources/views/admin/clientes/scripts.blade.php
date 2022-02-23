@@ -86,6 +86,33 @@ $('.openEditCobro').on('click', function (e) {
 
 
 
+ new Chart(document.getElementById("hnt_month"), {
+        type: 'bar',
+        data: {
+            datasets: [{
+                data: [<?php echo implode(',',$aHntsDash['hnt_days']);?>],
+                fill: false,
+                borderColor: '#5d9cec',
+                backgroundColor: '#23b7e5',
+            }],
+            labels: [<?php 
+            $coma = '';
+            foreach ($aHntsDash['hnt_days'] as $d=>$v){
+              echo $coma.'"'.$d.'"';
+              $coma = ',';
+            }
+            ?>],
+        },
+        options: {
+          title: {
+            display: false,
+          },
+          legend:{
+          display: false,
+          }
+        }
+      });
+      
 });
 
   @if($detail)

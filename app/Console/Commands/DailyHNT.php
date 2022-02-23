@@ -53,10 +53,11 @@ class DailyHNT extends Command {
 
       $this->aErrors = [];
       $this->aSuccess = [];
-
+      $today = date('Y-m-d');
       if ($this->cLst) {
-        $this->getByRang('2022-02-01','2022-02-18');
-//        $this->getByDay('2022-02-17');
+//        $this->getByRang(date('Y-m-d',strtotime('-7 days')),date('Y-m-d'));
+//        $this->getByRang('2022-02-01',date('Y-m-d'));
+        $this->getByDay($today);
         
       }
       if (count($this->aSuccess) > 0)
@@ -70,7 +71,7 @@ class DailyHNT extends Command {
 
   
   function getByDay($day){
-    $startDate = '2022-02-17';
+    $startDate = $day;//'2022-02-17';
     $endDate = date('Y-m-d', strtotime($startDate.' +1 day'));
     $this->saveHNT($startDate, $endDate);
   }
@@ -99,7 +100,7 @@ class DailyHNT extends Command {
 
       $resp = $this->sHelium->getHNT_hotspots($hotspots, $startDate, $endDate);
       if ($resp) {
-        echo $c->name.' '.$c->dni."\n";
+        //echo $c->name.' '.$c->dni."\n";
         if ($c->hotspot_date > $startDate)
           continue;
 

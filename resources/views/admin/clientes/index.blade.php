@@ -3,74 +3,8 @@
 @section('title') Clientes - Araknet HTS @endsection
 
 @section('externalScripts')
-<!--<link rel="stylesheet" href="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.css') }}">-->
-<style type="text/css">
-  #DataTables_Table_0_wrapper .row > .col-sm-6:first-child{
-    display: none;
-  }
-  #DataTables_Table_0_wrapper .row > .col-sm-6 #DataTables_Table_0_filter{
-    text-align: left!important;
-  }
-  input[type="search"], ::-webkit-input-placeholder, :-moz-placeholder, :-ms-input-placeholder{
-    color: black;
-  }
-  .header-navbar-fixed #main-container{
-    padding-top: 0; 
-  }
-  .btn-user{cursor: pointer}
-  .js-dataTable-full-clients .label{
-    padding: 6px;
-    display: inline-block;
-    cursor: pointer;
-    margin-right: 2px;
-  }
+<link rel="stylesheet" href="{{ assetV('admin-css/assets/css/customer.css') }}">-->
 
- .openUser b {
-    white-space: nowrap;
-}
-.openUser {
-    cursor: pointer;
-    max-width: 110px;
-    overflow: auto;
-    display: block;
-   } 
-    .openUser::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.openUser {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-
-
-}
-th.text-center.sorting_disabled {
-    width: 0px !important;
-}
-td.text-center.tc4 {
-    white-space: nowrap;
-}
-  .no-pay{
-    color: #c54b4b;
-    font-weight: bold;
-  }
-  .openEditCobro,
-  .open-cobro{ cursor: pointer;}
-  a.inline {
-    display: inline-block;
-    margin-right: 2px;
-  }
-  .text-center.tc1 {
-    min-width: 120px;
-}
-th label.text-danger{display: block}
-.boxAddServBono {
-    position: absolute;
-    background-color: #9a9a9a;
-    padding: 5px;
-}
-</style>
 @endsection
 
 @section('headerButtoms')
@@ -86,6 +20,39 @@ $b_aux = ['btn-primary','btn-primary','btn-primary','all'=>'btn-primary'];
 if (isset($b_aux[$status])) $b_aux[$status] = 'btn-success';
 ?>
 @section('content')
+<div class="row">
+  <div class="col-md-6 col-lg-4">
+    <div class="box-db blue-light">
+      {{$aHntsDash['today']}}<hnt>HNT</hnt>
+      <p>Hoy</p>
+    </div>
+    <div class="box-db blue-light">
+      {{$aHntsDash['yest']}}<hnt>HNT</hnt>
+      <p>Ayer</p>
+    </div>
+    <div class="box-db blue">
+      {{$aHntsDash['week']}}<hnt>HNT</hnt>
+      <p>7 días</p>
+    </div>
+    <div class="box-db purple">
+      {{$aHntsDash['month']}}<hnt>HNT</hnt>
+      <p>Mes</p>
+    </div>
+    <div class="box-db red-light">
+      {{$aHntsDash['avg']}}<hnt>HNT</hnt>
+      <p>Promedio por Hotspots</p>
+    </div>
+    <div class="box-db green">
+      {{$aHntsDash['balance']}}<hnt>HNT</hnt>
+      <p>Balance</p>
+    </div>
+  </div>
+  <div class="col-md-6  col-lg-8">
+    <canvas id="hnt_month" style="width:100%; height: 300px;"></canvas>
+  </div>
+</div>
+
+
 <div class="content content-full bg-gray-lighter">
   <div class="row ">
     <div class="col-md-9 col-xs-12 mb-1em">
@@ -148,12 +115,13 @@ if (isset($b_aux[$status])) $b_aux[$status] = 'btn-success';
   <script type="text/javascript">
     var dataTableClient = 1
   </script>
-    
+   
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <script type="text/javascript" src="/admin-css/assets/js/plugins/chartJs/Chart.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
-<script src="{{ asset('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
+<script src="{{ assetV('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
 
 @include('/admin/clientes/scripts')
 @endsection

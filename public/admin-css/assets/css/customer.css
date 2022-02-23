@@ -1,0 +1,114 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 22 feb. 2022, 22:00:24
+    Author     : gerardo_cremo
+*/
+
+#DataTables_Table_0_wrapper .row > .col-sm-6:first-child{
+  display: none;
+}
+#DataTables_Table_0_wrapper .row > .col-sm-6 #DataTables_Table_0_filter{
+  text-align: left!important;
+}
+input[type="search"], ::-webkit-input-placeholder, :-moz-placeholder, :-ms-input-placeholder{
+  color: black;
+}
+.header-navbar-fixed #main-container{
+  padding-top: 0;
+}
+.btn-user{
+  cursor: pointer
+}
+.js-dataTable-full-clients .label{
+  padding: 6px;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 2px;
+}
+
+.openUser b {
+  white-space: nowrap;
+}
+.openUser {
+  cursor: pointer;
+  max-width: 110px;
+  overflow: auto;
+  display: block;
+}
+.openUser::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.openUser {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+
+}
+th.text-center.sorting_disabled {
+  width: 0px !important;
+}
+td.text-center.tc4 {
+  white-space: nowrap;
+}
+.no-pay{
+  color: #c54b4b;
+  font-weight: bold;
+}
+.openEditCobro,
+.open-cobro{
+  cursor: pointer;
+}
+a.inline {
+  display: inline-block;
+  margin-right: 2px;
+}
+.text-center.tc1 {
+  min-width: 120px;
+}
+th label.text-danger{
+  display: block
+}
+.boxAddServBono {
+  position: absolute;
+  background-color: #9a9a9a;
+  padding: 5px;
+}
+
+hnt {
+  margin-left: 3px;
+  font-size: 14px;
+}
+.box-db {
+  float: left;
+  width: 46%;
+  margin: 3px 1%;
+  background-color: #46c37b;
+  padding: 12px;
+  color: #FFF;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px;
+}
+.box-db p {
+  font-size: 14px;
+}
+.box-db.blue-light{
+  background-color: #23b7e5;
+}
+.box-db.purple {
+  background-color: #7266ba;
+}
+
+.box-db.blue {
+  background-color: #5d9cec !important;
+}
+
+.box-db.red-light {
+  background-color: #f47f7f;
+}

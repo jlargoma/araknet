@@ -472,6 +472,9 @@ option.b {
   text-align: center;
 }
 
+.modal-content-box {
+    padding: 13px;
+}
 /*-----------------------------------*/
 @media(max-width:991px) {
   .table-fixed th.static{

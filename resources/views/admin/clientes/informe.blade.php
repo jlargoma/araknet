@@ -64,7 +64,7 @@
   </div>
 </div>
 <script src="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
+<script src="{{ assetV('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
 <script type="text/javascript" src="/admin-css/assets/js/plugins/chartJs/Chart.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {

@@ -88,5 +88,23 @@ class HeliumService {
     $endpoint = '/hotspots/' . $hotspots . '/rewards/sum';
     return $this->send($endpoint, $data);
   }
+  
+  function getData_accounts() {
+    $data = [];
+    $endpoint = '/accounts/138AVnYE7ECQzG42jGEW7mA1Y5g592762TC9XTghQPg8Y1mj5E5';
+    return $this->send($endpoint, $data);
+  }
+  
+  function getHNT_accounts($start = null, $end = null) {
+    if ($start && $end) {
+      $data = [
+          'min_time' => $start,
+          'max_time' => $end
+      ];
+    } else
+      $data = [];
+    $endpoint = '/accounts/138AVnYE7ECQzG42jGEW7mA1Y5g592762TC9XTghQPg8Y1mj5E5/rewards/sum';
+    return $this->send($endpoint, $data);
+  }
 
 }

@@ -93,7 +93,7 @@
 <script src="{{asset('/admin-css/assets/js/plugins/bootstrap-datetimepicker/moment.min.js')}}"></script>
 <script src="{{asset('/admin-css/assets/js/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js')}}"></script>
 <script src="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
+<script src="{{ assetV('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
 <script type="text/javascript">
     var dateForm = null;
     var timeForm = null;

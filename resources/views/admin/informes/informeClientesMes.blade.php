@@ -44,8 +44,8 @@ use \Carbon\Carbon; ?>
   
   <div class="row my-2 formLine v2">
     <div class="col-md-6">
-      <label >Cliente</label>
-      <input type="text" id="searchCustomer" class=" field" placeholder="Buscar"/>
+<!--      <label >Cliente</label>
+      <input type="text" id="searchCustomer" class=" field" placeholder="Buscar"/>-->
     </div>
     <div class="col-md-6">
       <label >Usuario</label>
@@ -62,34 +62,75 @@ use \Carbon\Carbon; ?>
         </select>
     </div>
   </div>
-  <div class="row" id="content-table-inform">
-
-    @if($byCustomer)
+  <div class="">
+    <table class="table  dataTable-i1">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Último</th>
+          <th>Mes</th>
+          <th>Gráfico</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if($byCustomer)
     @foreach($byCustomer as $cID=>$data)
-
+      
     <?php
     if (isset($aLstCust[$cID])) {
       $customer = $aLstCust[$cID];
+      $last = isset($data[$lastDay]) ? $data[$lastDay] : 0;
       ?>
-      <div class="col-lg-4 col-sm-6 col-xs-12 lstHNT" data-cname="{{$customer->name}}">
-        <canvas id="hnt_c{{$cID}}" style="width: 100%; height: 250px;"></canvas>
-        <div class="text-center">
-          <div class="customerName">{{$customer->name}}</div>
-          <span>Activado: {{dateMin($customer->hotspot_date)}}</span>
-        </div>
-      </div>
+    <tr>
+      <td>{{$customer->name}}</td>
+      <td>{{$last}}</td>
+      <td>{{array_sum($data)}}</td>
+      <td><button class="btn btn-empty-green showGraf" data-id="{{$cID}}" data-name="{{$customer->name}}"><i class="fa fa-bar-chart <?= ($last == 0) ? 'text-danger' : '' ?>"></i></button></td>
+    </tr>
       <?php
     }
     ?>
 
     @endforeach
     @endif
+      </tbody>
+    </table>
+    
   </div>
 </div>
 
+<div class="modal fade in" id="modalChart" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="block block-themed block-transparent remove-margin-b">
+        <div class="block-header bg-primary-dark">
+          <ul class="block-options">
+            <li>
+              <button data-dismiss="modal" type="button" ><i class="si si-close"></i> Cerrar</button>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-content-box">
+          <h2><span id="cNamechart"></span> ({{$cMonth}})</h2>
+          <div class="box">
+          <canvas id="hnt_customer" style="width:320px; height: 100px;"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 @endsection
 @section('scripts')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="{{ asset('admin-css/assets/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ assetV('admin-css/assets/js/pages/base_tables_datatables.js')}}"></script>
 <script type="text/javascript">
+  var dataTableInformMes = true;
   $('#f_user').change(function (event) {
     var f_user = $('#f_user').val();
     window.location = '/admin/informes/cliente-mes/{{$month}}/' + f_user;
@@ -109,16 +150,23 @@ use \Carbon\Carbon; ?>
   
   var daysText = [<?php echo $daysText;?>];
   
+  var byCustomer = [];
   
-   @if($byCustomer)
+    @if($byCustomer)
       @foreach($byCustomer as $cID=>$data)
-    
-    
-       new Chart(document.getElementById("hnt_c{{$cID}}"), {
+    byCustomer[{{$cID}}] = [<?php echo implode(',',$data);?>];
+    @endforeach
+    @endif
+      console.log(byCustomer);
+  
+  $('.showGraf').on('click', function(){
+    var cID = $(this).data('id');
+    $('#cNamechart').text($(this).data('name'));
+    new Chart(document.getElementById("hnt_customer"), {
         type: 'line',
         data: {
             datasets: [{
-                data: [<?php echo implode(',',$data);?>],
+                data: byCustomer[cID],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
@@ -134,24 +182,8 @@ use \Carbon\Carbon; ?>
           }
         }
       });
-       
-        @endforeach
-    @endif
- 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+      $('#modalChart').modal();
+  });
   
 
 </script>
