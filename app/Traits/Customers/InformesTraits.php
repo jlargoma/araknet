@@ -19,7 +19,7 @@ use App\Models\CustomersRates;
 use App\Models\Charges;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
-use App\Models\CustomersHnts;
+use App\Models\HntsDays;
 
 trait InformesTraits {
 
@@ -615,20 +615,20 @@ trait InformesTraits {
     } else {
       $hAccount = $sHelium->getData_accounts();
       if ($hAccount) {
-        $hAccount = $sHelium->response->data->balance;
+        $balance = $sHelium->response->data->balance;
         setcookie('hBalance', $balance, time() + (180), "/"); // 86400 = 1 day
       }
     }
 
-    $todayHnts = CustomersHnts::where('date', date('Y-m-d'))->sum('hnt');
-    $yHnts = CustomersHnts::where('date', date('Y-m-d', strtotime('-1 day')))->sum('hnt');
-    $wHnts = CustomersHnts::where('date', '>=', date('Y-m-d', strtotime('-7 day')))->sum('hnt');
-    $mHnts = CustomersHnts::whereYear('date', '=', date('Y'))->whereMonth('date', '=', date('m'))->sum('hnt');
+    $todayHnts = HntsDays::where('date', date('Y-m-d'))->sum('hnt');
+    $yHnts = HntsDays::where('date', date('Y-m-d', strtotime('-1 day')))->sum('hnt');
+    $wHnts = HntsDays::where('date', '>', date('Y-m-d', strtotime('-7 day')))->sum('hnt');
+    $mHnts = HntsDays::whereYear('date', '=', date('Y'))->whereMonth('date', '=', date('m'))->sum('hnt');
     $tHotspots = Customers::whereNotNull('hotspot_imac')->count();
     if ($tHotspots < 1)
       $tHotspots = 1;
 
-    $oHnts = CustomersHnts::where('date', '>=', date('Y-m-d', strtotime('-30 day')))->get();
+    $oHnts = HntsDays::where('date', '>=', date('Y-m-d', strtotime('-30 day')))->get();
     $hnt_days = [];
     if ($oHnts) {
       foreach ($oHnts as $i) {
