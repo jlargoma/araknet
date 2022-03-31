@@ -146,6 +146,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
   /* Text emails */
   Route::get('/settings_msgs/{key?}', 'SettingsController@messages')->name('settings.msgs');
   Route::post('/settings_msgs/{key?}', 'SettingsController@messages_upd')->name('settings.msgs.upd');
+  Route::get('/ping-to-Hotpots/{id?}', 'ControlsControler@pingHotpots')->name('pingHotpots');
 });
 
 Route::group(['middleware' => 'auth'], function () {

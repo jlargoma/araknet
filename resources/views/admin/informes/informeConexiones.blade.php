@@ -40,7 +40,16 @@ use \Carbon\Carbon; ?>
   .status.online {
   color: green;
   }
-
+  .loadingJS{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #9191918c;
+    color: #fff;
+    display: none;
+  }
 
 </style>
 <script type="text/javascript" src="/admin-css/assets/js/plugins/chartJs/Chart.min.js"></script>
@@ -58,6 +67,7 @@ use \Carbon\Carbon; ?>
           <th>Dirección</th>
           <th>Estado</th>
           <th>Fecha</th>
+          <th>PINGs</th>
         </tr>
       </thead>
 
@@ -83,6 +93,7 @@ use \Carbon\Carbon; ?>
           <td>{{$address}}</td>
           <td class="status {{$d->status}}">{{$d->status}}</td>
           <td>{{datetimeMin($d->updated_at)}}</td>
+          <td><button type="button" class="btn btn-info sendPing" data-id="{{$d->id}}">PING</button></td>
         </tr>
         <?php
         ?>
@@ -111,6 +122,9 @@ use \Carbon\Carbon; ?>
     </div>
   </div>
 </div>
+<div class="loadingJS text-center" style="padding: 150px 0;">
+      <i class="fa fa-5x fa-circle-o-notch fa-spin"></i><br><span class="font-s36">CARGANDO</span>
+    </div>
 
 @endsection
 @section('scripts')
@@ -137,6 +151,18 @@ $('#searchCustomer').keyup(function (evt) {
     var id = $(this).data('id');
     $('#ifrCliente').attr('src','/admin/cliente/informe/' + id);
     $('#modalCliente').modal('show');
+  });
+  $('#containerTableResult').on('click','.sendPing',function (e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    $('.loadingJS').show();
+    $.get('/admin/ping-to-Hotpots/'+id, function(resp){
+    $('.loadingJS').hide();
+      if (resp == 'OK') location.reload();
+      if (resp == 'err01') alert('registro del Hotpots no encontrado');
+      if (resp == 'err02') alert('Hotpots no responde');
+      if (resp == 'err03') alert('La API no responde');
+    });
   });
 </script>
 @endsection

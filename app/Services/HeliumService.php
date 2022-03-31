@@ -27,7 +27,7 @@ class HeliumService {
       }
       $urlSend .= '?' . implode('&', $param);
     }
-//    echo $urlSend."\n";
+    echo $urlSend."\n";
     $ch = curl_init($urlSend);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 7); //Timeout after 7 seconds
@@ -75,6 +75,10 @@ class HeliumService {
 
   function get_hotspots() {
     $endpoint = '/accounts/138AVnYE7ECQzG42jGEW7mA1Y5g592762TC9XTghQPg8Y1mj5E5/hotspots';
+    return $this->send($endpoint);
+  }
+  function get_hotspot($hotspots) {
+    $endpoint = '/hotspots/' . $hotspots;
     return $this->send($endpoint);
   }
   

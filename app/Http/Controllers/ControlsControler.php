@@ -89,4 +89,40 @@ class ControlsControler extends Controller {
     die('usuario no encontrado');
   }
 
+  
+  function pingHotpots($idStatus){
+    $obj = \App\Models\HotspotStatus::find($idStatus);
+    if (!$obj) die('err01');
+    try {
+      $sHelium = new \App\Services\HeliumService();
+      $resp = $sHelium->get_hotspot($obj->hotspot_imac);
+      if ($resp) {
+        if (isset($sHelium->response->data)) {
+          $hp = $sHelium->response->data;
+          
+          $status = $hp->status->online;
+          $geocode = $hp->geocode->short_street;
+          if ($hp->geocode->short_city) $geocode .= "( {$hp->geocode->short_city} )";
+
+          //Busco si tiene un cliente asociado
+          $idCust = -1;
+          $oCust = \App\Models\Customers::where('hotspot_imac', $hp->address)->first();
+          if ($oCust)
+            $idCust = $oCust->id;
+          //guardo/actualizo el registro
+          $obj->customer_id = $idCust;
+          $obj->name = $hp->name;
+          $obj->street = $geocode;
+          $obj->status = $status;
+          $obj->save();
+          die('OK');
+      
+        }
+      } 
+      die('err03');
+      
+    } catch (\Exception $e) {
+      die('err02');
+    }
+  }
 }
