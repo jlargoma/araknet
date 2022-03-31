@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
     {
 //      $schedule->command('Subscriptions:createRates')->dailyAt('3:00');
       $schedule->command('DailyHNT:getVals')->dailyAt('5:00'); // que lo genere el 25
+      $schedule->command('Hotspots:checkStatus')->everyThirtyMinutes();
   }
 
     /**
