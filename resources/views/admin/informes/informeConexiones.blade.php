@@ -69,9 +69,9 @@ use \Carbon\Carbon; ?>
         <?php
         $name = '';
         $address = $d->street;
-        if (isset($aLstCust[$d->customer_id])) {
-          $customer = $aLstCust[$d->customer_id];
-          $name = '<a class="openUser" data-id="'.$d->customer_id.'" data-type="user">'. $customer->name.'<a>';
+        if (isset($aLstCust[$d->hotspot_imac])) {
+          $customer = $aLstCust[$d->hotspot_imac];
+          $name = '<a class="openUser" data-id="'.$customer->id.'" data-type="user">'. $customer->name.'<a>';
           if (trim($customer->address) != '')
             $address = $customer->address;
         }

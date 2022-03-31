@@ -87,12 +87,12 @@ class InformesController extends Controller {
       $byCustomer = [];
     $lst = \App\Models\HotspotStatus::all();
     if ($lst){
-      $byCustomer = \App\Models\HotspotStatus::pluck('customer_id')->toArray();
+      $byCustomer = \App\Models\HotspotStatus::pluck('hotspot_imac')->toArray();
     }
-    $lstCustomers = Customers::whereIn('id', array_keys($byCustomer))->get();
+    $lstCustomers = Customers::whereIn('hotspot_imac', array_keys($byCustomer))->get();
     $aLstCust = [];
     foreach ($lstCustomers as $c) {
-      $aLstCust[$c->id] = $c;
+      $aLstCust[$c->hotspot_imac] = $c;
     }
 
     return view('admin.informes.informeConexiones', [
