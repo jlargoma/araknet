@@ -585,6 +585,8 @@ trait InformesTraits {
 
   function getHnts($cID, $dateStart) {
 
+    if (!$dateStart) return ['""', []];
+    
     $lastDay = date('Y-m-d');
     $arrayDays = arrayDays($dateStart, $lastDay, 'Y-m-d', 0);
     $days = [];
