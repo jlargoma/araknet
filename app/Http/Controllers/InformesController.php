@@ -89,7 +89,7 @@ class InformesController extends Controller {
     if ($lst){
       $byCustomer = \App\Models\HotspotStatus::pluck('hotspot_imac')->toArray();
     }
-    $lstCustomers = Customers::whereIn('hotspot_imac', array_keys($byCustomer))->get();
+    $lstCustomers = Customers::whereIn('hotspot_imac', $byCustomer)->get();
     $aLstCust = [];
     foreach ($lstCustomers as $c) {
       $aLstCust[$c->hotspot_imac] = $c;
