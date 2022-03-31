@@ -99,6 +99,24 @@ function dateMin($date) {
     return null;
 }
 
+function datetimeMin($date) {
+    $date = trim($date);
+    if ($date) {
+        $aux1 = explode(' ', $date);
+        if (!is_array($aux1) || count($aux1) !== 2) {
+          return '';
+        }
+        $hour = substr($aux1[1], 0,5);
+        
+        $aux = explode('-', $aux1[0]);
+        if (is_array($aux) && count($aux) == 3) {
+          $aux2 = explode(' ', $aux[2]);
+          return $aux2[0] . ' ' . getMonthSpanish(intval($aux[1])).' '.$hour;
+        }
+    }
+    return null;
+}
+
 function rates_codes() {
     return [
         'TARIFA_CL1',

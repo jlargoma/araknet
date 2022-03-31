@@ -100,6 +100,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
   Route::get('/rates/unassigned/{idUserRate}', 'RatesController@unassignedRate');
   /* informes */
   Route::get('/informes/cajas', 'InformesController@informeCaja');
+  Route::get('/informes/conexiones', 'InformesController@conexiones');
 });
 
 Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {

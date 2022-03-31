@@ -61,8 +61,13 @@
         if ($uRole == "admin"):
           ?>
           <li class="text-center">
-            <a href="{{ url('admin/informes/cliente-mes') }}" class="btn btn-success btn-home">
+            <a href="{{ '/admin/informes/cliente-mes' }}" class="btn btn-success btn-home">
               Inf. Clientes mes
+            </a>
+          </li>
+          <li class="text-center">
+            <a href="{{ '/admin/informes/conexiones' }}" class="btn btn-success btn-home">
+              Inf. Conexiones
             </a>
           </li>
         <?php endif; ?>

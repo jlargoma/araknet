@@ -81,5 +81,25 @@ class InformesController extends Controller {
     $data['ausers'] = User::getusers()->pluck('name', 'id');
     return view('admin.informes.informeClientesMes', $data);
   }
+  
+    public function conexiones() {
+
+      $byCustomer = [];
+    $lst = \App\Models\HotspotStatus::all();
+    if ($lst){
+      $byCustomer = \App\Models\HotspotStatus::pluck('customer_id')->toArray();
+    }
+    $lstCustomers = Customers::whereIn('id', array_keys($byCustomer))->get();
+    $aLstCust = [];
+    foreach ($lstCustomers as $c) {
+      $aLstCust[$c->id] = $c;
+    }
+
+    return view('admin.informes.informeConexiones', [
+        'data'=>$lst,
+        'aLstCust' =>$aLstCust
+    ]);
+  }
+  
 
 }
