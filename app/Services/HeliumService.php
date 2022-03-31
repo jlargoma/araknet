@@ -73,6 +73,11 @@ class HeliumService {
     return $this->send($endpoint, $data);
   }
 
+  function get_hotspots() {
+    $endpoint = '/accounts/138AVnYE7ECQzG42jGEW7mA1Y5g592762TC9XTghQPg8Y1mj5E5/hotspots';
+    return $this->send($endpoint);
+  }
+  
   function getHNT_hotspots($hotspots, $start = null, $end = null) {
     if (trim($hotspots) == '') {
       $this->response = 'Empty hotspots';

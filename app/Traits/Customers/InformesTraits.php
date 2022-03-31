@@ -614,6 +614,7 @@ trait InformesTraits {
       $balance = $_COOKIE['hBalance'];
     } else {
       $hAccount = $sHelium->getData_accounts();
+      $balance = 0;
       if ($hAccount) {
         $balance = $sHelium->response->data->balance;
         setcookie('hBalance', $balance, time() + (180), "/"); // 86400 = 1 day

@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
       Commands\Subscriptions::class,
       Commands\DailyHNT::class,
       Commands\Tasks::class,
+      Commands\CheckStatus::class,
     ];
 
     /**
